@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from 'next'
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
 import { Providers } from './providers'
 import { TopBar } from '../shell/TopBar'
 import { Footer } from '../shell/Footer'
+import { THEME_SCRIPT } from '../theme/themeScript'
 import '../styles/index.css'
 
 export const metadata: Metadata = {
@@ -12,23 +15,34 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#F3F5F1',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F3F5F1' },
+    { media: '(prefers-color-scheme: dark)', color: '#0D1714' },
+  ],
 }
 
 /**
- * Root layout (Server Component). Holds the persistent shell — TopBar + Footer —
- * around the routed page. The client SessionProvider wraps everything so wallet
- * state survives client-side navigation between routes.
+ * Root layout (Server Component). Resolves the locale + messages server-side and
+ * provides them to the client tree; injects the no-flash theme script; holds the
+ * persistent TopBar + Footer shell around the routed page.
  */
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html lang="en">
+    <html lang={locale} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>
-        <Providers>
-          <TopBar />
-          {children}
-          <Footer />
-        </Providers>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Providers>
+            <TopBar />
+            {children}
+            <Footer />
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   )
