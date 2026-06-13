@@ -5,130 +5,98 @@
 > to a €5M institution.
 
 A faithful, production-grade implementation of the **Heliobond Design System**
-handoff (`ui_kits/app`) — the full investor click-through:
+handoff. The investor click-through —
 
 ```
-landing → connect → explore → deposit → portfolio → withdraw
+landing → connect → explore → project detail → deposit → portfolio → withdraw
 ```
 
-It composes the design-system primitives (Button, AmountInput, ScoreGauge,
-LiquidityMeter, StatBlock, ProjectCard, …) and honours the brand's *warm · lucid
-· alive* brief: a two-color world (deep-pine ink on morning-air canvas) plus one
-solar accent, Cabinet Grotesk / Hanken Grotesk / Spline Sans Mono type, and **the
-Helio** — the platform's one spectacle, here in its static accessible fallback.
+— plus the **creator space**, the internal **admin / oracle console**, real
+**Stellar wallet** connection, a first-class **dark theme**, **English / French**
+i18n, and the live WebGL **Helio**. It honours the brand's *warm · lucid · alive*
+brief: a two-color world (deep-pine ink on morning-air canvas) plus one solar
+accent, Cabinet Grotesk / Hanken Grotesk / Spline Sans Mono type.
 
 ## Stack
 
 - **Next.js 16 (App Router) + React 19 + TypeScript** (strict). Each screen is a
-  real route, so the app gets per-route code splitting, real URLs, and SSR-ready
-  shells — the structure the future Stellar/Soroban data layer plugs into (e.g.
-  `/explore` can become a Server Component that reads `ProjectRegistry`).
-- **bun** as the package manager / runner.
-- Deliberately **not** a static export — it's a full Next app (Node runtime) so
-  Server Components + per-route data fetching can be added without restructuring.
-- Design tokens are plain CSS custom properties (copied verbatim from the
-  handoff); components reference them via `var(--token)`.
+  real route → per-route code splitting, real URLs, SSR-ready shells.
+- **bun** package manager / runner.
+- **@creit.tech/stellar-wallets-kit** — multi-wallet connection (Freighter, xBull,
+  Albedo, Lobstr, Hana, WalletConnect) on testnet.
+- **three + @react-three/fiber + @react-three/drei** — the live Helio (WebGL/R3F).
+- **next-intl** — EN/FR with cookie-based locale (no `[locale]` URL segment).
+- Design tokens are plain CSS custom properties (verbatim from the handoff);
+  components reference them via `var(--token)`, so light/dark is a pure token swap.
 
 ## Run
 
 ```bash
 bun install
-bun run dev        # http://localhost:3000  (Turbopack)
-```
-
-```bash
-bun run build      # next build  → .next/
+bun run dev        # http://localhost:3000 (Turbopack)
+bun run build      # next build
 bun run start      # serve the production build
 bun run typecheck  # tsc --noEmit
 ```
 
-## Architecture
+## Features
 
-The screens are **prop-driven and route-agnostic** — navigation is injected by
-thin client `page.tsx` wrappers, so the UI components stay portable and testable.
-Wallet/connection state lives in a single client context (`SessionProvider`) in
-the root layout, so it survives client-side navigation between routes.
+- **Wallet wiring** — `src/wallet/WalletProvider.tsx` connects a real Stellar
+  wallet via the kit's modal and shows the live address; `connectDemo()` provides
+  a placeholder session so the click-through works without an extension installed.
+  Deposit/withdraw math flows through `src/wallet/vault.ts`, a *simulated* vault
+  client structured for real Soroban `convert_to_shares` / `deposit` / `withdraw`
+  calls once the contracts are deployed.
+- **Dark theme ("After Sunset")** — `src/theme/` provides a no-flash toggle
+  (render-blocking bootstrap script + `data-theme` swap), persisted, defaulting to
+  the OS preference. Toggle in the top bar.
+- **i18n (EN/FR)** — `src/i18n/` + `messages/{en,fr}.json` (117 keys each, in
+  parity). The shell and all six investor screens are fully translated; the
+  language switcher sets a cookie and refreshes. Design-system primitives and the
+  new creator/admin/project-detail surfaces currently ship English (i18n-ready).
+- **Project detail** (`/project/[id]`) — hero, verified-creator badge, two large
+  sun-arc scores with on-chain score-history sparklines, funding timeline, the
+  expandable return formula, and honest pooled-model framing.
+- **Creator space** (`/creator`) — whitelist application with a status tracker, a
+  project builder with a live `ProjectCard` preview, and a creator dashboard that
+  makes the oracle's scoring legible.
+- **Admin / oracle console** (`/admin`, linked from the footer) — a denser
+  internal surface: vault stats, a sortable project registry with inline score
+  editing, oracle "push score / fund project" forms, and whitelist management.
+- **Live Helio** — `src/brand/HelioWebGL.tsx`, a soft luminous R3F orb that
+  breathes, leans toward the cursor, and carries a per-project mote corona.
+  `src/brand/LiveHelio.tsx` swaps in the static SVG `<Helio>` under SSR, no-WebGL,
+  or `prefers-reduced-motion`. Used at the landing hero; the smaller portfolio /
+  deposit orbs stay static by design.
+
+## Structure
 
 ```
 src/
-  app/                     Next.js App Router
-    layout.tsx             root (Server Component): <html>, metadata, viewport,
-                           global CSS; renders the persistent TopBar + Footer
-                           shell around the routed page, wrapped in <Providers>
-    providers.tsx          'use client' SessionProvider — connection state +
-                           useSession() (where the wallet kit / Soroban account
-                           context will live)
-    page.tsx               /            → Landing
-    connect/page.tsx       /connect     → Connect   (sets connected → /deposit)
-    explore/page.tsx       /explore     → Explore   (open → /deposit | /connect)
-    deposit/page.tsx       /deposit     → Deposit   (done → /portfolio)
-    portfolio/page.tsx     /portfolio   → Portfolio
-    withdraw/page.tsx      /withdraw    → Withdraw
-  data.ts                  typed fake pool / project / activity data (stands in
-                           for live reads from the Soroban contracts)
-  types.ts                 Screen union (used by screen prop contracts)
-  brand/
-    Mark.tsx               the analemma logo mark (Server-compatible, no hooks)
-    Helio.tsx              the signature solar orb — static accessible fallback
-  components/              design-system primitives (the reusable building blocks)
-    Button, IconButton, Badge, Tag, AddressChip, ScoreGauge, LiquidityMeter,
-    StatBlock, AmountInput, ProjectCard, Toast  (+ index.ts barrel)
-  shell/
-    TopBar.tsx             'use client' nav — usePathname/useRouter + useSession
-    Footer.tsx             quiet footer incl. "Talk to a human"
-  screens/                 Landing, Connect, Explore, Deposit, Portfolio, Withdraw
-                           — prop-driven; unchanged by routing
-  styles/
-    index.css              global entry — imports tokens + base + app
-    tokens/                fonts, colors, typography, spacing, motion, base
-                           (verbatim from the design handoff — brand source of truth)
-    app.css                app-shell layout grids + responsive layer + keyframes
-public/assets/             analemma marks, wordmark, favicon (SVG)
+  app/                     App Router: layout (i18n + theme + shell), providers,
+                           and route wrappers (/, connect, explore, deposit,
+                           portfolio, withdraw, project/[id], creator, admin)
+  brand/                   Mark (analemma), Helio (static), HelioWebGL, LiveHelio
+  components/              design-system primitives (+ Sparkline)
+  screens/                 Landing/Connect/Explore/Deposit/Portfolio/Withdraw,
+                           ProjectDetail, creator/*, admin/*
+  shell/                   TopBar (nav, theme, language, wallet), Footer
+  theme/                   ThemeProvider + no-flash script
+  wallet/                  WalletProvider (Stellar Wallets Kit) + vault service
+  i18n/                    next-intl request config
+  data.ts, data/           typed fake pool / project / creator / admin data
+  styles/                  tokens (verbatim) + responsive app-shell layer
+messages/                  en.json, fr.json
+public/assets/             analemma marks, wordmark, favicon
 ```
-
-### RSC boundaries
-
-`layout.tsx`, `Footer`, and `Mark` are Server Components (no client hooks). The
-client boundary starts at `<Providers>`, `<TopBar>`, and each `page.tsx`; every
-screen and primitive they render is in the client graph (no per-file directive
-needed). `useId` gives the Helio's SVG gradients SSR-stable ids, so there are no
-hydration mismatches.
-
-## Design fidelity & notable decisions
-
-- **Tokens are verbatim.** `src/styles/tokens/*.css` are copied unchanged from the
-  handoff so colors, type scale, motion easings, spacing, radii, and shadows are
-  exact. Light theme is default; "After Sunset" dark ships as a
-  `:root[data-theme="dark"]` token swap (not yet wired to a UI toggle).
-- **Components match the prototype 1:1** (typed inline styles referencing CSS
-  vars). The only structural changes: shared keyframes live once in `app.css`,
-  and per-instance SVG gradient ids in the Helio use `useId()`.
-- **Responsive layer** (`app.css`): screen grids collapse to a single column on
-  phones (the brief insists mobile is first-class). No new visual language — the
-  secondary nav hides < 680px and columns stack.
-- **The hard honesty rules are intact**: the withdrawal liquidity cap is always
-  visible (Portfolio + Withdraw); typing past it turns the input *solar, not
-  error-red* and offers a one-tap "Withdraw max available"; deposit/withdraw show
-  a live on-chain-accurate preview before any signature; every delta carries a
-  sign + arrow so colour is never the sole carrier.
-- **Iconography**: inline 1.5px-stroke line icons matching the Lucide spec
-  (incl. the language-switcher chevron — upgraded from the prototype's unicode
-  caret to satisfy the brief's "no unicode as UI icons" rule).
-- **Fonts from CDN.** Cabinet Grotesk (Fontshare — not on Google Fonts), Hanken
-  Grotesk + Spline Sans Mono (Google) load via `@import` in `tokens/fonts.css`.
-  Vendor the binaries and switch to `next/font/local` to self-host / drop the
-  external requests.
-- **The Helio** is the documented static SVG fallback (a soft solar orb with a
-  per-project mote corona and a 6s breathing cycle, neutralised under
-  `prefers-reduced-motion`). The live WebGL/R3F build is a separate deliverable.
 
 ## Not in scope (yet)
 
-This is the high-fidelity investor click-through. It does **not** include: real
-wallet / Soroban contract wiring, the creator space, the admin/oracle console,
-the project-detail screen, the live WebGL Helio, the dark-theme toggle, or i18n
-(EN/FR) — all called for in the full brief and ready to layer onto this
-route-based foundation.
+- **Real on-chain calls** — the vault client is simulated (no contracts are
+  deployed); wiring `kit.signTransaction` + Soroban RPC is the next step.
+- **Full i18n coverage** — primitives and the creator/admin/project-detail
+  surfaces are English; the pattern + catalogs are in place to extend.
+- Live score-history / funding data (currently fixtures), and additional locales.
 
 ---
 
