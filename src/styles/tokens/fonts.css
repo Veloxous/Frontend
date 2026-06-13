@@ -1,0 +1,14 @@
+/* ===========================================================================
+   Heliobond · Webfonts
+   ---------------------------------------------------------------------------
+   Display — Cabinet Grotesk (Fontshare)   · headlines, hero numbers, openers
+   Body    — Hanken Grotesk  (Google)      · running text, UI, fine print
+   Data    — Spline Sans Mono (Google)     · balances, scores, rates, hashes
+
+   NOTE: fonts load from their official CDNs (Fontshare + Google). Binaries are
+   not vendored into this project. Licensed upgrades named in the brief:
+   Display → F37 Jagger / Söhne Breit · Body → Suisse Int'l · Data → Söhne Mono.
+   =========================================================================== */
+
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap');

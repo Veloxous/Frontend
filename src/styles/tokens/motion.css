@@ -1,0 +1,30 @@
+/* ===========================================================================
+   Heliobond · Motion
+   ---------------------------------------------------------------------------
+   Lusion craft, fiduciary restraint. Frequency framework:
+   · dozens-of-times-daily actions (tab switches, sorts, nav) → NO animation
+   · occasional UI (modals, drawers, toasts) → standard fast motion
+   · rare moments (first visit, first invest, project funded) → delight
+
+   BANNED: ease-in · transition: all · anything > 350ms in the app shell.
+   Exits faster than entrances. Money tickers animate ONCE on load/refresh,
+   then update instantly — money is not a slot machine.
+   =========================================================================== */
+
+:root {
+  /* --- Easing (entrances · morphs · sheets) --------------------------- */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);       /* @kind other */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);   /* @kind other */
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);     /* @kind other */
+
+  /* --- Durations (press 120 · modal/sheet 240–320 · ticker 600, once) -- */
+  --dur-press: 120ms;     /* @kind other */
+  --dur-tooltip: 150ms;   /* @kind other */
+  --dur-dropdown: 180ms;  /* @kind other */
+  --dur-modal: 280ms;     /* @kind other */
+  --dur-sheet: 320ms;     /* @kind other */
+  --dur-ticker: 600ms;    /* @kind other */
+
+  /* --- Stagger (list entrances, never blocking interaction) ----------- */
+  --stagger-list: 40ms;   /* @kind other */
+}

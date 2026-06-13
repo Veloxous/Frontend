@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Heliobond">
+  <rect width="64" height="64" rx="14" fill="#0B2B23"></rect>
+  <g transform="translate(32 32) scale(0.34) translate(-50 -70) rotate(11 50 70)">
+    <path d="M 50 64&#xA;             C 42 56, 34 48, 34 36&#xA;             C 34 24, 41 14, 50 14&#xA;             C 59 14, 66 24, 66 36&#xA;             C 66 48, 58 56, 50 64&#xA;             C 42 72, 28 80, 28 94&#xA;             C 28 112, 38 124, 50 124&#xA;             C 62 124, 72 112, 72 94&#xA;             C 72 80, 58 72, 50 64 Z" fill="none" stroke="#EDF2EC" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"></path>
+    <circle cx="64" cy="20" r="7" fill="#FFB400"></circle>
+  </g>
+</svg>

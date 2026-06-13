@@ -1,0 +1,72 @@
+/* ===========================================================================
+   Heliobond · Base / reset
+   ---------------------------------------------------------------------------
+   Minimal, opinionated reset that applies the brand's defaults: ink on canvas,
+   body type, tabular numerals on data, branded focus-visible ring, and
+   reduced-motion parity. Imported last so tokens are resolved first.
+   =========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-strong);
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  font-weight: var(--weight-regular);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-h3);
+  margin: 0;
+  text-wrap: balance;
+}
+
+p { text-wrap: pretty; }
+
+/* Data role — tabular figures everywhere a number can change */
+.hb-data, code, kbd, samp {
+  font-family: var(--font-data);
+  font-feature-settings: var(--numeric-tabular);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Small-caps eyebrow — the single all-caps exception */
+.hb-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--type-eyebrow);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* Branded focus — 2px solar ring + 1px ink offset, unmissable */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px var(--focus-offset);
+  border-radius: var(--radius-input);
+}
+
+a { color: inherit; text-decoration-color: var(--ink-40); text-underline-offset: 0.2em; }
+
+::selection { background: var(--solar-24); color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

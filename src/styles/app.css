@@ -1,0 +1,112 @@
+/* ===========================================================================
+   Heliobond · App-shell layout & responsive layer
+   ---------------------------------------------------------------------------
+   The design-system tokens and components keep their exact desktop values. This
+   layer only adds the responsive behaviour the brief demands ("mobile is a
+   first design surface, not an export"): multi-column screen grids collapse to
+   a single column on small screens. No new visual language is introduced — the
+   columns simply stack. Layout grids live here (not inline) so media queries
+   can reach them.
+   =========================================================================== */
+
+/* --- Section grids (desktop values mirror the source prototype) ----------- */
+.hb-hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+}
+.hb-counter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+}
+.hb-how-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.hb-verify-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+.hb-doors-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.hb-edu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.hb-figures-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.hb-portfolio-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 24px;
+}
+.hb-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* --- Tablet ---------------------------------------------------------------- */
+@media (max-width: 960px) {
+  .hb-how-grid { grid-template-columns: repeat(2, 1fr); }
+  .hb-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .hb-hero-grid .hb-hero-helio { order: -1; }
+  .hb-portfolio-grid { grid-template-columns: 1fr; }
+}
+
+/* --- Phone ----------------------------------------------------------------- */
+@media (max-width: 680px) {
+  .hb-counter-grid,
+  .hb-how-grid,
+  .hb-verify-grid,
+  .hb-doors-grid,
+  .hb-edu-grid,
+  .hb-figures-grid { grid-template-columns: 1fr; }
+  .hb-projects-grid { grid-template-columns: 1fr; }
+}
+
+/* --- Top-bar: hide secondary nav on phones (Connect + mark stay) ---------- */
+@media (max-width: 680px) {
+  .hb-topbar-nav { display: none !important; }
+}
+
+/* --- Quiet link hover, pointer-fine only ---------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  .hb-textlink:hover { color: var(--ink); }
+  .hb-underline:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+}
+
+/* --- First-load entrance: one calm, staggered reveal (reduced-motion safe) - */
+@keyframes hb-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hb-rise {
+  opacity: 0;
+  animation: hb-rise 640ms var(--ease-out) forwards;
+}
+
+/* --- Component keyframes (defined once; components reference by name) ------ */
+@keyframes hb-spin { to { transform: rotate(360deg); } }
+@keyframes hb-orbit { to { transform: rotate(360deg); } }
+@keyframes hb-breath {
+  0%, 100% { transform: scale(1); opacity: 0.96; }
+  50%      { transform: scale(1.035); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hb-rise { opacity: 1; animation: none; transform: none; }
+  .hb-orb,
+  .hb-orbit { animation: none !important; }
+}

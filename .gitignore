@@ -1,0 +1,20 @@
+node_modules
+.DS_Store
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# typescript incremental build caches
+*.tsbuildinfo
+
+# production
+/build
+
+# debug / env
+*.local
+.env*.local
+
+# design handoff bundle — reference only, not part of the app
+.design-handoff

@@ -1,0 +1,46 @@
+/* ===========================================================================
+   Heliobond · Spacing, radii, layout
+   ---------------------------------------------------------------------------
+   4px base scale. Sections breathe at 96–128px; whitespace is the luxury cue.
+   Radii: 8 inputs · 16 cards · 24 modals/sheets · pill for tags & primary CTAs
+   (pills read friendly). 12-column grid, 90rem max content, 32/20px gutters.
+   =========================================================================== */
+
+:root {
+  /* --- Spacing scale (4px base) --------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* --- Radii ---------------------------------------------------------- */
+  --radius-input: 8px;
+  --radius-card: 16px;
+  --radius-modal: 24px;
+  --radius-pill: 999px;
+
+  /* --- Layout --------------------------------------------------------- */
+  --content-max: 90rem;       /* 1440px */
+  --gutter-desktop: 32px;
+  --gutter-mobile: 20px;
+  --grid-columns: 12; /* @kind other */
+
+  /* --- Hit target ----------------------------------------------------- */
+  --touch-min: 44px;          /* never smaller */
+
+  /* --- Z-index ladder ------------------------------------------------- */
+  --z-base: 0;        /* @kind other */
+  --z-raised: 10;     /* @kind other */
+  --z-sticky: 100;    /* @kind other */
+  --z-nav: 200;       /* @kind other */
+  --z-dropdown: 400;  /* @kind other */
+  --z-sheet: 600;     /* @kind other */
+  --z-modal: 800;     /* @kind other */
+  --z-toast: 1000;    /* @kind other */
+}

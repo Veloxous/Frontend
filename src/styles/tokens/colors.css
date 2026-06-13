@@ -1,0 +1,87 @@
+/* ===========================================================================
+   Heliobond · Color
+   ---------------------------------------------------------------------------
+   A two-color world plus sunlight. The interface reads as INK ON LIGHT with one
+   accent that behaves like the sun: present in small amounts, never shouting.
+   All neutrals derive from --ink (no gray-gray). Light is the default theme;
+   "After Sunset" dark is a first-class token swap, not an inversion.
+
+   HARD RULES (enforced in copy + components, restated here):
+   · --solar is NEVER text on light backgrounds and never carries meaning alone.
+   · Text on solar fills is --ink (passes AAA).
+   · --growth / --ember as text only at >=14px / 600, always with a +/- glyph.
+   =========================================================================== */
+
+:root {
+  /* --- Base palette --------------------------------------------------- */
+  --ink: #0B2B23;        /* deep pine — all text, icons, strokes          */
+  --canvas: #F3F5F1;     /* morning air — page background                 */
+  --surface: #FCFDFB;    /* cards & raised surfaces                       */
+  --solar: #FFB400;      /* the sun — brand accent                        */
+  --growth: #0E6F44;     /* positive deltas / success (semantic only)     */
+  --ember: #B3361B;      /* errors / negative deltas (calm, not alarmist) */
+
+  /* --- Ink-derived neutrals (opacity ramps over canvas) --------------- */
+  --ink-60: rgba(11, 43, 35, 0.60);  /* secondary text                   */
+  --ink-40: rgba(11, 43, 35, 0.40);  /* tertiary text, disabled          */
+  --ink-12: rgba(11, 43, 35, 0.12);  /* hairlines, dividers              */
+  --ink-06: rgba(11, 43, 35, 0.06);  /* tinted fills, track backgrounds  */
+
+  /* --- Solar tints (decorative fills only; never text) ---------------- */
+  --solar-12: rgba(255, 180, 0, 0.12);
+  --solar-24: rgba(255, 180, 0, 0.24);
+
+  /* --- Semantic tints ------------------------------------------------- */
+  --growth-12: rgba(14, 111, 68, 0.12);
+  --ember-12: rgba(179, 54, 27, 0.12);
+
+  /* --- Semantic aliases ----------------------------------------------- */
+  --bg-page: var(--canvas);
+  --bg-surface: var(--surface);
+  --bg-sunken: var(--ink-06);
+
+  --text-strong: var(--ink);
+  --text-secondary: var(--ink-60);
+  --text-tertiary: var(--ink-40);
+  --text-on-solar: var(--ink);
+  --text-positive: var(--growth);
+  --text-negative: var(--ember);
+
+  --border-hairline: var(--ink-12);
+  --border-strong: var(--ink);
+
+  --accent: var(--solar);
+  --accent-tint: var(--solar-12);
+
+  --focus-ring: var(--solar);     /* 2px solar ring + 1px ink offset      */
+  --focus-offset: var(--ink);
+
+  /* --- Shadows — ink-tinted, never gray-black ------------------------- */
+  --shadow-sm: 0 1px 2px rgba(11, 43, 35, 0.06);
+  --shadow-md: 0 8px 30px rgba(11, 43, 35, 0.10);
+  --shadow-lg: 0 24px 60px rgba(11, 43, 35, 0.14);
+}
+
+/* === After Sunset — dark theme (token swap only) ======================= */
+:root[data-theme="dark"] {
+  --ink: #EDF2EC;          /* light text now carries the "ink" role        */
+  --canvas: #0D1714;
+  --surface: #13201B;
+  --solar: #FFB400;        /* unchanged — large text / icons only on dark  */
+  --growth: #4ECB8A;       /* lifted for contrast on dark surfaces         */
+  --ember: #F2856B;
+
+  --ink-60: rgba(237, 242, 236, 0.62);
+  --ink-40: rgba(237, 242, 236, 0.42);
+  --ink-12: rgba(237, 242, 236, 0.14);
+  --ink-06: rgba(237, 242, 236, 0.06);
+
+  --solar-12: rgba(255, 180, 0, 0.14);
+  --solar-24: rgba(255, 180, 0, 0.26);
+  --growth-12: rgba(78, 203, 138, 0.14);
+  --ember-12: rgba(242, 133, 107, 0.14);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.50);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.60);
+}
