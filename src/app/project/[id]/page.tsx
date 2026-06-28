@@ -1,20 +1,33 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Button } from '../../../components'
 import { ProjectDetail } from '../../../screens/ProjectDetail'
-import { HB_DATA } from '../../../data'
-import { PROJECT_DETAILS } from '../../../data/projectDetails'
+import { getProject, type ProjectWithDetail } from '../../../lib/api'
 
 export default function ProjectDetailPage() {
   const router = useRouter()
   const params = useParams<{ id: string }>()
-
   const id = Number(params?.id)
-  const project = Number.isFinite(id) ? HB_DATA.projects.find((p) => p.id === id) : undefined
-  const detail = Number.isFinite(id) ? PROJECT_DETAILS[id] : undefined
 
-  if (!project || !detail) {
+  const [data, setData] = useState<ProjectWithDetail | null | 'loading'>('loading')
+
+  useEffect(() => {
+    if (!Number.isFinite(id)) {
+      setData(null)
+      return
+    }
+    getProject(id)
+      .then((result) => setData(result))
+      .catch(() => setData(null))
+  }, [id])
+
+  if (data === 'loading') {
+    return <ProjectDetailSkeleton />
+  }
+
+  if (!data) {
     return (
       <main
         style={{
@@ -43,10 +56,51 @@ export default function ProjectDetailPage() {
 
   return (
     <ProjectDetail
-      project={project}
-      detail={detail}
+      project={data.project}
+      detail={data.detail}
       onInvest={() => router.push('/connect')}
       onBack={() => router.push('/explore')}
     />
+  )
+}
+
+function ProjectDetailSkeleton() {
+  return (
+    <main style={{ maxWidth: 860, margin: '0 auto', padding: '40px 24px 96px' }} aria-busy="true" aria-label="Loading project">
+      {/* Hero band placeholder */}
+      <div
+        aria-hidden="true"
+        style={{
+          height: 280,
+          borderRadius: 'var(--radius-card)',
+          background: 'var(--ink-06)',
+          border: '1px solid var(--ink-12)',
+          marginBottom: 28,
+          animation: 'hb-pulse 1.4s ease-in-out infinite',
+        }}
+      />
+      {/* Story placeholder */}
+      <div aria-hidden="true" style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div style={{ height: 14, width: '30%', borderRadius: 6, background: 'var(--ink-06)', animation: 'hb-pulse 1.4s ease-in-out infinite' }} />
+        <div style={{ height: 17, width: '90%', borderRadius: 6, background: 'var(--ink-06)', animation: 'hb-pulse 1.4s ease-in-out 0.1s infinite' }} />
+        <div style={{ height: 17, width: '75%', borderRadius: 6, background: 'var(--ink-06)', animation: 'hb-pulse 1.4s ease-in-out 0.2s infinite' }} />
+      </div>
+      {/* Score cards placeholder */}
+      <div aria-hidden="true" style={{ display: 'flex', gap: 32, marginBottom: 40, flexWrap: 'wrap' }}>
+        {[0, 1].map((i) => (
+          <div
+            key={i}
+            style={{
+              flex: '1 1 240px',
+              height: 220,
+              borderRadius: 'var(--radius-card)',
+              background: 'var(--ink-06)',
+              border: '1px solid var(--ink-12)',
+              animation: `hb-pulse 1.4s ease-in-out ${i * 0.1}s infinite`,
+            }}
+          />
+        ))}
+      </div>
+    </main>
   )
 }

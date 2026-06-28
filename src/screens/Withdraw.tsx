@@ -3,6 +3,8 @@
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
 import { Button, AmountInput, LiquidityMeter } from '../components'
+import { submitWithdraw } from '../wallet/vault'
+import { useWallet } from '../wallet/WalletProvider'
 
 /**
  * Withdraw — designed with the most care of all. Capped at the live liquid
@@ -18,9 +20,12 @@ type WithdrawStep = 'amount' | 'pending' | 'success'
 
 export function Withdraw({ onDone, onBack }: WithdrawProps) {
   const t = useTranslations('Withdraw')
+  const { address, sign } = useWallet()
   const liquid = 236 // your liquid share, $
   const [step, setStep] = useState<WithdrawStep>('amount')
   const [amount, setAmount] = useState('300')
+  const [txHash, setTxHash] = useState<string | null>(null)
+  const [txError, setTxError] = useState<string | null>(null)
   const n = parseFloat(amount) || 0
 
   return (
@@ -28,6 +33,23 @@ export function Withdraw({ onDone, onBack }: WithdrawProps) {
       {step === 'amount' && (
         <div style={panel}>
           <h1 style={hw}>{t('h1')}</h1>
+          {txError && (
+            <div
+              role="alert"
+              style={{
+                marginBottom: 14,
+                padding: '10px 14px',
+                borderRadius: 'var(--radius-input)',
+                background: 'rgba(179,54,27,0.07)',
+                border: '1px solid rgba(179,54,27,0.18)',
+                fontFamily: 'var(--font-body)',
+                fontSize: 13.5,
+                color: 'var(--ember)',
+              }}
+            >
+              {txError}
+            </div>
+          )}
           <div style={{ marginBottom: 18 }}>
             <LiquidityMeter liquid={liquid} total={482} currency="$" />
           </div>
@@ -47,9 +69,17 @@ export function Withdraw({ onDone, onBack }: WithdrawProps) {
             style={{ width: '100%', marginTop: 20 }}
             disabled={n < 1 || n > liquid}
             reason={n > liquid ? t('reasonExceeds') : n < 1 ? t('reasonMin') : undefined}
-            onClick={() => {
+            onClick={async () => {
               setStep('pending')
-              setTimeout(() => setStep('success'), 2000)
+              setTxError(null)
+              try {
+                const hash = await submitWithdraw(n, address ?? '', sign)
+                setTxHash(hash)
+                setStep('success')
+              } catch (e) {
+                setTxError(e instanceof Error ? e.message : 'Transaction failed — please try again.')
+                setStep('amount')
+              }
             }}
           >
             {n >= 1 && n <= liquid ? t('withdrawCta', { amount: n }) : t('withdrawCtaEmpty')}
@@ -86,6 +116,23 @@ export function Withdraw({ onDone, onBack }: WithdrawProps) {
               ),
             })}
           </p>
+          {txHash && (
+            <div style={{ textAlign: 'center', marginBottom: 16 }}>
+              <a
+                href={`https://stellar.expert/explorer/testnet/tx/${txHash}`}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  fontFamily: 'var(--font-data)',
+                  fontSize: 12.5,
+                  color: 'var(--ink-40)',
+                  textDecoration: 'none',
+                }}
+              >
+                {txHash} ↗
+              </a>
+            </div>
+          )}
           <Button variant="primary" size="lg" style={{ width: '100%' }} onClick={onDone}>
             {t('backToPortfolio')}
           </Button>

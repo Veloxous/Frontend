@@ -20,6 +20,8 @@ interface WalletContextValue {
   connect: () => Promise<void>
   connectDemo: () => void
   disconnect: () => void
+  /** Sign an XDR envelope via the connected wallet. Throws in demo mode. */
+  sign: (xdr: string) => Promise<string>
   network: 'TESTNET'
 }
 
@@ -120,6 +122,17 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     persist(DEMO_ADDRESS, 'demo')
   }, [persist])
 
+  const sign = useCallback(async (xdr: string): Promise<string> => {
+    if (isDemo) throw new Error('demo')
+    await ensureInit()
+    const { StellarWalletsKit, Networks } = await import('@creit.tech/stellar-wallets-kit')
+    const result = await StellarWalletsKit.signTransaction(xdr, {
+      networkPassphrase: Networks.TESTNET,
+      address: address ?? undefined,
+    })
+    return result.signedTxXdr
+  }, [isDemo, ensureInit, address])
+
   const disconnect = useCallback(() => {
     setAddress(null)
     setIsDemo(false)
@@ -137,7 +150,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
   return (
     <WalletContext.Provider
-      value={{ address, connected: address !== null, connecting, isDemo, connect, connectDemo, disconnect, network: 'TESTNET' }}
+      value={{ address, connected: address !== null, connecting, isDemo, connect, connectDemo, disconnect, sign, network: 'TESTNET' }}
     >
       {children}
     </WalletContext.Provider>

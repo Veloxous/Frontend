@@ -4,7 +4,9 @@ import { useState, type CSSProperties, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
 import { Button, AmountInput } from '../components'
 import { Helio } from '../brand/Helio'
-import { vault } from '../wallet/vault'
+import { submitDeposit } from '../wallet/vault'
+import { useVault } from '../wallet/useVault'
+import { useWallet } from '../wallet/WalletProvider'
 
 /**
  * Deposit — the flow that must be perfect. One column, one decision per step:
@@ -26,11 +28,15 @@ const strong = (chunks: ReactNode) => <b style={{ color: 'var(--ink)' }}>{chunks
 
 export function Deposit({ onDone }: DepositProps) {
   const t = useTranslations('Deposit')
+  const { address, sign } = useWallet()
+  const { sharePrice: livePrice, loading: vaultLoading, error: vaultError } = useVault()
   const [step, setStep] = useState<DepositStep>('amount')
   const [amount, setAmount] = useState('100')
+  const [txHash, setTxHash] = useState<string | null>(null)
+  const [txError, setTxError] = useState<string | null>(null)
+
   const n = parseFloat(amount) || 0
-  const price = vault.sharePrice()
-  const shares = vault.convertToShares(n)
+  const price = livePrice
 
   return (
     <main style={{ maxWidth: 520, margin: '0 auto', padding: '48px 24px 80px' }}>
@@ -39,6 +45,23 @@ export function Deposit({ onDone }: DepositProps) {
       {step === 'amount' && (
         <Panel>
           <h1 style={h1Style}>{t('amountH1')}</h1>
+          {txError && (
+            <div
+              role="alert"
+              style={{
+                marginBottom: 14,
+                padding: '10px 14px',
+                borderRadius: 'var(--radius-input)',
+                background: 'rgba(179,54,27,0.07)',
+                border: '1px solid rgba(179,54,27,0.18)',
+                fontFamily: 'var(--font-body)',
+                fontSize: 13.5,
+                color: 'var(--ember)',
+              }}
+            >
+              {txError}
+            </div>
+          )}
           <AmountInput
             value={amount}
             onChange={setAmount}
@@ -46,9 +69,28 @@ export function Deposit({ onDone }: DepositProps) {
             balance="240.00"
             chips={[25, 50, 100]}
             preview={
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-60)' }}>
-                {t.rich('preview', { shares: shares.toFixed(4), price, num })}
-              </span>
+              vaultLoading ? (
+                <span
+                  aria-busy="true"
+                  style={{
+                    display: 'inline-block',
+                    height: 14,
+                    width: 160,
+                    borderRadius: 6,
+                    background: 'var(--ink-06)',
+                    animation: 'hb-pulse 1.4s ease-in-out infinite',
+                  }}
+                />
+              ) : (
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-60)' }}>
+                  {vaultError && (
+                    <span style={{ display: 'block', fontSize: 12, color: 'var(--ink-40)', marginBottom: 2 }}>
+                      Using estimated rate
+                    </span>
+                  )}
+                  {t.rich('preview', { shares: (n / price).toFixed(4), price, num })}
+                </span>
+              )
             }
           />
           <p style={liqLine}>{t.rich('liquidLine', { b: strong })}</p>
@@ -70,7 +112,7 @@ export function Deposit({ onDone }: DepositProps) {
           <h1 style={h1Style}>{t('reviewH1', { amount: n })}</h1>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--ink-12)', borderRadius: 'var(--radius-input)', overflow: 'hidden', margin: '6px 0 20px' }}>
             <Row k={t('rowPay')} v={`${n.toFixed(2)} USDC`} />
-            <Row k={t('rowReceive')} v={`≈ ${shares.toFixed(4)} HBS`} />
+            <Row k={t('rowReceive')} v={`≈ ${(n / price).toFixed(4)} HBS`} />
             <Row k={t('rowPrice')} v={`${price}`} />
             <Row k={t('rowFee')} v="< $0.01" />
           </div>
@@ -83,9 +125,17 @@ export function Deposit({ onDone }: DepositProps) {
               variant="primary"
               size="lg"
               style={{ flex: 1 }}
-              onClick={() => {
+              onClick={async () => {
                 setStep('pending')
-                setTimeout(() => setStep('success'), 2200)
+                setTxError(null)
+                try {
+                  const hash = await submitDeposit(n, address ?? '', sign)
+                  setTxHash(hash)
+                  setStep('success')
+                } catch (e) {
+                  setTxError(e instanceof Error ? e.message : 'Transaction failed — please try again.')
+                  setStep('amount')
+                }
               }}
             >
               {t('confirm')}
@@ -112,12 +162,32 @@ export function Deposit({ onDone }: DepositProps) {
           </div>
           <h1 style={{ ...h1Style, textAlign: 'center' }}>{t('successH1')}</h1>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.55, color: 'var(--ink-60)', textAlign: 'center', margin: '0 0 22px' }}>
-            {t.rich('successBody', { shares: shares.toFixed(4), num, b: strong })}
+            {t.rich('successBody', { shares: (n / price).toFixed(4), num, b: strong })}
           </p>
           <div style={{ display: 'flex', gap: 10 }}>
-            <Button variant="secondary" style={{ flex: 1 }}>
+            <a
+              href={txHash ? `https://stellar.expert/explorer/testnet/tx/${txHash}` : undefined}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                flex: 1,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: 44,
+                borderRadius: 'var(--radius-pill)',
+                border: '1px solid var(--ink-12)',
+                background: 'transparent',
+                fontFamily: 'var(--font-body)',
+                fontSize: 15,
+                fontWeight: 500,
+                color: 'var(--ink)',
+                textDecoration: 'none',
+                cursor: 'pointer',
+              }}
+            >
               {t('viewExpert')}
-            </Button>
+            </a>
             <Button variant="primary" style={{ flex: 1 }} onClick={onDone}>
               {t('goPortfolio')}
             </Button>

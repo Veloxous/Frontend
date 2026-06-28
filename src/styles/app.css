@@ -104,6 +104,10 @@
   0%, 100% { transform: scale(1); opacity: 0.96; }
   50%      { transform: scale(1.035); opacity: 1; }
 }
+@keyframes hb-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .hb-rise { opacity: 1; animation: none; transform: none; }

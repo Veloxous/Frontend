@@ -191,21 +191,28 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
   const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const itemRefs = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([])
+
+  // Focus first item when menu opens; restore trigger focus when it closes.
+  const prevOpen = useRef(false)
+  useEffect(() => {
+    if (open && !prevOpen.current) {
+      setTimeout(() => itemRefs.current[0]?.focus(), 0)
+    }
+    if (!open && prevOpen.current) {
+      triggerRef.current?.focus()
+    }
+    prevOpen.current = open
+  }, [open])
 
   useEffect(() => {
     if (!open) return
     const onDown = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
     }
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
-    }
     document.addEventListener('mousedown', onDown)
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.removeEventListener('mousedown', onDown)
-      document.removeEventListener('keydown', onKey)
-    }
+    return () => document.removeEventListener('mousedown', onDown)
   }, [open])
 
   const copy = () => {
@@ -218,9 +225,38 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
     setTimeout(() => setCopied(false), 1400)
   }
 
+  const handleMenuKeyDown = (e: React.KeyboardEvent) => {
+    const items = itemRefs.current.filter((el): el is HTMLButtonElement | HTMLAnchorElement => el !== null)
+    if (!items.length) return
+    const focused = document.activeElement
+    const idx = items.indexOf(focused as HTMLButtonElement)
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      items[(idx + 1) % items.length].focus()
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      items[(idx - 1 + items.length) % items.length].focus()
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      items[0].focus()
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      items[items.length - 1].focus()
+    } else if (e.key === 'Escape') {
+      setOpen(false)
+    } else if (e.key === 'Tab') {
+      setOpen(false)
+    }
+  }
+
+  // Reset item refs array before each render so stale refs don't linger
+  itemRefs.current = []
+
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <button
+        ref={triggerRef}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
@@ -244,6 +280,8 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
       {open && (
         <div
           role="menu"
+          aria-orientation="vertical"
+          onKeyDown={handleMenuKeyDown}
           style={{
             position: 'absolute',
             top: 48,
@@ -262,10 +300,31 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
             <span style={{ fontFamily: 'var(--font-body)', fontSize: 11.5, color: 'var(--ink-40)' }}>{isDemo ? t('demoSession') : t('testnet')}</span>
           </div>
           <div style={{ height: 1, background: 'var(--ink-12)', margin: '4px 0' }} />
-          <MenuItem onClick={() => { setOpen(false); router.push('/portfolio') }}>{t('portfolio')}</MenuItem>
-          <MenuItem onClick={copy}>{copied ? t('copied') : t('copyAddress')}</MenuItem>
-          {!isDemo && <MenuLink href={`https://stellar.expert/explorer/testnet/account/${address}`}>{t('viewOnExplorer')}</MenuLink>}
-          <MenuItem tone="ember" onClick={() => { disconnect(); setOpen(false); router.push('/') }}>
+          <MenuItem
+            ref={(el) => { itemRefs.current.push(el) }}
+            onClick={() => { setOpen(false); router.push('/portfolio') }}
+          >
+            {t('portfolio')}
+          </MenuItem>
+          <MenuItem
+            ref={(el) => { itemRefs.current.push(el) }}
+            onClick={copy}
+          >
+            {copied ? t('copied') : t('copyAddress')}
+          </MenuItem>
+          {!isDemo && (
+            <MenuLink
+              ref={(el) => { itemRefs.current.push(el) }}
+              href={`https://stellar.expert/explorer/testnet/account/${address}`}
+            >
+              {t('viewOnExplorer')}
+            </MenuLink>
+          )}
+          <MenuItem
+            ref={(el) => { itemRefs.current.push(el) }}
+            tone="ember"
+            onClick={() => { disconnect(); setOpen(false); router.push('/') }}
+          >
             {t('disconnect')}
           </MenuItem>
         </div>
@@ -274,11 +333,15 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
   )
 }
 
-function MenuItem({ children, onClick, tone }: { children: ReactNode; onClick: () => void; tone?: 'ember' }) {
+const MenuItem = function MenuItem(
+  { children, onClick, tone, ref: _ref }: { children: ReactNode; onClick: () => void; tone?: 'ember'; ref?: ((el: HTMLButtonElement | null) => void) | null }
+) {
   const [hover, setHover] = useState(false)
   return (
     <button
       role="menuitem"
+      tabIndex={-1}
+      ref={_ref}
       onClick={onClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -289,11 +352,15 @@ function MenuItem({ children, onClick, tone }: { children: ReactNode; onClick: (
   )
 }
 
-function MenuLink({ children, href }: { children: ReactNode; href: string }) {
+const MenuLink = function MenuLink(
+  { children, href, ref: _ref }: { children: ReactNode; href: string; ref?: ((el: HTMLAnchorElement | null) => void) | null }
+) {
   const [hover, setHover] = useState(false)
   return (
     <a
       role="menuitem"
+      tabIndex={-1}
+      ref={_ref}
       href={href}
       target="_blank"
       rel="noreferrer"
