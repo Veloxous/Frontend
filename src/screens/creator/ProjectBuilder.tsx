@@ -1,7 +1,7 @@
 'use client'
 
 import { useId, useState, type CSSProperties, type ReactNode } from 'react'
-import { ProjectCard, Tag } from '@/components'
+import { ProjectCard, Tag, UploadIcon } from '@/components'
 import { PROJECT_TYPES, DRAFT_PROJECT, type ProjectType } from '@/data/creator'
 
 /**
@@ -16,10 +16,34 @@ export function ProjectBuilder() {
   const [type, setType] = useState<ProjectType>(DRAFT_PROJECT.type)
   const [story, setStory] = useState(DRAFT_PROJECT.story)
   const [fundingGoal, setFundingGoal] = useState(String(DRAFT_PROJECT.fundingGoal))
+  const goalErrorId = useId()
 
-  const goalNumber = Number(fundingGoal.replace(/[^0-9.]/g, '')) || 0
-  const goalLabel =
-    goalNumber > 0 ? `$0 of $${goalNumber.toLocaleString('en-US')}` : 'awaiting funding'
+  // The raw input is sanitised to digits + a single decimal point on change, so
+  // free text can never reach here. We still validate: empty, non-numeric, and
+  // non-positive goals are all invalid and explained inline instead of silently
+  // rendering "$0 of $0" in the preview.
+  const trimmedGoal = fundingGoal.trim()
+  const parsedGoal = trimmedGoal === '' ? NaN : Number(trimmedGoal)
+  const goalIsValid = Number.isFinite(parsedGoal) && parsedGoal > 0
+  const goalError = goalIsValid
+    ? null
+    : trimmedGoal === ''
+      ? 'Enter a funding goal so investors know the target.'
+      : 'Enter a funding goal greater than $0 — numbers only.'
+  const goalLabel = goalIsValid
+    ? `$0 of $${parsedGoal.toLocaleString('en-US')}`
+    : 'awaiting funding'
+
+  // Keep only digits and a single decimal point; drop everything else as typed.
+  const handleGoalChange = (raw: string) => {
+    const cleaned = raw.replace(/[^0-9.]/g, '')
+    const firstDot = cleaned.indexOf('.')
+    const normalized =
+      firstDot === -1
+        ? cleaned
+        : cleaned.slice(0, firstDot + 1) + cleaned.slice(firstDot + 1).replace(/\./g, '')
+    setFundingGoal(normalized)
+  }
 
   return (
     <div
@@ -93,7 +117,7 @@ export function ProjectBuilder() {
                 top: '50%',
                 transform: 'translateY(-50%)',
                 fontFamily: 'var(--font-data)',
-                fontSize: 15,
+                fontSize: 'var(--type-data)',
                 color: 'var(--ink-60)',
               }}
             >
@@ -102,17 +126,34 @@ export function ProjectBuilder() {
             <input
               id="hb-goal"
               type="text"
-              inputMode="numeric"
+              inputMode="decimal"
               value={fundingGoal}
-              onChange={(e) => setFundingGoal(e.target.value)}
+              onChange={(e) => handleGoalChange(e.target.value)}
+              aria-invalid={goalError != null}
+              aria-describedby={goalError ? goalErrorId : undefined}
               style={{
                 ...inputStyle,
                 paddingLeft: 28,
                 fontFamily: 'var(--font-data)',
                 fontFeatureSettings: '"tnum" 1',
+                borderColor: goalError ? 'var(--ember)' : 'var(--ink-12)',
               }}
             />
           </div>
+          {goalError && (
+            <p
+              id={goalErrorId}
+              role="alert"
+              style={{
+                margin: '8px 0 0',
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--type-caption)',
+                color: 'var(--ember)',
+              }}
+            >
+              {goalError}
+            </p>
+          )}
         </Field>
 
         <Label>Media and documents</Label>
@@ -144,14 +185,20 @@ export function ProjectBuilder() {
           <span
             style={{
               fontFamily: 'var(--font-body)',
-              fontSize: 12.5,
+              fontSize: 'var(--type-caption)',
               fontWeight: 600,
               color: 'var(--ink)',
             }}
           >
             Live preview
           </span>
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: 12.5, color: 'var(--ink-60)' }}>
+          <span
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 'var(--type-caption)',
+              color: 'var(--ink-60)',
+            }}
+          >
             — updates as you type
           </span>
         </div>
@@ -236,25 +283,11 @@ function DropZone({
           cursor: 'pointer',
         }}
       />
-      <svg
-        viewBox="0 0 24 24"
-        width="22"
-        height="22"
-        fill="none"
-        stroke="var(--ink)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M12 16V4" />
-        <path d="m7 9 5-5 5 5" />
-        <path d="M5 20h14" />
-      </svg>
+      <UploadIcon style={{ color: 'var(--ink)' }} />
       <div
         style={{
           fontFamily: 'var(--font-body)',
-          fontSize: 13,
+          fontSize: 'var(--type-caption)',
           fontWeight: 600,
           color: 'var(--ink)',
         }}
@@ -265,7 +298,7 @@ function DropZone({
         id={hintId}
         style={{
           fontFamily: 'var(--font-body)',
-          fontSize: 11.5,
+          fontSize: 'var(--type-eyebrow)',
           color: 'var(--ink-60)',
           lineHeight: 1.4,
         }}
@@ -300,7 +333,7 @@ function Label({ htmlFor, children }: { htmlFor?: string; children: ReactNode })
       style={{
         display: 'block',
         fontFamily: 'var(--font-body)',
-        fontSize: 13,
+        fontSize: 'var(--type-caption)',
         fontWeight: 600,
         color: 'var(--ink)',
         marginBottom: 8,
@@ -330,14 +363,14 @@ function Card({ children }: { children: ReactNode }) {
 const cardTitle: CSSProperties = {
   fontFamily: 'var(--font-display)',
   fontWeight: 700,
-  fontSize: 18,
+  fontSize: 'var(--type-h5)',
   margin: '0 0 8px',
   color: 'var(--ink)',
   letterSpacing: '-0.01em',
 }
 const subtle: CSSProperties = {
   fontFamily: 'var(--font-body)',
-  fontSize: 13.5,
+  fontSize: 'var(--type-small)',
   lineHeight: 1.5,
   color: 'var(--ink-60)',
 }
@@ -346,7 +379,7 @@ const inputStyle: CSSProperties = {
   height: 44,
   padding: '0 14px',
   fontFamily: 'var(--font-body)',
-  fontSize: 15,
+  fontSize: 'var(--type-data)',
   color: 'var(--ink)',
   background: 'var(--surface)',
   border: '1px solid var(--ink-12)',

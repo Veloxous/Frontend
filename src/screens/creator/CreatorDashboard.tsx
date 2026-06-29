@@ -29,7 +29,7 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
           style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 700,
-            fontSize: 20,
+            fontSize: 'var(--type-h4)',
             margin: 0,
             color: 'var(--ink)',
             letterSpacing: '-0.01em',
@@ -37,7 +37,13 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
         >
           {data.projectName}
         </h3>
-        <span style={{ fontFamily: 'var(--font-body)', fontSize: 13.5, color: 'var(--ink-60)' }}>
+        <span
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 'var(--type-small)',
+            color: 'var(--ink-60)',
+          }}
+        >
           {data.location}
         </span>
       </div>
@@ -78,7 +84,7 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
             <div
               style={{
                 fontFamily: 'var(--font-body)',
-                fontSize: 12.5,
+                fontSize: 'var(--type-caption)',
                 color: 'var(--ink-60)',
                 marginTop: 8,
               }}
@@ -104,7 +110,11 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
           >
             <h4 style={cardTitle}>Oracle scores</h4>
             <span
-              style={{ fontFamily: 'var(--font-data)', fontSize: 11.5, color: 'var(--ink-40)' }}
+              style={{
+                fontFamily: 'var(--font-data)',
+                fontSize: 'var(--type-eyebrow)',
+                color: 'var(--ink-40)',
+              }}
             >
               verified {data.verifiedAgo}
             </span>
@@ -156,7 +166,7 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
                   <div
                     style={{
                       fontFamily: 'var(--font-body)',
-                      fontSize: 14,
+                      fontSize: 'var(--type-small)',
                       fontWeight: 600,
                       color: 'var(--ink)',
                     }}
@@ -166,7 +176,7 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
                   <div
                     style={{
                       fontFamily: 'var(--font-body)',
-                      fontSize: 13,
+                      fontSize: 'var(--type-caption)',
                       color: 'var(--ink-60)',
                       lineHeight: 1.45,
                       marginTop: 2,
@@ -190,7 +200,13 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
             }}
           >
             <h4 style={cardTitle}>Recent oracle updates</h4>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--ink-40)' }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--type-eyebrow)',
+                color: 'var(--ink-40)',
+              }}
+            >
               each → Stellar Expert
             </span>
           </div>
@@ -221,7 +237,7 @@ function UpdateRow({ update, first }: { update: OracleUpdate; first: boolean }) 
         <div
           style={{
             fontFamily: 'var(--font-data)',
-            fontSize: 13.5,
+            fontSize: 'var(--type-small)',
             color: 'var(--ink)',
             fontFeatureSettings: '"tnum" 1',
           }}
@@ -235,7 +251,13 @@ function UpdateRow({ update, first }: { update: OracleUpdate; first: boolean }) 
             {up ? '↑' : '↓'}
           </span>
         </div>
-        <div style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--ink-60)' }}>
+        <div
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 'var(--type-eyebrow)',
+            color: 'var(--ink-60)',
+          }}
+        >
           {update.date}
         </div>
       </div>
@@ -245,7 +267,7 @@ function UpdateRow({ update, first }: { update: OracleUpdate; first: boolean }) 
         rel="noreferrer"
         style={{
           fontFamily: 'var(--font-data)',
-          fontSize: 12,
+          fontSize: 'var(--type-eyebrow)',
           color: 'var(--ink-40)',
           whiteSpace: 'nowrap',
           textDecoration: 'none',
@@ -320,14 +342,14 @@ function Card({ children }: { children: ReactNode }) {
 const cardTitle: CSSProperties = {
   fontFamily: 'var(--font-display)',
   fontWeight: 700,
-  fontSize: 17,
+  fontSize: 'var(--type-body-lg)',
   margin: 0,
   color: 'var(--ink)',
   letterSpacing: '-0.01em',
 }
 const subtle: CSSProperties = {
   fontFamily: 'var(--font-body)',
-  fontSize: 13.5,
+  fontSize: 'var(--type-small)',
   lineHeight: 1.5,
   color: 'var(--ink-60)',
 }

@@ -2,7 +2,7 @@
 
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button, Tag } from '@/components'
+import { Button, CheckBoldIcon, Tag } from '@/components'
 import {
   PROJECT_TYPES,
   WHITELIST_CRITERIA,
@@ -49,12 +49,6 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
     setSubmitted(true)
   }
 
-  const typeLabel = (type: ProjectType): string => {
-    const key = `type${type}` as const
-    const label = t(key)
-    return label !== key ? label : type
-  }
-
   return (
     <div
       style={{
@@ -68,9 +62,7 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <Card>
           <h3 style={cardTitle}>{t('lookForTitle')}</h3>
-          <p style={{ ...subtle, margin: '0 0 16px' }}>
-            {t('lookForSub')}
-          </p>
+          <p style={{ ...subtle, margin: '0 0 16px' }}>{t('lookForSub')}</p>
           <ul
             style={{
               listStyle: 'none',
@@ -87,7 +79,7 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
                 <span
                   style={{
                     fontFamily: 'var(--font-body)',
-                    fontSize: 14,
+                    fontSize: 'var(--type-small)',
                     lineHeight: 1.5,
                     color: 'var(--ink)',
                   }}
@@ -108,9 +100,7 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
       {/* Right — the form */}
       <Card>
         <h3 style={cardTitle}>{t('applyTitle')}</h3>
-        <p style={{ ...subtle, margin: '0 0 20px' }}>
-          {t('applySub')}
-        </p>
+        <p style={{ ...subtle, margin: '0 0 20px' }}>{t('applySub')}</p>
 
         <Field label={t('fieldOrg')} htmlFor="hb-org">
           <input
@@ -160,11 +150,7 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
             size="lg"
             onClick={handleSubmit}
             disabled={!canSubmit || submitted}
-            reason={
-              submitted
-                ? t('submitAppReasonDone')
-                : t('submitAppReason')
-            }
+            reason={submitted ? t('submitAppReasonDone') : t('submitAppReason')}
             style={{ width: '100%' }}
           >
             {submitted ? t('submitAppDone') : t('submitApp')}
@@ -172,7 +158,9 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
           {submitted && (
             <p style={{ ...subtle, margin: '12px 0 0', textAlign: 'center' }}>
               {t.rich('submitAppThanks', {
-                b: (c: ReactNode) => <span style={{ color: 'var(--ink)', fontWeight: 600 }}>{c}</span>,
+                b: (c: ReactNode) => (
+                  <span style={{ color: 'var(--ink)', fontWeight: 600 }}>{c}</span>
+                ),
               })}
             </p>
           )}
@@ -227,7 +215,7 @@ function Stepper({ activeStage }: { activeStage: ApplicationStage }) {
                 <div
                   style={{
                     fontFamily: 'var(--font-body)',
-                    fontSize: 13.5,
+                    fontSize: 'var(--type-small)',
                     fontWeight: 600,
                     color: done ? 'var(--ink)' : 'var(--ink-40)',
                   }}
@@ -237,7 +225,7 @@ function Stepper({ activeStage }: { activeStage: ApplicationStage }) {
                 <div
                   style={{
                     fontFamily: 'var(--font-body)',
-                    fontSize: 12,
+                    fontSize: 'var(--type-eyebrow)',
                     color: 'var(--ink-60)',
                     lineHeight: 1.45,
                     marginTop: 2,
@@ -284,20 +272,7 @@ function Dot({ done }: { done: boolean }) {
         flexShrink: 0,
       }}
     >
-      {done && (
-        <svg
-          viewBox="0 0 24 24"
-          width="12"
-          height="12"
-          fill="none"
-          stroke="var(--ink)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M5 13l4 4L19 7" />
-        </svg>
-      )}
+      {done && <CheckBoldIcon size={12} style={{ color: 'var(--ink)' }} />}
     </span>
   )
 }
@@ -319,18 +294,7 @@ function CheckMark() {
         flexShrink: 0,
       }}
     >
-      <svg
-        viewBox="0 0 24 24"
-        width="11"
-        height="11"
-        fill="none"
-        stroke="var(--ink)"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M5 13l4 4L19 7" />
-      </svg>
+      <CheckBoldIcon size={11} style={{ color: 'var(--ink)' }} />
     </span>
   )
 }
@@ -359,7 +323,7 @@ function Label({ htmlFor, children }: { htmlFor: string; children: ReactNode }) 
       style={{
         display: 'block',
         fontFamily: 'var(--font-body)',
-        fontSize: 13,
+        fontSize: 'var(--type-caption)',
         fontWeight: 600,
         color: 'var(--ink)',
         marginBottom: 8,
@@ -389,14 +353,14 @@ function Card({ children }: { children: ReactNode }) {
 const cardTitle: CSSProperties = {
   fontFamily: 'var(--font-display)',
   fontWeight: 700,
-  fontSize: 18,
+  fontSize: 'var(--type-h5)',
   margin: '0 0 8px',
   color: 'var(--ink)',
   letterSpacing: '-0.01em',
 }
 const subtle: CSSProperties = {
   fontFamily: 'var(--font-body)',
-  fontSize: 13.5,
+  fontSize: 'var(--type-small)',
   lineHeight: 1.5,
   color: 'var(--ink-60)',
 }
@@ -405,7 +369,7 @@ const inputStyle: CSSProperties = {
   height: 44,
   padding: '0 14px',
   fontFamily: 'var(--font-body)',
-  fontSize: 15,
+  fontSize: 'var(--type-data)',
   color: 'var(--ink)',
   background: 'var(--surface)',
   border: '1px solid var(--ink-12)',

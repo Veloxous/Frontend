@@ -41,9 +41,10 @@ export function AmountInput({
   // Announce the cap message only once when overCap first becomes true,
   // not on every keystroke while already over cap (fixes #76).
   const wasOverCap = useRef(false)
-  const liveMsg = overCap && !wasOverCap.current
-    ? (capMessage || `You can withdraw up to ${cap} ${currency} today, or any part of it.`)
-    : ''
+  const liveMsg =
+    overCap && !wasOverCap.current
+      ? capMessage || `You can withdraw up to ${cap} ${currency} today, or any part of it.`
+      : ''
   wasOverCap.current = overCap
 
   const set = (v: number) => onChange?.(String(v))
@@ -62,7 +63,7 @@ export function AmountInput({
           htmlFor={id}
           style={{
             fontFamily: 'var(--font-body)',
-            fontSize: 13.5,
+            fontSize: 'var(--type-small)',
             fontWeight: 600,
             color: 'var(--ink)',
           }}
@@ -70,7 +71,13 @@ export function AmountInput({
           {label}
         </label>
         {balance != null && (
-          <span style={{ fontFamily: 'var(--font-data)', fontSize: 12.5, color: 'var(--ink-60)' }}>
+          <span
+            style={{
+              fontFamily: 'var(--font-data)',
+              fontSize: 'var(--type-caption)',
+              color: 'var(--ink-60)',
+            }}
+          >
             {balanceLabel} {balance} {currency}
           </span>
         )}
@@ -103,7 +110,7 @@ export function AmountInput({
             background: 'transparent',
             fontFamily: 'var(--font-data)',
             fontWeight: 600,
-            fontSize: 30,
+            fontSize: 'var(--type-h1)',
             color: 'var(--ink)',
             fontFeatureSettings: '"tnum" 1',
           }}
@@ -111,7 +118,7 @@ export function AmountInput({
         <span
           style={{
             fontFamily: 'var(--font-data)',
-            fontSize: 15,
+            fontSize: 'var(--type-data)',
             color: 'var(--ink-60)',
             fontWeight: 500,
           }}
@@ -153,7 +160,7 @@ export function AmountInput({
             style={{
               margin: 0,
               fontFamily: 'var(--font-body)',
-              fontSize: 13,
+              fontSize: 'var(--type-caption)',
               lineHeight: 1.5,
               color: 'var(--ink)',
             }}
@@ -171,7 +178,7 @@ export function AmountInput({
               cursor: 'pointer',
               fontFamily: 'var(--font-body)',
               fontWeight: 600,
-              fontSize: 13,
+              fontSize: 'var(--type-caption)',
               color: 'var(--ink)',
               textDecoration: 'underline',
               textUnderlineOffset: '0.2em',
@@ -187,7 +194,14 @@ export function AmountInput({
         role="status"
         aria-live="polite"
         aria-atomic="true"
-        style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}
+        style={{
+          position: 'absolute',
+          width: 1,
+          height: 1,
+          overflow: 'hidden',
+          clip: 'rect(0,0,0,0)',
+          whiteSpace: 'nowrap',
+        }}
       >
         {liveMsg}
       </div>
@@ -218,6 +232,6 @@ const chipStyle: CSSProperties = {
   cursor: 'pointer',
   fontFamily: 'var(--font-body)',
   fontWeight: 600,
-  fontSize: 13.5,
+  fontSize: 'var(--type-small)',
   color: 'var(--ink)',
 }

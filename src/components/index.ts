@@ -22,3 +22,17 @@ export { ProjectCard } from './ProjectCard'
 export type { ProjectCardProps } from './ProjectCard'
 export { Toast } from './Toast'
 export type { ToastProps, ToastTone } from './Toast'
+export {
+  PinIcon,
+  ShieldCheckIcon,
+  SunIcon,
+  MoonIcon,
+  ChevronDownIcon,
+  CopyIcon,
+  CheckIcon,
+  CheckBoldIcon,
+  ExternalIcon,
+  CloseIcon,
+  UploadIcon,
+} from './icons'
+export type { IconProps } from './icons'

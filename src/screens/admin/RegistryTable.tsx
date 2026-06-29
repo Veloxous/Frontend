@@ -67,8 +67,22 @@ export function RegistryTable({ rows, onSave }: RegistryTableProps) {
       <table style={tableStyle}>
         <thead>
           <tr>
-            <Th label={t('colProject')} k="name" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} sortLabel={t('sortBy', { col: t('colProject') })} />
-            <Th label={t('colType')} k="type" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} sortLabel={t('sortBy', { col: t('colType') })} />
+            <Th
+              label={t('colProject')}
+              k="name"
+              sortKey={sortKey}
+              sortDir={sortDir}
+              onSort={toggleSort}
+              sortLabel={t('sortBy', { col: t('colProject') })}
+            />
+            <Th
+              label={t('colType')}
+              k="type"
+              sortKey={sortKey}
+              sortDir={sortDir}
+              onSort={toggleSort}
+              sortLabel={t('sortBy', { col: t('colType') })}
+            />
             <Th
               label={t('colCredit')}
               k="credit"
@@ -181,7 +195,7 @@ function Th({
           aria-hidden="true"
           style={{
             fontFamily: 'var(--font-data)',
-            fontSize: 10,
+            fontSize: 'var(--type-micro)',
             color: active ? 'var(--ink)' : 'var(--ink-40)',
           }}
         >
@@ -238,7 +252,9 @@ function Row({
       <tr style={{ borderTop: '1px solid var(--ink-12)' }}>
         <td style={tdStyle}>
           <div style={{ fontWeight: 600, color: 'var(--ink)' }}>{row.name}</div>
-          <div style={{ fontSize: 12, color: 'var(--ink-60)' }}>{row.location}</div>
+          <div style={{ fontSize: 'var(--type-eyebrow)', color: 'var(--ink-60)' }}>
+            {row.location}
+          </div>
         </td>
         <td style={tdStyle}>
           <span style={typePill}>{row.type}</span>
@@ -262,7 +278,7 @@ function Row({
               <span
                 style={{
                   fontFamily: 'var(--font-body)',
-                  fontSize: 12.5,
+                  fontSize: 'var(--type-caption)',
                   color: 'var(--ink-60)',
                   alignSelf: 'center',
                 }}
@@ -320,7 +336,7 @@ const tableStyle: CSSProperties = {
   width: '100%',
   borderCollapse: 'collapse',
   fontFamily: 'var(--font-body)',
-  fontSize: 13.5,
+  fontSize: 'var(--type-small)',
 }
 
 const thBase: CSSProperties = {
@@ -350,7 +366,7 @@ const typePill: CSSProperties = {
   height: 22,
   padding: '0 9px',
   fontFamily: 'var(--font-body)',
-  fontSize: 12,
+  fontSize: 'var(--type-eyebrow)',
   fontWeight: 500,
   color: 'var(--ink)',
   background: 'var(--ink-06)',
@@ -364,7 +380,7 @@ const inputStyle: CSSProperties = {
   height: 36,
   padding: '0 10px',
   fontFamily: 'var(--font-data)',
-  fontSize: 14,
+  fontSize: 'var(--type-small)',
   fontFeatureSettings: '"tnum" 1',
   color: 'var(--ink)',
   background: 'var(--surface)',
