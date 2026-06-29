@@ -1,6 +1,6 @@
 name: Feature request / task
 description: Propose a feature, improvement, or contributor task.
-labels: ["enhancement"]
+labels: ['enhancement']
 body:
   - type: textarea
     id: problem

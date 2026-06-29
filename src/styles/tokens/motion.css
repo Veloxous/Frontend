@@ -13,18 +13,18 @@
 
 :root {
   /* --- Easing (entrances · morphs · sheets) --------------------------- */
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);       /* @kind other */
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);   /* @kind other */
-  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);     /* @kind other */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* @kind other */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* @kind other */
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1); /* @kind other */
 
   /* --- Durations (press 120 · modal/sheet 240–320 · ticker 600, once) -- */
-  --dur-press: 120ms;     /* @kind other */
-  --dur-tooltip: 150ms;   /* @kind other */
-  --dur-dropdown: 180ms;  /* @kind other */
-  --dur-modal: 280ms;     /* @kind other */
-  --dur-sheet: 320ms;     /* @kind other */
-  --dur-ticker: 600ms;    /* @kind other */
+  --dur-press: 120ms; /* @kind other */
+  --dur-tooltip: 150ms; /* @kind other */
+  --dur-dropdown: 180ms; /* @kind other */
+  --dur-modal: 280ms; /* @kind other */
+  --dur-sheet: 320ms; /* @kind other */
+  --dur-ticker: 600ms; /* @kind other */
 
   /* --- Stagger (list entrances, never blocking interaction) ----------- */
-  --stagger-list: 40ms;   /* @kind other */
+  --stagger-list: 40ms; /* @kind other */
 }

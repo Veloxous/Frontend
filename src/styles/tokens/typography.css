@@ -13,9 +13,9 @@
 
 :root {
   /* --- Families ------------------------------------------------------- */
-  --font-display: "Cabinet Grotesk", "Hanken Grotesk", system-ui, sans-serif;
-  --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
-  --font-data: "Spline Sans Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: 'Cabinet Grotesk', 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --font-data: 'Spline Sans Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* --- Weights -------------------------------------------------------- */
   --weight-regular: 400;
@@ -25,15 +25,15 @@
   --weight-display: 800;
 
   /* --- Fluid type scale ----------------------------------------------- */
-  --type-display-xl: clamp(3.25rem, 7.5vw, 7.5rem);   /* hero             */
-  --type-display-m: clamp(2rem, 4vw, 3.5rem);         /* section openers  */
+  --type-display-xl: clamp(3.25rem, 7.5vw, 7.5rem); /* hero             */
+  --type-display-m: clamp(2rem, 4vw, 3.5rem); /* section openers  */
   --type-h3: 1.5rem;
-  --type-body: 1rem;                                  /* never below 16px */
+  --type-body: 1rem; /* never below 16px */
   --type-small: 0.875rem;
   --type-caption: 0.8125rem;
-  --type-eyebrow: 0.75rem;                            /* small-caps        */
-  --type-data-l: 2.25rem;                             /* hero numbers      */
-  --type-data: 0.9375rem;                             /* inline numbers    */
+  --type-eyebrow: 0.75rem; /* small-caps        */
+  --type-data-l: 2.25rem; /* hero numbers      */
+  --type-data: 0.9375rem; /* inline numbers    */
 
   /* --- Line heights --------------------------------------------------- */
   --leading-display-xl: 0.98;
@@ -51,5 +51,5 @@
   --tracking-normal: 0;
 
   /* --- Numeric helper (apply with font-feature-settings) -------------- */
-  --numeric-tabular: "tnum" 1, "lnum" 1; /* @kind other */
+  --numeric-tabular: 'tnum' 1, 'lnum' 1; /* @kind other */
 }

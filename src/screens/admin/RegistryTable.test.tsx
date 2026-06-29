@@ -13,14 +13,6 @@ const rows: RegistryEntry[] = [
     green: 90,
     funded: '$1,180,000',
     lastVerified: '2 days ago',
-    description: '',
-    irr: 0,
-    tenor: 0,
-    sharePrice: 0,
-    poolShare: 0,
-    tags: [],
-    highlights: [],
-    currency: 'USDC',
   },
   {
     id: 2,
@@ -31,14 +23,6 @@ const rows: RegistryEntry[] = [
     green: 78,
     funded: '$430,000',
     lastVerified: '6 days ago',
-    description: '',
-    irr: 0,
-    tenor: 0,
-    sharePrice: 0,
-    poolShare: 0,
-    tags: [],
-    highlights: [],
-    currency: 'USDC',
   },
   {
     id: 3,
@@ -49,14 +33,6 @@ const rows: RegistryEntry[] = [
     green: 85,
     funded: '$2,750,000',
     lastVerified: '11 days ago',
-    description: '',
-    irr: 0,
-    tenor: 0,
-    sharePrice: 0,
-    poolShare: 0,
-    tags: [],
-    highlights: [],
-    currency: 'USDC',
   },
 ]
 
@@ -82,7 +58,7 @@ describe('RegistryTable fundedNum parsing', () => {
     fireEvent.click(screen.getByRole('button', { name: /sort by funded/i }))
 
     const names = rowNames()
-    expect(names[0]).toBe('Mekong Hydro')    // $2,750,000
+    expect(names[0]).toBe('Mekong Hydro') // $2,750,000
     expect(names[1]).toBe('Benin Solar Farm') // $1,180,000
     expect(names[2]).toBe('Atacama Wind Park') // $430,000
   })
@@ -94,8 +70,8 @@ describe('RegistryTable fundedNum parsing', () => {
 
     const names = rowNames()
     expect(names[0]).toBe('Atacama Wind Park') // $430,000
-    expect(names[1]).toBe('Benin Solar Farm')  // $1,180,000
-    expect(names[2]).toBe('Mekong Hydro')      // $2,750,000
+    expect(names[1]).toBe('Benin Solar Farm') // $1,180,000
+    expect(names[2]).toBe('Mekong Hydro') // $2,750,000
   })
 })
 
@@ -135,7 +111,7 @@ describe('RegistryTable sort by credit', () => {
     render(<RegistryTable rows={rows} onSave={() => {}} />)
 
     const names = rowNames()
-    expect(names[0]).toBe('Mekong Hydro')    // credit 91
+    expect(names[0]).toBe('Mekong Hydro') // credit 91
     expect(names[1]).toBe('Benin Solar Farm') // credit 82
     expect(names[2]).toBe('Atacama Wind Park') // credit 74
   })
@@ -146,8 +122,8 @@ describe('RegistryTable sort by credit', () => {
 
     const names = rowNames()
     expect(names[0]).toBe('Atacama Wind Park') // credit 74
-    expect(names[1]).toBe('Benin Solar Farm')  // credit 82
-    expect(names[2]).toBe('Mekong Hydro')      // credit 91
+    expect(names[1]).toBe('Benin Solar Farm') // credit 82
+    expect(names[2]).toBe('Mekong Hydro') // credit 91
   })
 })
 

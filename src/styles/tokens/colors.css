@@ -14,18 +14,18 @@
 
 :root {
   /* --- Base palette --------------------------------------------------- */
-  --ink: #0B2B23;        /* deep pine — all text, icons, strokes          */
-  --canvas: #F3F5F1;     /* morning air — page background                 */
-  --surface: #FCFDFB;    /* cards & raised surfaces                       */
-  --solar: #FFB400;      /* the sun — brand accent                        */
-  --growth: #0E6F44;     /* positive deltas / success (semantic only)     */
-  --ember: #B3361B;      /* errors / negative deltas (calm, not alarmist) */
+  --ink: #0b2b23; /* deep pine — all text, icons, strokes          */
+  --canvas: #f3f5f1; /* morning air — page background                 */
+  --surface: #fcfdfb; /* cards & raised surfaces                       */
+  --solar: #ffb400; /* the sun — brand accent                        */
+  --growth: #0e6f44; /* positive deltas / success (semantic only)     */
+  --ember: #b3361b; /* errors / negative deltas (calm, not alarmist) */
 
   /* --- Ink-derived neutrals (opacity ramps over canvas) --------------- */
-  --ink-60: rgba(11, 43, 35, 0.60);  /* secondary text                   */
-  --ink-40: rgba(11, 43, 35, 0.40);  /* tertiary text, disabled          */
-  --ink-12: rgba(11, 43, 35, 0.12);  /* hairlines, dividers              */
-  --ink-06: rgba(11, 43, 35, 0.06);  /* tinted fills, track backgrounds  */
+  --ink-60: rgba(11, 43, 35, 0.6); /* secondary text                   */
+  --ink-40: rgba(11, 43, 35, 0.4); /* tertiary text, disabled          */
+  --ink-12: rgba(11, 43, 35, 0.12); /* hairlines, dividers              */
+  --ink-06: rgba(11, 43, 35, 0.06); /* tinted fills, track backgrounds  */
 
   /* --- Solar tints (decorative fills only; never text) ---------------- */
   --solar-12: rgba(255, 180, 0, 0.12);
@@ -53,26 +53,26 @@
   --accent: var(--solar);
   --accent-tint: var(--solar-12);
 
-  --focus-ring: var(--solar);     /* 2px solar ring + 1px ink offset      */
+  --focus-ring: var(--solar); /* 2px solar ring + 1px ink offset      */
   --focus-offset: var(--ink);
 
   /* --- Shadows — ink-tinted, never gray-black ------------------------- */
   --shadow-sm: 0 1px 2px rgba(11, 43, 35, 0.06);
-  --shadow-md: 0 8px 30px rgba(11, 43, 35, 0.10);
+  --shadow-md: 0 8px 30px rgba(11, 43, 35, 0.1);
   --shadow-lg: 0 24px 60px rgba(11, 43, 35, 0.14);
 }
 
 /* === After Sunset — dark theme (token swap only) ======================= */
-:root[data-theme="dark"] {
-  --ink: #EDF2EC;          /* light text now carries the "ink" role        */
-  --canvas: #0D1714;
-  --surface: #13201B;
-  --solar: #FFB400;        /* unchanged — large text / icons only on dark  */
-  --growth: #5DD99A;       /* lifted further for AA contrast (4.68:1 on surface) */
-  --ember: #FF9B82;        /* lifted for AA contrast (4.52:1 on surface)   */
+:root[data-theme='dark'] {
+  --ink: #edf2ec; /* light text now carries the "ink" role        */
+  --canvas: #0d1714;
+  --surface: #13201b;
+  --solar: #ffb400; /* unchanged — large text / icons only on dark  */
+  --growth: #5dd99a; /* lifted further for AA contrast (4.68:1 on surface) */
+  --ember: #ff9b82; /* lifted for AA contrast (4.52:1 on surface)   */
 
-  --ink-60: rgba(237, 242, 236, 0.68);  /* lifted from 0.62 for better contrast */
-  --ink-40: rgba(237, 242, 236, 0.50);  /* lifted from 0.42 for better contrast */
+  --ink-60: rgba(237, 242, 236, 0.68); /* lifted from 0.62 for better contrast */
+  --ink-40: rgba(237, 242, 236, 0.5); /* lifted from 0.42 for better contrast */
   --ink-12: rgba(237, 242, 236, 0.14);
   --ink-06: rgba(237, 242, 236, 0.06);
 
@@ -81,7 +81,7 @@
   --growth-12: rgba(93, 217, 154, 0.14);
   --ember-12: rgba(255, 155, 130, 0.14);
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.40);
-  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.50);
-  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.60);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.6);
 }

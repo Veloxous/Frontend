@@ -6,10 +6,10 @@
    tokens first, base reset, then the app-shell responsive layer last.
    =========================================================================== */
 
-@import "./tokens/fonts.css";
-@import "./tokens/colors.css";
-@import "./tokens/typography.css";
-@import "./tokens/spacing.css";
-@import "./tokens/motion.css";
-@import "./tokens/base.css";
-@import "./app.css";
+@import './tokens/fonts.css';
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/motion.css';
+@import './tokens/base.css';
+@import './app.css';

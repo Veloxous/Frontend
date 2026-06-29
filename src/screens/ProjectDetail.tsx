@@ -59,7 +59,16 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
         }}
       >
         {/* Creator verification, top area */}
-        <div style={{ position: 'absolute', top: 16, left: 16, right: 16, display: 'flex', justifyContent: 'flex-start' }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: 16,
+            left: 16,
+            right: 16,
+            display: 'flex',
+            justifyContent: 'flex-start',
+          }}
+        >
           <Badge tone="growth" icon={<ShieldCheckIcon />}>
             {t('verifiedCreator', { since: detail.creator.since })}
           </Badge>
@@ -111,10 +120,26 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
 
       {/* Creator line + story */}
       <div style={{ marginBottom: 32 }}>
-        <div style={{ fontFamily: 'var(--font-body)', fontSize: 13.5, color: 'var(--ink-60)', marginBottom: 10 }}>
+        <div
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 13.5,
+            color: 'var(--ink-60)',
+            marginBottom: 10,
+          }}
+        >
           {t.rich('builtBy', { name: detail.creator.name, b: strong })}
         </div>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, lineHeight: 1.6, color: 'var(--ink-60)', margin: 0, maxWidth: 640 }}>
+        <p
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 17,
+            lineHeight: 1.6,
+            color: 'var(--ink-60)',
+            margin: 0,
+            maxWidth: 640,
+          }}
+        >
           {detail.story}
         </p>
       </div>
@@ -155,10 +180,24 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
               }}
             >
               <div>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, fontWeight: 600, color: 'var(--ink)' }}>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 14.5,
+                    fontWeight: 600,
+                    color: 'var(--ink)',
+                  }}
+                >
                   {event.label}
                 </div>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: 12.5, color: 'var(--ink-60)', marginTop: 2 }}>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 12.5,
+                    color: 'var(--ink-60)',
+                    marginTop: 2,
+                  }}
+                >
                   {event.date}
                 </div>
               </div>
@@ -174,7 +213,14 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
                 >
                   {event.amount}
                 </div>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: 12, color: 'var(--ink-40)', marginTop: 2 }}>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-data)',
+                    fontSize: 12,
+                    color: 'var(--ink-40)',
+                    marginTop: 2,
+                  }}
+                >
                   {event.hash} ↗
                 </div>
               </div>
@@ -187,7 +233,15 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
       <section style={{ marginBottom: 40 }}>
         <h2 style={sectionTitle}>{t('contributionTitle')}</h2>
         <div style={cardStyle}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-60)', margin: '0 0 14px' }}>
+          <p
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 14.5,
+              lineHeight: 1.6,
+              color: 'var(--ink-60)',
+              margin: '0 0 14px',
+            }}
+          >
             {t.rich('contributionBody', { credit: project.credit, green: project.green, b: strong })}
           </p>
           <details style={{ borderTop: '1px solid var(--ink-12)', paddingTop: 14 }}>
@@ -226,7 +280,15 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
         <Button variant="primary" size="lg" onClick={onInvest} style={{ width: '100%' }}>
           {t('investCta')}
         </Button>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ink-60)', textAlign: 'center', margin: 0 }}>
+        <p
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 13,
+            color: 'var(--ink-60)',
+            textAlign: 'center',
+            margin: 0,
+          }}
+        >
           {t('investNote')}
         </p>
         {onBack && (
@@ -285,10 +347,24 @@ function ScoreColumn({
       <ScoreGauge value={value} label={label} size={140} stroke={11} />
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
         <Sparkline points={history} aria-label={sparkLabel} />
-        <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--ink-40)', whiteSpace: 'nowrap' }}>
+        <span
+          style={{
+            fontFamily: 'var(--font-data)',
+            fontSize: 11,
+            color: 'var(--ink-40)',
+            whiteSpace: 'nowrap',
+          }}
+        >
           {t('oracleUpdate')}
         </span>
-        <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--ink-40)', whiteSpace: 'nowrap' }}>
+        <span
+          style={{
+            fontFamily: 'var(--font-data)',
+            fontSize: 11,
+            color: 'var(--ink-40)',
+            whiteSpace: 'nowrap',
+          }}
+        >
           {t('verifiedAgo', { time: '2h' })}
         </span>
       </div>
@@ -315,7 +391,17 @@ const cardStyle: CSSProperties = {
 
 function PinIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      width="14"
+      height="14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
       <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
       <circle cx="12" cy="10" r="3" />
     </svg>
@@ -324,7 +410,17 @@ function PinIcon() {
 
 function ShieldCheckIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      width="13"
+      height="13"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
       <path d="M12 3 5 6v5c0 4 3 6.5 7 8 4-1.5 7-4 7-8V6l-7-3Z" />
       <path d="m9 11.5 2 2 4-4.5" />
     </svg>

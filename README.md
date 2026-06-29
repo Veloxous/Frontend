@@ -13,7 +13,7 @@ landing → connect → explore → project detail → deposit → portfolio →
 
 — plus the **creator space**, the internal **admin / oracle console**, real
 **Stellar wallet** connection, a first-class **dark theme**, **English / French**
-i18n, and the live WebGL **Helio**. It honours the brand's *warm · lucid · alive*
+i18n, and the live WebGL **Helio**. It honours the brand's _warm · lucid · alive_
 brief: a two-color world (deep-pine ink on morning-air canvas) plus one solar
 accent, Cabinet Grotesk / Hanken Grotesk / Spline Sans Mono type.
 
@@ -44,7 +44,7 @@ bun run typecheck  # tsc --noEmit
 - **Wallet wiring** — `src/wallet/WalletProvider.tsx` connects a real Stellar
   wallet via the kit's modal and shows the live address; `connectDemo()` provides
   a placeholder session so the click-through works without an extension installed.
-  Deposit/withdraw math flows through `src/wallet/vault.ts`, a *simulated* vault
+  Deposit/withdraw math flows through `src/wallet/vault.ts`, a _simulated_ vault
   client structured for real Soroban `convert_to_shares` / `deposit` / `withdraw`
   calls once the contracts are deployed.
 - **Dark theme ("After Sunset")** — `src/theme/` provides a no-flash toggle
@@ -100,5 +100,5 @@ public/assets/             analemma marks, wordmark, favicon
 
 ---
 
-Implemented from the *Heliobond Design System* handoff bundle exported from
+Implemented from the _Heliobond Design System_ handoff bundle exported from
 Claude Design. The reference bundle lives under `.design-handoff/` (gitignored).

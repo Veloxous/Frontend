@@ -1,6 +1,6 @@
 name: Bug report
 description: Something in the app is broken or behaves incorrectly.
-labels: ["bug"]
+labels: ['bug']
 body:
   - type: markdown
     attributes:
@@ -28,7 +28,7 @@ body:
     id: route
     attributes:
       label: Route / screen
-      placeholder: "/deposit, /admin, /project/1, …"
+      placeholder: '/deposit, /admin, /project/1, …'
   - type: dropdown
     id: theme-locale
     attributes:
@@ -43,7 +43,7 @@ body:
     id: env
     attributes:
       label: Browser & OS
-      placeholder: "Chrome 130 on macOS 15"
+      placeholder: 'Chrome 130 on macOS 15'
   - type: textarea
     id: screenshots
     attributes:

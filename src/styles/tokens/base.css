@@ -6,9 +6,15 @@
    reduced-motion parity. Imported last so tokens are resolved first.
    =========================================================================== */
 
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   margin: 0;
@@ -22,7 +28,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-display);
   font-weight: var(--weight-display);
   letter-spacing: var(--tracking-display);
@@ -31,10 +40,15 @@ h1, h2, h3, h4 {
   text-wrap: balance;
 }
 
-p { text-wrap: pretty; }
+p {
+  text-wrap: pretty;
+}
 
 /* Data role — tabular figures everywhere a number can change */
-.hb-data, code, kbd, samp {
+.hb-data,
+code,
+kbd,
+samp {
   font-family: var(--font-data);
   font-feature-settings: var(--numeric-tabular);
   font-variant-numeric: tabular-nums lining-nums;
@@ -58,12 +72,21 @@ p { text-wrap: pretty; }
   border-radius: var(--radius-input);
 }
 
-a { color: inherit; text-decoration-color: var(--ink-40); text-underline-offset: 0.2em; }
+a {
+  color: inherit;
+  text-decoration-color: var(--ink-40);
+  text-underline-offset: 0.2em;
+}
 
-::selection { background: var(--solar-24); color: var(--ink); }
+::selection {
+  background: var(--solar-24);
+  color: var(--ink);
+}
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
