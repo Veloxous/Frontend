@@ -59,11 +59,7 @@ export function ProjectBuilder() {
 
         <div style={{ marginBottom: 18 }}>
           <Label>Project type</Label>
-          <div
-            style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}
-            role="radiogroup"
-            aria-label="Project type"
-          >
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {PROJECT_TYPES.map((t) => (
               <Tag key={t} selected={type === t} onClick={() => setType(t)}>
                 {t}

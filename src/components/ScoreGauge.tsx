@@ -87,6 +87,7 @@ export function ScoreGauge({
         </svg>
         {showValue && (
           <div
+            aria-hidden="true"
             style={{
               position: 'absolute',
               inset: 0,

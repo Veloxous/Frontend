@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Tag } from '@/components'
 import { CreatorApplication } from '@/screens/creator/CreatorApplication'
 import { ProjectBuilder } from '@/screens/creator/ProjectBuilder'
@@ -8,14 +9,15 @@ import { CreatorDashboard } from '@/screens/creator/CreatorDashboard'
 
 type CreatorTab = 'apply' | 'build' | 'dashboard'
 
-const TABS: { id: CreatorTab; label: string }[] = [
-  { id: 'apply', label: 'Apply' },
-  { id: 'build', label: 'Build project' },
-  { id: 'dashboard', label: 'Dashboard' },
-]
-
 export default function CreatorPage() {
+  const t = useTranslations('Creator')
   const [tab, setTab] = useState<CreatorTab>('apply')
+
+  const TABS: { id: CreatorTab; label: string }[] = [
+    { id: 'apply', label: t('tabApply') },
+    { id: 'build', label: t('tabBuild') },
+    { id: 'dashboard', label: t('tabDashboard') },
+  ]
 
   return (
     <main id="main-content" style={{ maxWidth: 1080, margin: '0 auto', padding: '48px 32px 80px' }}>
@@ -30,7 +32,7 @@ export default function CreatorPage() {
             color: 'var(--ink)',
           }}
         >
-          Creator space
+          {t('title')}
         </h1>
         <p
           style={{
@@ -42,8 +44,7 @@ export default function CreatorPage() {
             maxWidth: 640,
           }}
         >
-          Apply for the whitelist, build your project page, and watch the pool fund it. The oracle
-          scores your credit quality and green impact, and we show you exactly what moves them.
+          {t('description')}
         </p>
       </div>
 
