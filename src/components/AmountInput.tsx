@@ -1,4 +1,4 @@
-import { type CSSProperties, type ReactNode, useRef } from 'react'
+import { type CSSProperties, type ReactNode, useState } from 'react'
 
 /**
  * Heliobond AmountInput — the heart of deposit & withdraw. Mono numerals, a
@@ -40,11 +40,14 @@ export function AmountInput({
 
   // Announce the cap message only once when overCap first becomes true,
   // not on every keystroke while already over cap (fixes #76).
-  const wasOverCap = useRef(false)
-  const liveMsg = overCap && !wasOverCap.current
+  const [prevOverCap, setPrevOverCap] = useState(false)
+  const liveMsg = overCap && !prevOverCap
     ? (capMessage || `You can withdraw up to ${cap} ${currency} today, or any part of it.`)
     : ''
-  wasOverCap.current = overCap
+
+  if (overCap !== prevOverCap) {
+    setPrevOverCap(overCap)
+  }
 
   const set = (v: number) => onChange?.(String(v))
 
