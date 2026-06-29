@@ -41,17 +41,17 @@ bun install
 bun run dev        # http://localhost:3000
 ```
 
-Useful scripts:
+Useful scripts — run these before opening a PR:
 
 ```bash
-bun run build         # production build — also runs the TypeScript type-checker
+bun run build         # production build (must pass)
 bun run typecheck     # tsc --noEmit
-bun run lint          # ESLint (next/core-web-vitals + TypeScript rules)
-bun run format        # Prettier — rewrite files in place
+bun run lint          # ESLint
 bun run format:check  # Prettier — check only (used in CI)
+bun run format        # Prettier — rewrite files in place
+bun run test          # Vitest unit + component test suite
+bun run test:e2e      # Playwright end-to-end tests
 bun run start         # serve the production build
-bun run test          # run the Vitest unit + component test suite
-bun run test:e2e      # run Playwright end-to-end tests (starts dev server automatically)
 ```
 
 ## Running tests
@@ -91,7 +91,7 @@ E2E tests live in `e2e/`. The deposit smoke test seeds a demo wallet via
 
 1. Branch off `main`: `git checkout -b <type>/<short-description>` (e.g. `feat/withdraw-max-chip`, `fix/helio-glow`, `i18n/creator-screens`).
 2. Make focused changes — one issue per PR.
-3. Run the checks locally: **`bun run build`** (must pass), **`bun run typecheck`**, **`bun run lint`**, and **`bun run format:check`**.
+3. Run the checks locally: **`bun run build`** (must pass), **`bun run typecheck`**, **`bun run lint`**, **`bun run format:check`**, and **`bun run test`**.
 4. Open a PR using the template; link the issue with `Closes #123`.
 5. CI runs build, typecheck, lint, and format check on every PR; **`main` is protected** and requires green CI plus a maintainer review before merge.
 
