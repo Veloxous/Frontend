@@ -1,6 +1,7 @@
 'use client'
 
 import { useId, useState, type CSSProperties, type ReactNode } from 'react'
+import { useTranslations } from 'next-intl'
 import { ProjectCard, Tag } from '@/components'
 import { PROJECT_TYPES, DRAFT_PROJECT, type ProjectType } from '@/data/creator'
 
@@ -11,6 +12,7 @@ import { PROJECT_TYPES, DRAFT_PROJECT, type ProjectType } from '@/data/creator'
  * oracle verifies, so the preview never implies a number we have not earned yet.
  */
 export function ProjectBuilder() {
+  const t = useTranslations('Creator')
   const [name, setName] = useState(DRAFT_PROJECT.name)
   const [location, setLocation] = useState(DRAFT_PROJECT.location)
   const [type, setType] = useState<ProjectType>(DRAFT_PROJECT.type)
@@ -162,7 +164,8 @@ export function ProjectBuilder() {
           credit={0}
           green={0}
           funded={goalLabel}
-          verifiedAgo="pending"
+          fundedLabel={t('dashFunding')}
+          verifiedLabel={t('pendingVerified')}
         />
 
         <p style={{ ...subtle, margin: 0 }}>

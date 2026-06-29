@@ -88,7 +88,9 @@ export function Deposit({ onDone }: DepositProps) {
           <AmountInput
             value={amount}
             onChange={setAmount}
+            label={t('amountLabel')}
             currency="USDC"
+            balanceLabel={t('balanceLabel')}
             balance="240.00"
             chips={[25, 50, 100]}
             preview={
