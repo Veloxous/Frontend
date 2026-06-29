@@ -2,7 +2,7 @@
 
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button } from '@/components'
+import { Button, sanitizeAmount } from '@/components'
 import { type RegistryEntry } from '@/data/admin'
 
 /**
@@ -44,7 +44,7 @@ export function OracleForms({ projects, liquid, onPushScores, onFund }: OracleFo
   const scoresValid =
     credit !== '' && green !== '' && creditN >= 0 && creditN <= 100 && greenN >= 0 && greenN <= 100
 
-  const amountN = Number(amount.replace(/[^0-9.]/g, ''))
+  const amountN = Number(sanitizeAmount(amount))
   const fundValid = amountN > 0 && amountN <= liquid
 
   const target = projects.find((p) => p.id === scoreId)
@@ -118,7 +118,7 @@ export function OracleForms({ projects, liquid, onPushScores, onFund }: OracleFo
               inputMode="decimal"
               placeholder="0.00"
               value={amount}
-              onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ''))}
+              onChange={(e) => setAmount(sanitizeAmount(e.target.value))}
               style={{ ...textInput, flex: 1, fontSize: 18 }}
             />
             <span style={{ fontFamily: 'var(--font-data)', fontSize: 13, color: 'var(--ink-60)' }}>

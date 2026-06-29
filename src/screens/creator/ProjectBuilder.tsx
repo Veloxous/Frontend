@@ -1,7 +1,7 @@
 'use client'
 
 import { useId, useState, type CSSProperties, type ReactNode } from 'react'
-import { ProjectCard, Tag } from '@/components'
+import { ProjectCard, Tag, Card } from '@/components'
 import { PROJECT_TYPES, DRAFT_PROJECT, type ProjectType } from '@/data/creator'
 
 /**
@@ -311,21 +311,6 @@ function Label({ htmlFor, children }: { htmlFor?: string; children: ReactNode })
   )
 }
 
-function Card({ children }: { children: ReactNode }) {
-  return (
-    <div
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--ink-12)',
-        borderRadius: 'var(--radius-card)',
-        padding: 24,
-        boxShadow: 'var(--shadow-sm)',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
 
 const cardTitle: CSSProperties = {
   fontFamily: 'var(--font-display)',

@@ -94,7 +94,7 @@ export function AmountInput({
           inputMode="decimal"
           placeholder="0.00"
           value={value}
-          onChange={(e) => onChange?.(e.target.value.replace(/[^0-9.]/g, ''))}
+          onChange={(e) => onChange?.(sanitizeAmount(e.target.value))}
           style={{
             flex: 1,
             minWidth: 0,
@@ -220,4 +220,10 @@ const chipStyle: CSSProperties = {
   fontWeight: 600,
   fontSize: 13.5,
   color: 'var(--ink)',
+}
+
+export function sanitizeAmount(val: string): string {
+  const clean = val.replace(/[^0-9.]/g, '')
+  const parts = clean.split('.')
+  return parts.length > 1 ? parts[0] + '.' + parts.slice(1).join('') : clean
 }

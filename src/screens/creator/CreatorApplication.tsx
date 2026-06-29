@@ -2,7 +2,7 @@
 
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button, Tag } from '@/components'
+import { Button, Tag, Card } from '@/components'
 import {
   PROJECT_TYPES,
   WHITELIST_CRITERIA,
@@ -47,12 +47,6 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
     const values: ApplicationFormValues = { orgName, projectType, location, links }
     if (onSubmit) onSubmit(values)
     setSubmitted(true)
-  }
-
-  const typeLabel = (type: ProjectType): string => {
-    const key = `type${type}` as const
-    const label = t(key)
-    return label !== key ? label : type
   }
 
   return (
@@ -370,21 +364,6 @@ function Label({ htmlFor, children }: { htmlFor: string; children: ReactNode }) 
   )
 }
 
-function Card({ children }: { children: ReactNode }) {
-  return (
-    <div
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--ink-12)',
-        borderRadius: 'var(--radius-card)',
-        padding: 24,
-        boxShadow: 'var(--shadow-sm)',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
 
 const cardTitle: CSSProperties = {
   fontFamily: 'var(--font-display)',

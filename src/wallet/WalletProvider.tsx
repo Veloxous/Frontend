@@ -43,9 +43,9 @@ export function useWallet(): WalletContextValue {
 
 /** Stellar address / hash, truncated in the middle (never the end). */
 export function shortAddress(address: string, lead = 4, tail = 3): string {
-  return address.length > lead + tail + 1
-    ? `${address.slice(0, lead)}…${address.slice(-tail)}`
-    : address
+  if (address.length <= lead + tail + 1) return address
+  const suffix = tail > 0 ? address.slice(-tail) : ''
+  return `${address.slice(0, lead)}…${suffix}`
 }
 
 const DEMO_ADDRESS = 'GBQHWXVZ2K4M6N8P3R5T7W9YA2C4E6G8J3L5Q7S9U2X4Z6B8D1F3H59XQ'
