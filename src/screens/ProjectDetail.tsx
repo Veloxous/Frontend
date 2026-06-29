@@ -1,8 +1,11 @@
-import { type CSSProperties } from 'react'
+import { type CSSProperties, type ReactNode } from 'react'
+import { useTranslations } from 'next-intl'
 import { Badge, Button, ScoreGauge } from '../components'
 import { Sparkline } from '../components/Sparkline'
 import { type Project } from '../data'
 import { type ProjectDetail as ProjectDetailData } from '../data/projectDetails'
+
+const strong = (chunks: ReactNode) => <b style={{ color: 'var(--ink)' }}>{chunks}</b>
 
 /**
  * ProjectDetail — the full story of one project the pool funds. Hero, the
@@ -18,6 +21,7 @@ export interface ProjectDetailProps {
 }
 
 export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDetailProps) {
+  const t = useTranslations('ProjectDetail')
   return (
     <main style={{ maxWidth: 860, margin: '0 auto', padding: '40px 24px 96px' }}>
       {onBack && (
@@ -37,7 +41,7 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
             color: 'var(--ink-60)',
           }}
         >
-          <span aria-hidden="true">←</span> Back to projects
+          {t('backToProjects')}
         </button>
       )}
 
@@ -57,7 +61,7 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
         {/* Creator verification, top area */}
         <div style={{ position: 'absolute', top: 16, left: 16, right: 16, display: 'flex', justifyContent: 'flex-start' }}>
           <Badge tone="growth" icon={<ShieldCheckIcon />}>
-            Verified creator · since {detail.creator.since}
+            {t('verifiedCreator', { since: detail.creator.since })}
           </Badge>
         </div>
 
@@ -108,7 +112,7 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
       {/* Creator line + story */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: 'var(--font-body)', fontSize: 13.5, color: 'var(--ink-60)', marginBottom: 10 }}>
-          Built by <b style={{ color: 'var(--ink)' }}>{detail.creator.name}</b>
+          {t.rich('builtBy', { name: detail.creator.name, b: strong })}
         </div>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, lineHeight: 1.6, color: 'var(--ink-60)', margin: 0, maxWidth: 640 }}>
           {detail.story}
@@ -117,26 +121,26 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
 
       {/* Two large sun-arc scores with history */}
       <section style={{ marginBottom: 40 }}>
-        <h2 style={sectionTitle}>Oracle-verified scores</h2>
+        <h2 style={sectionTitle}>{t('scoresTitle')}</h2>
         <div className="hb-detail-scores" style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
           <ScoreColumn
             value={project.credit}
-            label="Credit quality"
+            label={t('creditLabel')}
             history={detail.scoreHistory.credit.map((p) => p.value)}
-            sparkLabel="Credit score over time"
+            sparkLabel={t('creditSparkLabel')}
           />
           <ScoreColumn
             value={project.green}
-            label="Green impact"
+            label={t('greenLabel')}
             history={detail.scoreHistory.green.map((p) => p.value)}
-            sparkLabel="Green score over time"
+            sparkLabel={t('greenSparkLabel')}
           />
         </div>
       </section>
 
       {/* Funding timeline */}
       <section style={{ marginBottom: 40 }}>
-        <h2 style={sectionTitle}>Funding timeline</h2>
+        <h2 style={sectionTitle}>{t('fundingTitle')}</h2>
         <div style={cardStyle}>
           {detail.fundingTimeline.map((event, i) => (
             <div
@@ -181,12 +185,10 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
 
       {/* This project's contribution + how it's calculated */}
       <section style={{ marginBottom: 40 }}>
-        <h2 style={sectionTitle}>This project&rsquo;s contribution</h2>
+        <h2 style={sectionTitle}>{t('contributionTitle')}</h2>
         <div style={cardStyle}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-60)', margin: '0 0 14px' }}>
-            Your return is shaped by every project the pool backs. This one carries a credit quality of{' '}
-            <b style={{ color: 'var(--ink)' }}>{project.credit}</b> and a green impact of{' '}
-            <b style={{ color: 'var(--ink)' }}>{project.green}</b>, both refreshed on-chain by the oracle.
+            {t.rich('contributionBody', { credit: project.credit, green: project.green, b: strong })}
           </p>
           <details style={{ borderTop: '1px solid var(--ink-12)', paddingTop: 14 }}>
             <summary
@@ -199,7 +201,7 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
                 color: 'var(--ink)',
               }}
             >
-              How is this calculated?
+              {t('formulaToggle')}
             </summary>
             <p
               style={{
@@ -213,7 +215,7 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
                 margin: '12px 0 0',
               }}
             >
-              expected return = investment × (credit + green) ÷ 200 — read it in the contract ↗
+              {t('formulaBody')}
             </p>
           </details>
         </div>
@@ -222,10 +224,10 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
       {/* Primary CTA — honest pooled framing */}
       <section style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <Button variant="primary" size="lg" onClick={onInvest} style={{ width: '100%' }}>
-          Invest in the pool that funds this
+          {t('investCta')}
         </Button>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ink-60)', textAlign: 'center', margin: 0 }}>
-          You invest in the shared pool, which funds this project alongside others — not a per-project checkout.
+          {t('investNote')}
         </p>
         {onBack && (
           <div style={{ textAlign: 'center' }}>
@@ -244,7 +246,7 @@ export function ProjectDetail({ project, detail, onInvest, onBack }: ProjectDeta
                 color: 'var(--ink-60)',
               }}
             >
-              <span aria-hidden="true">←</span> Back to projects
+              {t('backToProjects')}
             </button>
           </div>
         )}
@@ -264,6 +266,7 @@ function ScoreColumn({
   history: number[]
   sparkLabel: string
 }) {
+  const t = useTranslations('ProjectDetail')
   return (
     <div
       style={{
@@ -283,10 +286,10 @@ function ScoreColumn({
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
         <Sparkline points={history} aria-label={sparkLabel} />
         <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--ink-40)', whiteSpace: 'nowrap' }}>
-          every oracle update is on-chain ↗
+          {t('oracleUpdate')}
         </span>
         <span style={{ fontFamily: 'var(--font-data)', fontSize: 11, color: 'var(--ink-40)', whiteSpace: 'nowrap' }}>
-          verified 2h ago ↗
+          {t('verifiedAgo', { time: '2h' })}
         </span>
       </div>
     </div>

@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "description": "Heliobond — sunlight made financial. Investor app for a green-bond pool on Stellar.",
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +13,15 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:ui": "vitest --ui",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "lint": "tsc --noEmit",
+    "format": "echo 'No formatter configured yet; install one and update lint-staged'",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "bun run typecheck"
+    ]
   },
   "dependencies": {
     "@creit.tech/stellar-wallets-kit": "^2.3.0",
@@ -34,7 +45,9 @@
     "@types/three": "^0.184.1",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/ui": "^2.1.0",
+    "husky": "^9.1.7",
     "jsdom": "^24.0.0",
+    "lint-staged": "^15.5.2",
     "typescript": "^6.0.3",
     "vitest": "^2.1.0"
   }
