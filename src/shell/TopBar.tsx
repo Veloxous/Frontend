@@ -133,6 +133,8 @@ export function TopBar() {
 
       <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
         <span
+          role="status"
+          aria-label={t('networkStatus')}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -143,6 +145,7 @@ export function TopBar() {
           }}
         >
           <span
+            aria-hidden="true"
             style={{
               width: 8,
               height: 8,
