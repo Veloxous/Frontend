@@ -49,12 +49,6 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
     setSubmitted(true)
   }
 
-  const typeLabel = (type: ProjectType): string => {
-    const key = `type${type}` as const
-    const label = t(key)
-    return label !== key ? label : type
-  }
-
   return (
     <div
       style={{
