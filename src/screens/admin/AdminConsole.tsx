@@ -292,12 +292,12 @@ function formatMoney(n: number): string {
   return n.toLocaleString('en-US', { maximumFractionDigits: 0 })
 }
 
-function parseFundedNum(s: string): number {
+export function parseFundedNum(s: string): number {
   const n = Number(s.replace(/[^0-9.]/g, ''))
   return Number.isFinite(n) ? n : 0
 }
 
-function formatFunded(n: number): string {
+export function formatFunded(n: number): string {
   return `$${n.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
 }
 
