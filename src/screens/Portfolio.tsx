@@ -2,7 +2,7 @@
 
 import { type CSSProperties, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button, StatBlock, LiquidityMeter } from '../components'
+import { Button, StatBlock, LiquidityMeter, Card } from '../components'
 import { Helio } from '../brand/Helio'
 import { HB_DATA } from '../data'
 
@@ -59,13 +59,13 @@ export function Portfolio({ onWithdraw, onDeposit }: PortfolioProps) {
 
       {/* three always-visible figures */}
       <div className="hb-figures-grid" style={{ margin: '28px 0' }}>
-        <Card>
+        <Card style={{ padding: 22 }}>
           <StatBlock label={t('hbsHeld')} value="24,041" decimals=".2310" size="md" />
         </Card>
-        <Card>
+        <Card style={{ padding: 22 }}>
           <StatBlock label={t('poolShare')} value="0.49" unit="%" size="md" />
         </Card>
-        <Card>
+        <Card style={{ padding: 22 }}>
           <LiquidityMeter liquid={236} total={482} currency="$" showExplanation={false} />
           <p
             style={{
@@ -82,7 +82,7 @@ export function Portfolio({ onWithdraw, onDeposit }: PortfolioProps) {
 
       <div className="hb-portfolio-grid">
         {/* Impact */}
-        <Card>
+        <Card style={{ padding: 22 }}>
           <h3 style={cardTitle}>{t('impactTitle')}</h3>
           <p
             style={{
@@ -104,7 +104,7 @@ export function Portfolio({ onWithdraw, onDeposit }: PortfolioProps) {
         </Card>
 
         {/* Activity */}
-        <Card>
+        <Card style={{ padding: 22 }}>
           <div
             style={{
               display: 'flex',
@@ -166,22 +166,6 @@ export function Portfolio({ onWithdraw, onDeposit }: PortfolioProps) {
         </Card>
       </div>
     </main>
-  )
-}
-
-function Card({ children }: { children: ReactNode }) {
-  return (
-    <div
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--ink-12)',
-        borderRadius: 'var(--radius-card)',
-        padding: 22,
-        boxShadow: 'var(--shadow-sm)',
-      }}
-    >
-      {children}
-    </div>
   )
 }
 

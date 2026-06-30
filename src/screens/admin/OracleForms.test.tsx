@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { screen, fireEvent } from '@testing-library/react'
+import { render } from '@/test/render'
 import { describe, it, expect, vi } from 'vitest'
 import { OracleForms } from './OracleForms'
 import { type RegistryEntry } from '@/data/admin'
@@ -16,24 +17,25 @@ const mockProjects: RegistryEntry[] = [
   },
 ]
 
-vi.mock('@/components', () => ({
-  Button: ({
-    children,
-    disabled,
-    onClick,
-  }: {
-    children: React.ReactNode
-    disabled?: boolean
-    onClick?: () => void
-    reason?: string
-    size?: string
-    variant?: string
-  }) => (
-    <button disabled={disabled} onClick={onClick}>
-      {children}
-    </button>
-  ),
-}))
+vi.mock('@/components', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/components')>()
+  return {
+    ...actual,
+    Button: ({
+      children,
+      disabled,
+      onClick,
+    }: {
+      children: React.ReactNode
+      disabled?: boolean
+      onClick?: () => void
+    }) => (
+      <button disabled={disabled} onClick={onClick}>
+        {children}
+      </button>
+    ),
+  }
+})
 
 describe('OracleForms validation', () => {
   const noop = () => {}

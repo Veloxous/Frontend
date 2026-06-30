@@ -2,7 +2,7 @@
 
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button, Tag } from '@/components'
+import { Button, Tag, Card } from '@/components'
 import {
   PROJECT_TYPES,
   WHITELIST_CRITERIA,
@@ -62,9 +62,7 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <Card>
           <h3 style={cardTitle}>{t('lookForTitle')}</h3>
-          <p style={{ ...subtle, margin: '0 0 16px' }}>
-            {t('lookForSub')}
-          </p>
+          <p style={{ ...subtle, margin: '0 0 16px' }}>{t('lookForSub')}</p>
           <ul
             style={{
               listStyle: 'none',
@@ -86,7 +84,7 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
                     color: 'var(--ink)',
                   }}
                 >
-                  {t(`criteria${i}` as any)}
+                  {t(`criteria${i}` as Parameters<typeof t>[0])}
                 </span>
               </li>
             ))}
@@ -102,9 +100,7 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
       {/* Right — the form */}
       <Card>
         <h3 style={cardTitle}>{t('applyTitle')}</h3>
-        <p style={{ ...subtle, margin: '0 0 20px' }}>
-          {t('applySub')}
-        </p>
+        <p style={{ ...subtle, margin: '0 0 20px' }}>{t('applySub')}</p>
 
         <Field label={t('fieldOrg')} htmlFor="hb-org">
           <input
@@ -154,11 +150,7 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
             size="lg"
             onClick={handleSubmit}
             disabled={!canSubmit || submitted}
-            reason={
-              submitted
-                ? t('submitAppReasonDone')
-                : t('submitAppReason')
-            }
+            reason={submitted ? t('submitAppReasonDone') : t('submitAppReason')}
             style={{ width: '100%' }}
           >
             {submitted ? t('submitAppDone') : t('submitApp')}
@@ -166,7 +158,9 @@ export function CreatorApplication({ stage = 'submitted', onSubmit }: CreatorApp
           {submitted && (
             <p style={{ ...subtle, margin: '12px 0 0', textAlign: 'center' }}>
               {t.rich('submitAppThanks', {
-                b: (c: ReactNode) => <span style={{ color: 'var(--ink)', fontWeight: 600 }}>{c}</span>,
+                b: (c: ReactNode) => (
+                  <span style={{ color: 'var(--ink)', fontWeight: 600 }}>{c}</span>
+                ),
               })}
             </p>
           )}
@@ -187,8 +181,8 @@ function Stepper({ activeStage }: { activeStage: ApplicationStage }) {
     const hintKey = `step${id.charAt(0).toUpperCase() + id.slice(1)}Hint`
     return {
       id,
-      label: t(labelKey as any),
-      hint: t(hintKey as any),
+      label: t(labelKey as Parameters<typeof t>[0]),
+      hint: t(hintKey as Parameters<typeof t>[0]),
     }
   })
 
@@ -361,22 +355,6 @@ function Label({ htmlFor, children }: { htmlFor: string; children: ReactNode }) 
     >
       {children}
     </label>
-  )
-}
-
-function Card({ children }: { children: ReactNode }) {
-  return (
-    <div
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--ink-12)',
-        borderRadius: 'var(--radius-card)',
-        padding: 24,
-        boxShadow: 'var(--shadow-sm)',
-      }}
-    >
-      {children}
-    </div>
   )
 }
 

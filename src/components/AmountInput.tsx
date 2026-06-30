@@ -1,4 +1,4 @@
-import { type CSSProperties, type ReactNode, useRef } from 'react'
+import { type CSSProperties, type ReactNode, useState } from 'react'
 
 /**
  * Heliobond AmountInput — the heart of deposit & withdraw. Mono numerals, a
@@ -40,11 +40,15 @@ export function AmountInput({
 
   // Announce the cap message only once when overCap first becomes true,
   // not on every keystroke while already over cap (fixes #76).
-  const wasOverCap = useRef(false)
-  const liveMsg = overCap && !wasOverCap.current
-    ? (capMessage || `You can withdraw up to ${cap} ${currency} today, or any part of it.`)
-    : ''
-  wasOverCap.current = overCap
+  const [prevOverCap, setPrevOverCap] = useState(false)
+  const liveMsg =
+    overCap && !prevOverCap
+      ? capMessage || `You can withdraw up to ${cap} ${currency} today, or any part of it.`
+      : ''
+
+  if (overCap !== prevOverCap) {
+    setPrevOverCap(overCap)
+  }
 
   const set = (v: number) => onChange?.(String(v))
 
@@ -94,7 +98,7 @@ export function AmountInput({
           inputMode="decimal"
           placeholder="0.00"
           value={value}
-          onChange={(e) => onChange?.(e.target.value.replace(/[^0-9.]/g, ''))}
+          onChange={(e) => onChange?.(sanitizeAmount(e.target.value))}
           style={{
             flex: 1,
             minWidth: 0,
@@ -187,7 +191,14 @@ export function AmountInput({
         role="status"
         aria-live="polite"
         aria-atomic="true"
-        style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}
+        style={{
+          position: 'absolute',
+          width: 1,
+          height: 1,
+          overflow: 'hidden',
+          clip: 'rect(0,0,0,0)',
+          whiteSpace: 'nowrap',
+        }}
       >
         {liveMsg}
       </div>
@@ -220,4 +231,10 @@ const chipStyle: CSSProperties = {
   fontWeight: 600,
   fontSize: 13.5,
   color: 'var(--ink)',
+}
+
+export function sanitizeAmount(val: string): string {
+  const clean = val.replace(/[^0-9.]/g, '')
+  const parts = clean.split('.')
+  return parts.length > 1 ? parts[0] + '.' + parts.slice(1).join('') : clean
 }

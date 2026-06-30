@@ -5,8 +5,9 @@ import { render, fireEvent } from '@testing-library/react'
 describe('AmountInput', () => {
   describe('Input sanitization', () => {
     it('strips non-numeric characters except dots', () => {
+      let onChangeValue = ''
       const onChange = (value: string) => {
-        // Should remove letters, symbols, etc
+        onChangeValue = value
         expect(value).toMatch(/^[0-9.]*$/)
       }
 
@@ -14,56 +15,78 @@ describe('AmountInput', () => {
       const input = container.querySelector('input') as HTMLInputElement
 
       fireEvent.change(input, { target: { value: '123abc456' } })
-      expect(input.value).toBe('123456')
+      expect(onChangeValue).toBe('123456')
 
       fireEvent.change(input, { target: { value: '12.34$%^&' } })
-      expect(input.value).toBe('12.34')
+      expect(onChangeValue).toBe('12.34')
 
       fireEvent.change(input, { target: { value: '!@#$%^&*()' } })
-      expect(input.value).toBe('')
+      expect(onChangeValue).toBe('')
     })
 
     it('preserves dots for decimal numbers', () => {
-      const { container } = render(<AmountInput onChange={() => {}} />)
+      let onChangeValue = ''
+      const onChange = (value: string) => {
+        onChangeValue = value
+      }
+      const { container } = render(<AmountInput onChange={onChange} />)
       const input = container.querySelector('input') as HTMLInputElement
 
       fireEvent.change(input, { target: { value: '100.50' } })
-      expect(input.value).toBe('100.50')
+      expect(onChangeValue).toBe('100.50')
 
       fireEvent.change(input, { target: { value: '0.001' } })
-      expect(input.value).toBe('0.001')
+      expect(onChangeValue).toBe('0.001')
+    })
+
+    it('rejects multiple decimal points', () => {
+      let result = ''
+      const onChange = (value: string) => {
+        result = value
+      }
+
+      const { container } = render(<AmountInput onChange={onChange} />)
+      const input = container.querySelector('input') as HTMLInputElement
+
+      fireEvent.change(input, { target: { value: '1.2.3' } })
+      expect(result).toBe('1.23')
+
+      fireEvent.change(input, { target: { value: '1..2' } })
+      expect(result).toBe('1.2')
     })
   })
 
   describe('Cap behavior', () => {
     it('does not show alert when value is below cap', () => {
-      const { container, queryByRole } = render(
+      const { container, queryAllByText } = render(
         <AmountInput value="50" cap={100} capMessage="Limit reached" />,
       )
 
-      expect(queryByRole('alert')).not.toBeInTheDocument()
+      expect(queryAllByText('Limit reached').length).toBe(0)
       expect(container.querySelector('input[value="50"]')).toBeInTheDocument()
     })
 
     it('shows alert when value exceeds cap', () => {
-      const { queryByRole } = render(<AmountInput value="150" cap={100} capMessage="Over limit" />)
+      const { queryAllByText } = render(
+        <AmountInput value="150" cap={100} capMessage="Over limit" />,
+      )
 
-      const alert = queryByRole('alert')
-      expect(alert).toBeInTheDocument()
-      expect(alert?.textContent).toContain('Over limit')
+      expect(queryAllByText('Over limit').length).toBeGreaterThan(0)
     })
 
     it('shows alert with default message when cap is exceeded and no custom message', () => {
-      const { queryByRole } = render(<AmountInput value="200" cap={100} currency="USDC" />)
+      const { queryAllByText } = render(<AmountInput value="200" cap={100} currency="USDC" />)
 
-      const alert = queryByRole('alert')
-      expect(alert).toBeInTheDocument()
-      expect(alert?.textContent).toContain('You can withdraw up to 100 USDC today')
+      expect(
+        queryAllByText('You can withdraw up to 100 USDC today, or any part of it.').length,
+      ).toBeGreaterThan(0)
     })
 
     it('does not show alert when value equals cap', () => {
-      const { queryByRole } = render(<AmountInput value="100" cap={100} />)
-      expect(queryByRole('alert')).not.toBeInTheDocument()
+      const { queryAllByText } = render(
+        <AmountInput value="100" cap={100} capMessage="Limit reached" />,
+      )
+      expect(queryAllByText('Limit reached').length).toBe(0)
     })
 
     it('shows Max button when cap is provided', () => {
@@ -122,9 +145,9 @@ describe('AmountInput', () => {
     })
 
     it('does not display balance when not provided', () => {
-      const { container } = render(<AmountInput />)
+      const { queryByText } = render(<AmountInput balanceLabel="Available" />)
       // Balance label should not appear without balance prop
-      expect(container.querySelector('span')).toBeFalsy()
+      expect(queryByText(/Available/)).not.toBeInTheDocument()
     })
   })
 })
