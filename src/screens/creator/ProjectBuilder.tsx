@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type CSSProperties, type ReactNode } from 'react'
+import { useId, useState, type CSSProperties, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
 import { ProjectCard, Tag } from '@/components'
 import { PROJECT_TYPES, DRAFT_PROJECT, type ProjectType } from '@/data/creator'
@@ -169,7 +169,8 @@ export function ProjectBuilder() {
           credit={0}
           green={0}
           funded={goalLabel}
-          verifiedAgo={t('pendingVerified')}
+          fundedLabel={t('dashFunding')}
+          verifiedLabel={t('pendingVerified')}
         />
 
         <p style={{ ...subtle, margin: 0 }}>

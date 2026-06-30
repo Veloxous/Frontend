@@ -57,46 +57,45 @@ describe('AmountInput', () => {
   })
 
   describe('Cap behavior', () => {
-    it('does not show alert when value is below cap', () => {
-      const { container, queryAllByText } = render(
+    it('does not show cap notice when value is below cap', () => {
+      const { container, queryByText } = render(
         <AmountInput value="50" cap={100} capMessage="Limit reached" />,
       )
 
-      expect(queryAllByText('Limit reached').length).toBe(0)
+      expect(queryByText('Limit reached')).not.toBeInTheDocument()
       expect(container.querySelector('input[value="50"]')).toBeInTheDocument()
     })
 
-    it('shows alert when value exceeds cap', () => {
-      const { queryAllByText } = render(
-        <AmountInput value="150" cap={100} capMessage="Over limit" />,
-      )
-
-      expect(queryAllByText('Over limit').length).toBeGreaterThan(0)
+    it('shows cap notice when value exceeds cap', () => {
+      const { getAllByText } = render(<AmountInput value="150" cap={100} capMessage="Over limit" />)
+      expect(getAllByText('Over limit').length).toBeGreaterThan(0)
     })
 
-    it('shows alert with default message when cap is exceeded and no custom message', () => {
-      const { queryAllByText } = render(<AmountInput value="200" cap={100} currency="USDC" />)
-
-      expect(
-        queryAllByText('You can withdraw up to 100 USDC today, or any part of it.').length,
-      ).toBeGreaterThan(0)
+    it('shows no default cap message when cap is exceeded and no custom message', () => {
+      const { queryByText } = render(<AmountInput value="200" cap={100} currency="USDC" />)
+      expect(queryByText(/You can withdraw up to/i)).not.toBeInTheDocument()
     })
 
-    it('does not show alert when value equals cap', () => {
-      const { queryAllByText } = render(
-        <AmountInput value="100" cap={100} capMessage="Limit reached" />,
-      )
-      expect(queryAllByText('Limit reached').length).toBe(0)
+    it('does not show cap notice when value equals cap', () => {
+      const { queryByText } = render(<AmountInput value="100" cap={100} capMessage="Over limit" />)
+      expect(queryByText('Over limit')).not.toBeInTheDocument()
     })
 
-    it('shows Max button when cap is provided', () => {
-      const { getByRole } = render(<AmountInput cap={100} />)
+    it('shows Max button when cap and localized label are provided', () => {
+      const { getByRole } = render(<AmountInput cap={100} maxChipLabel="Máximo" />)
       expect(getByRole('button', { name: /max/i })).toBeInTheDocument()
     })
 
-    it('does not show Max button when cap is not provided', () => {
+    it('does not show Max button when maxChipLabel is missing', () => {
       const { queryByRole } = render(<AmountInput />)
       expect(queryByRole('button', { name: /max/i })).not.toBeInTheDocument()
+    })
+
+    it('renders localized over-cap action when provided', () => {
+      const { getByRole } = render(
+        <AmountInput value="150" cap={100} capMessage="Over limit" capActionLabel="Retirer le maximum disponible" />,
+      )
+      expect(getByRole('button', { name: 'Retirer le maximum disponible' })).toBeInTheDocument()
     })
 
     it('applies border color change when over cap', () => {

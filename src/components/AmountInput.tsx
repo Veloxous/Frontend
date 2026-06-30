@@ -15,6 +15,8 @@ export interface AmountInputProps {
   chips?: number[]
   cap?: number
   capMessage?: string
+  maxChipLabel?: string
+  capActionLabel?: string
   preview?: ReactNode
   label?: string
   id?: string
@@ -25,30 +27,27 @@ export function AmountInput({
   value = '',
   onChange,
   currency = 'USDC',
-  balanceLabel = 'Balance',
+  balanceLabel = '',
   balance,
   chips = [25, 50, 100],
   cap,
   capMessage,
+  maxChipLabel,
+  capActionLabel,
   preview,
-  label = 'Amount',
+  label = '',
   id = 'hb-amount',
   style,
 }: AmountInputProps) {
   const num = parseFloat(value)
   const overCap = cap != null && !isNaN(num) && num > cap
+  const showCapNotice = overCap && (Boolean(capMessage) || Boolean(capActionLabel))
 
   // Announce the cap message only once when overCap first becomes true,
   // not on every keystroke while already over cap (fixes #76).
-  const [prevOverCap, setPrevOverCap] = useState(false)
-  const liveMsg =
-    overCap && !prevOverCap
-      ? capMessage || `You can withdraw up to ${cap} ${currency} today, or any part of it.`
-      : ''
-
-  if (overCap !== prevOverCap) {
-    setPrevOverCap(overCap)
-  }
+  const wasOverCap = useRef(false)
+  const liveMsg = overCap && !wasOverCap.current ? (capMessage ?? '') : ''
+  wasOverCap.current = overCap
 
   const set = (v: number) => onChange?.(String(v))
 
@@ -130,19 +129,19 @@ export function AmountInput({
             {c}
           </button>
         ))}
-        {cap != null && (
+        {cap != null && maxChipLabel && (
           <button
             key="max"
             type="button"
             onClick={() => set(cap)}
             style={{ ...chipStyle, borderColor: 'var(--ink)' }}
           >
-            Max
+            {maxChipLabel}
           </button>
         )}
       </div>
 
-      {overCap && (
+      {showCapNotice && (
         <div
           style={{
             marginTop: 12,
@@ -153,36 +152,40 @@ export function AmountInput({
           }}
           role="status"
         >
-          <p
-            style={{
-              margin: 0,
-              fontFamily: 'var(--font-body)',
-              fontSize: 13,
-              lineHeight: 1.5,
-              color: 'var(--ink)',
-            }}
-          >
-            {capMessage || `You can withdraw up to ${cap} ${currency} today, or any part of it.`}
-          </p>
-          <button
-            type="button"
-            onClick={() => cap != null && set(cap)}
-            style={{
-              marginTop: 8,
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer',
-              fontFamily: 'var(--font-body)',
-              fontWeight: 600,
-              fontSize: 13,
-              color: 'var(--ink)',
-              textDecoration: 'underline',
-              textUnderlineOffset: '0.2em',
-            }}
-          >
-            Withdraw max available
-          </button>
+          {capMessage && (
+            <p
+              style={{
+                margin: 0,
+                fontFamily: 'var(--font-body)',
+                fontSize: 13,
+                lineHeight: 1.5,
+                color: 'var(--ink)',
+              }}
+            >
+              {capMessage}
+            </p>
+          )}
+          {capActionLabel && (
+            <button
+              type="button"
+              onClick={() => cap != null && set(cap)}
+              style={{
+                marginTop: capMessage ? 8 : 0,
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                fontFamily: 'var(--font-body)',
+                fontWeight: 600,
+                fontSize: 13,
+                color: 'var(--ink)',
+                textDecoration: 'underline',
+                textUnderlineOffset: '0.2em',
+              }}
+            >
+              {capActionLabel}
+            </button>
+          )}
         </div>
       )}
 

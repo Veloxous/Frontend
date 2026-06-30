@@ -79,12 +79,15 @@ export function Withdraw({ onDone, onBack }: WithdrawProps) {
           <AmountInput
             value={amount}
             onChange={setAmount}
+            label={t('amountLabel')}
             currency="USDC"
             balanceLabel={t('yourValue')}
             balance="482.00"
             chips={[25, 50, 100]}
             cap={liquid}
             capMessage={t('capMessage', { cap: liquid })}
+            maxChipLabel={t('maxChip')}
+            capActionLabel={t('withdrawMaxAvailable')}
           />
           <Button
             variant="primary"
