@@ -1,7 +1,8 @@
 'use client'
 
-import { useId, useState, type CSSProperties, type ReactNode } from 'react'
-import { ProjectCard, Tag, Card } from '@/components'
+import { useState, type CSSProperties, type ReactNode } from 'react'
+import { useTranslations } from 'next-intl'
+import { ProjectCard, Tag } from '@/components'
 import { PROJECT_TYPES, DRAFT_PROJECT, type ProjectType } from '@/data/creator'
 
 /**
@@ -11,6 +12,7 @@ import { PROJECT_TYPES, DRAFT_PROJECT, type ProjectType } from '@/data/creator'
  * oracle verifies, so the preview never implies a number we have not earned yet.
  */
 export function ProjectBuilder() {
+  const t = useTranslations('Creator')
   const [name, setName] = useState(DRAFT_PROJECT.name)
   const [location, setLocation] = useState(DRAFT_PROJECT.location)
   const [type, setType] = useState<ProjectType>(DRAFT_PROJECT.type)
@@ -18,8 +20,13 @@ export function ProjectBuilder() {
   const [fundingGoal, setFundingGoal] = useState(String(DRAFT_PROJECT.fundingGoal))
 
   const goalNumber = Number(fundingGoal.replace(/[^0-9.]/g, '')) || 0
-  const goalLabel =
-    goalNumber > 0 ? `$0 of $${goalNumber.toLocaleString('en-US')}` : 'awaiting funding'
+
+  const getGoalLabel = (): string => {
+    if (goalNumber <= 0) return t('awaitingFunding')
+    return t('fundingLabel', { goal: goalNumber.toLocaleString('en-US') })
+  }
+
+  const goalLabel = getGoalLabel()
 
   return (
     <div
@@ -32,12 +39,12 @@ export function ProjectBuilder() {
     >
       {/* Left — the form */}
       <Card>
-        <h3 style={cardTitle}>Project details</h3>
+        <h3 style={cardTitle}>{t('builderTitle')}</h3>
         <p style={{ ...subtle, margin: '0 0 20px' }}>
-          This metadata lives off-chain and links to your on-chain registry entry.
+          {t('builderSub')}
         </p>
 
-        <Field label="Project name" htmlFor="hb-name">
+        <Field label={t('fieldName')} htmlFor="hb-name">
           <input
             id="hb-name"
             type="text"
@@ -47,7 +54,7 @@ export function ProjectBuilder() {
           />
         </Field>
 
-        <Field label="Location" htmlFor="hb-bloc">
+        <Field label={t('fieldLocation')} htmlFor="hb-bloc">
           <input
             id="hb-bloc"
             type="text"
@@ -58,17 +65,21 @@ export function ProjectBuilder() {
         </Field>
 
         <div style={{ marginBottom: 18 }}>
-          <Label>Project type</Label>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {PROJECT_TYPES.map((t) => (
-              <Tag key={t} selected={type === t} onClick={() => setType(t)}>
-                {t}
+          <Label>{t('fieldProjectType')}</Label>
+          <div
+            style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}
+            role="radiogroup"
+            aria-label={t('fieldProjectType')}
+          >
+            {PROJECT_TYPES.map((pt) => (
+              <Tag key={pt} selected={type === pt} onClick={() => setType(pt)}>
+                {t(`type${pt}` as any)}
               </Tag>
             ))}
           </div>
         </div>
 
-        <Field label="Project story" htmlFor="hb-story">
+        <Field label={t('fieldStory')} htmlFor="hb-story">
           <textarea
             id="hb-story"
             value={story}
@@ -84,7 +95,7 @@ export function ProjectBuilder() {
           />
         </Field>
 
-        <Field label="Funding goal" htmlFor="hb-goal">
+        <Field label={t('fieldGoal')} htmlFor="hb-goal">
           <div style={{ position: 'relative' }}>
             <span
               style={{
@@ -115,14 +126,10 @@ export function ProjectBuilder() {
           </div>
         </Field>
 
-        <Label>Media and documents</Label>
+        <Label>{t('fieldMediaDocs')}</Label>
         <div style={{ display: 'grid', gap: 12, gridTemplateColumns: '1fr 1fr' }}>
-          <DropZone
-            label="Cover photo"
-            hint="PNG or JPG, shown on your card"
-            accept="image/png,image/jpeg"
-          />
-          <DropZone label="Verification docs" hint="Permits, PPAs, metering plan" multiple />
+          <DropZone label={t('dropCover')} hint={t('dropCoverHint')} />
+          <DropZone label={t('dropDocs')} hint={t('dropDocsHint')} />
         </div>
       </Card>
 
@@ -149,10 +156,10 @@ export function ProjectBuilder() {
               color: 'var(--ink)',
             }}
           >
-            Live preview
+            {t('previewLabel')}
           </span>
           <span style={{ fontFamily: 'var(--font-body)', fontSize: 12.5, color: 'var(--ink-60)' }}>
-            — updates as you type
+            {t('previewSub')}
           </span>
         </div>
 
@@ -162,12 +169,11 @@ export function ProjectBuilder() {
           credit={0}
           green={0}
           funded={goalLabel}
-          verifiedAgo="pending"
+          verifiedAgo={t('pendingVerified')}
         />
 
         <p style={{ ...subtle, margin: 0 }}>
-          Credit and green scores show as pending until the oracle verifies your project. The{' '}
-          {type.toLowerCase()} type and your story travel with this card across the atlas.
+          {t('previewPending', { type: type })}
         </p>
       </div>
     </div>
