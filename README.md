@@ -27,7 +27,7 @@ accent, Cabinet Grotesk / Hanken Grotesk / Spline Sans Mono type.
 - **three + @react-three/fiber + @react-three/drei** — the live Helio (WebGL/R3F).
 - **next-intl** — EN/FR with cookie-based locale (no `[locale]` URL segment).
 - Design tokens are plain CSS custom properties (verbatim from the handoff);
-  components reference them via `var(--token)`, so light/dark is a pure token swap.
+  components reference them via `var(--token)`, so light/dark is a pure token swap. See the [Design Tokens & Brand Guide](src/styles/tokens/README.md) for details.
 
 ## Run
 

@@ -6,7 +6,7 @@
     "creator": "Créateurs",
     "connect": "Se connecter",
     "testnet": "Testnet (actif)",
-    "networkStatus": "Réseau\u00a0: Testnet actif",
+    "networkStatus": "Réseau : Testnet actif",
     "portfolio": "Votre portefeuille",
     "switchToDark": "Passer en sombre",
     "switchToLight": "Passer en clair",
@@ -231,6 +231,8 @@
     "actionSave": "Enregistrer"
   },
   "Creator": {
+    "title": "Espace créateur",
+    "description": "Postulez à la liste blanche, construisez votre page de projet et regardez le pool le financer. L'oracle note votre qualité de crédit et votre impact vert, et nous vous montrons exactement ce qui les fait évoluer.",
     "h1": "Espace créateur",
     "subtitle": "Postulez à la liste blanche, construisez votre page de projet et regardez le pool le financer. L'oracle note votre qualité de crédit et votre impact vert, et nous vous montrons exactement ce qui les fait évoluer.",
     "tabApply": "Postuler",

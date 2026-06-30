@@ -25,7 +25,7 @@ describe('Vault math functions', () => {
       const usdc = 1_000_000
       const shares = vault.convertToShares(usdc)
       expect(shares).toBe(usdc / SHARE_PRICE)
-      expect(shares).toBeGreaterThan(usdc)
+      expect(shares).toBeLessThan(usdc)
     })
 
     it('returns expected result for common amounts', () => {

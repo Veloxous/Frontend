@@ -1,4 +1,4 @@
-import { type CSSProperties, type ReactNode, useRef } from 'react'
+import { type CSSProperties, type ReactNode, useState } from 'react'
 
 /**
  * Heliobond AmountInput — the heart of deposit & withdraw. Mono numerals, a
@@ -97,7 +97,7 @@ export function AmountInput({
           inputMode="decimal"
           placeholder="0.00"
           value={value}
-          onChange={(e) => onChange?.(e.target.value.replace(/[^0-9.]/g, ''))}
+          onChange={(e) => onChange?.(sanitizeAmount(e.target.value))}
           style={{
             flex: 1,
             minWidth: 0,
@@ -106,7 +106,7 @@ export function AmountInput({
             background: 'transparent',
             fontFamily: 'var(--font-data)',
             fontWeight: 600,
-            fontSize: 30,
+            fontSize: 'var(--type-data-display)',
             color: 'var(--ink)',
             fontFeatureSettings: '"tnum" 1',
           }}
@@ -194,7 +194,14 @@ export function AmountInput({
         role="status"
         aria-live="polite"
         aria-atomic="true"
-        style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}
+        style={{
+          position: 'absolute',
+          width: 1,
+          height: 1,
+          overflow: 'hidden',
+          clip: 'rect(0,0,0,0)',
+          whiteSpace: 'nowrap',
+        }}
       >
         {liveMsg}
       </div>
@@ -227,4 +234,10 @@ const chipStyle: CSSProperties = {
   fontWeight: 600,
   fontSize: 13.5,
   color: 'var(--ink)',
+}
+
+export function sanitizeAmount(val: string): string {
+  const clean = val.replace(/[^0-9.]/g, '')
+  const parts = clean.split('.')
+  return parts.length > 1 ? parts[0] + '.' + parts.slice(1).join('') : clean
 }

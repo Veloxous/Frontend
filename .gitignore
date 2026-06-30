@@ -5,6 +5,7 @@ node_modules
 /.next/
 /out/
 next-env.d.ts
+npm_cache_temp
 
 # typescript incremental build caches
 *.tsbuildinfo

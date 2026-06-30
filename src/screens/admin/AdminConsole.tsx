@@ -30,9 +30,7 @@ export function AdminConsole() {
   const [deployed, setDeployed] = useState(VAULT_STATS.deployed)
   const [toast, setToast] = useState<ToastState | null>(null)
 
-  // The vault funds more projects than the 6 demo registry rows; show the pool's
-  // own count so it agrees with the deployed-capital figure beside it.
-  const fundedCount = VAULT_STATS.projectsFunded
+  const fundedCount = registry.filter((r) => parseFundedNum(r.funded) > 0).length
 
   const updateScores = (id: number, credit: number, green: number) => {
     setRegistry((rows) =>
@@ -106,9 +104,7 @@ export function AdminConsole() {
           >
             {t('h1')}
           </h1>
-          <p style={{ ...subtext, marginTop: 6 }}>
-            {t('subtitle')}
-          </p>
+          <p style={{ ...subtext, marginTop: 6 }}>{t('subtitle')}</p>
         </div>
         <Badge tone="testnet">{t('badgeInternal')}</Badge>
       </header>
@@ -117,7 +113,11 @@ export function AdminConsole() {
       <section style={{ ...sectionCard, padding: 0, marginBottom: 20 }}>
         <div style={statRow}>
           <StatCell label={t('statTotalAssets')} value={`$${formatMoney(totalAssets)}`} />
-          <StatCell label={t('statSharePrice')} value={VAULT_STATS.sharePrice.toFixed(4)} unit="USDC/HBS" />
+          <StatCell
+            label={t('statSharePrice')}
+            value={VAULT_STATS.sharePrice.toFixed(4)}
+            unit="USDC/HBS"
+          />
           <StatCell label={t('statHbsSupply')} value={formatMoney(VAULT_STATS.hbsSupply)} />
           <StatCell label={t('statLiquid')} value={`$${formatMoney(liquid)}`} />
           <StatCell label={t('statDeployed')} value={`$${formatMoney(deployed)}`} />
@@ -126,10 +126,7 @@ export function AdminConsole() {
       </section>
 
       {/* Project registry table */}
-      <Section
-        title={t('sectionRegistry')}
-        caption={t('sectionRegistryCaption')}
-      >
+      <Section title={t('sectionRegistry')} caption={t('sectionRegistryCaption')}>
         <RegistryTable rows={registry} onSave={updateScores} />
       </Section>
 
@@ -144,10 +141,7 @@ export function AdminConsole() {
       </Section>
 
       {/* Whitelist management */}
-      <Section
-        title={t('sectionWhitelist')}
-        caption={t('sectionWhitelistCaption')}
-      >
+      <Section title={t('sectionWhitelist')} caption={t('sectionWhitelistCaption')}>
         <div>
           {whitelist.map((c, i) => (
             <div
@@ -294,12 +288,12 @@ function formatMoney(n: number): string {
   return n.toLocaleString('en-US', { maximumFractionDigits: 0 })
 }
 
-function parseFundedNum(s: string): number {
+export function parseFundedNum(s: string): number {
   const n = Number(s.replace(/[^0-9.]/g, ''))
   return Number.isFinite(n) ? n : 0
 }
 
-function formatFunded(n: number): string {
+export function formatFunded(n: number): string {
   return `$${n.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
 }
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { type CSSProperties, type ReactNode } from 'react'
+import { useTranslations } from 'next-intl'
 import { StatBlock, ScoreGauge, Badge } from '@/components'
 import {
   CREATOR_DASHBOARD,
@@ -19,6 +20,7 @@ export interface CreatorDashboardProps {
 }
 
 export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardProps) {
+  const t = useTranslations('Creator')
   const fundedPct =
     data.fundingGoal > 0 ? Math.round((data.fundingReceived / data.fundingGoal) * 100) : 0
 
@@ -52,11 +54,7 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
         }}
       >
         <Card>
-          <StatBlock
-            label="Funding received from the pool"
-            value={`$${data.fundingReceived.toLocaleString('en-US')}`}
-            size="lg"
-          />
+          <StatBlock label={t('dashFunding')} value={`$${data.fundingReceived.toLocaleString('en-US')}`} size="lg" />
           <div style={{ marginTop: 16 }}>
             <div
               style={{
@@ -88,12 +86,12 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
               >
                 {fundedPct}%
               </span>{' '}
-              of your ${data.fundingGoal.toLocaleString('en-US')} goal deployed.
+              {t('dashGoalDeployed', { pct: fundedPct, goal: data.fundingGoal.toLocaleString('en-US') })}
             </div>
           </div>
         </Card>
 
-        <Card>
+        <Card style={{ padding: 22, height: '100%', boxSizing: 'border-box' }}>
           <div
             style={{
               display: 'flex',
@@ -102,21 +100,21 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
               marginBottom: 12,
             }}
           >
-            <h4 style={cardTitle}>Oracle scores</h4>
+            <h4 style={cardTitle}>{t('dashOracleScores')}</h4>
             <span
               style={{ fontFamily: 'var(--font-data)', fontSize: 11.5, color: 'var(--ink-40)' }}
             >
-              verified {data.verifiedAgo}
+              {t('dashVerified', { ago: data.verifiedAgo })}
             </span>
           </div>
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-              <ScoreGauge value={data.creditScore} label="Credit quality" size={96} stroke={8} />
-              <Sparkline series={data.creditHistory} label="Credit trend" />
+              <ScoreGauge value={data.creditScore} label={t('dashCreditLabel')} size={96} stroke={8} />
+              <Sparkline series={data.creditHistory} label={t('dashCreditTrend')} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-              <ScoreGauge value={data.greenScore} label="Green impact" size={96} stroke={8} />
-              <Sparkline series={data.greenHistory} label="Green trend" />
+              <ScoreGauge value={data.greenScore} label={t('dashGreenLabel')} size={96} stroke={8} />
+              <Sparkline series={data.greenHistory} label={t('dashGreenTrend')} />
             </div>
           </div>
         </Card>
@@ -132,10 +130,9 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
         }}
       >
         <Card>
-          <h4 style={cardTitle}>What the oracle evaluates</h4>
+          <h4 style={cardTitle}>{t('dashOracleEvalTitle')}</h4>
           <p style={{ ...subtle, margin: '0 0 16px' }}>
-            Your scores are not a black box. These are the factors the oracle weighs — improve them
-            and your scores follow.
+            {t('dashOracleEvalSub')}
           </p>
           <ul
             style={{
@@ -150,7 +147,7 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
             {data.oracleFactors.map((f) => (
               <li key={f.factor} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                 <Badge tone={f.metric === 'green' ? 'growth' : 'neutral'}>
-                  {f.metric === 'green' ? 'Green' : 'Credit'}
+                  {f.metric === 'green' ? t('dashMetricGreen') : t('dashMetricCredit')}
                 </Badge>
                 <div>
                   <div
@@ -180,7 +177,7 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
           </ul>
         </Card>
 
-        <Card>
+        <Card style={{ padding: 22, height: '100%', boxSizing: 'border-box' }}>
           <div
             style={{
               display: 'flex',
@@ -189,9 +186,9 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
               marginBottom: 8,
             }}
           >
-            <h4 style={cardTitle}>Recent oracle updates</h4>
+            <h4 style={cardTitle}>{t('dashUpdatesTitle')}</h4>
             <span style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--ink-40)' }}>
-              each → Stellar Expert
+              {t('dashUpdatesLink')}
             </span>
           </div>
           {data.recentUpdates.map((u, i) => (
@@ -203,9 +200,16 @@ export function CreatorDashboard({ data = CREATOR_DASHBOARD }: CreatorDashboardP
   )
 }
 
-function UpdateRow({ update, first }: { update: OracleUpdate; first: boolean }) {
+interface UpdateRowProps {
+  update: OracleUpdate
+  first: boolean
+}
+
+function UpdateRow({ update, first }: UpdateRowProps) {
+  const t = useTranslations('Creator')
   const up = update.to >= update.from
-  const metricLabel = update.metric === 'green' ? 'green' : 'credit'
+  const metricKey = update.metric === 'green' ? 'dashMetricGreenLabel' : 'dashMetricCreditLabel'
+  const metricLabel = t(metricKey)
   return (
     <div
       style={{
@@ -253,66 +257,6 @@ function UpdateRow({ update, first }: { update: OracleUpdate; first: boolean }) 
       >
         {update.tx} ↗
       </a>
-    </div>
-  )
-}
-
-/** A minimal, self-built inline SVG sparkline — no external component. */
-function Sparkline({ series, label }: { series: readonly number[]; label: string }) {
-  const w = 96
-  const h = 26
-  const pad = 2
-  if (series.length < 2) return null
-  const min = Math.min(...series)
-  const max = Math.max(...series)
-  const span = max - min || 1
-  const step = (w - pad * 2) / (series.length - 1)
-  const points = series.map((v, i) => {
-    const x = pad + i * step
-    const y = pad + (h - pad * 2) * (1 - (v - min) / span)
-    return [x, y] as const
-  })
-  const d = points
-    .map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`)
-    .join(' ')
-  const last = points[points.length - 1]
-  return (
-    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} role="img" aria-label={label}>
-      <path
-        d={d}
-        fill="none"
-        stroke="var(--ink)"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        opacity={0.55}
-      />
-      <circle
-        cx={last[0]}
-        cy={last[1]}
-        r={2.6}
-        fill="var(--solar)"
-        stroke="var(--ink)"
-        strokeWidth={1}
-      />
-    </svg>
-  )
-}
-
-function Card({ children }: { children: ReactNode }) {
-  return (
-    <div
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--ink-12)',
-        borderRadius: 'var(--radius-card)',
-        padding: 22,
-        boxShadow: 'var(--shadow-sm)',
-        height: '100%',
-        boxSizing: 'border-box',
-      }}
-    >
-      {children}
     </div>
   )
 }
