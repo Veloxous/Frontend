@@ -15,7 +15,9 @@ export interface ProjectCardProps {
   credit?: number
   green?: number
   funded?: string
+  fundedLabel?: string
   verifiedAgo?: string
+  verifiedLabel?: string
   onOpen?: () => void
   style?: CSSProperties
 }
@@ -27,11 +29,14 @@ export function ProjectCard({
   credit = 0,
   green = 0,
   funded,
-  verifiedAgo = '2h ago',
+  fundedLabel = '',
+  verifiedAgo,
+  verifiedLabel,
   onOpen,
   style,
 }: ProjectCardProps) {
   const [hover, setHover] = useState(false)
+  const resolvedVerifiedLabel = verifiedLabel ?? verifiedAgo
 
   return (
     <article
@@ -120,7 +125,7 @@ export function ProjectCard({
                 marginBottom: 2,
               }}
             >
-              Funded from the pool
+              {fundedLabel}
             </div>
             <div
               style={{
@@ -133,16 +138,18 @@ export function ProjectCard({
               {funded}
             </div>
           </div>
-          <span
-            style={{
-              fontFamily: 'var(--font-data)',
-              fontSize: 'var(--type-eyebrow)',
-              color: 'var(--ink-40)',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            verified {verifiedAgo} ↗
-          </span>
+          {resolvedVerifiedLabel && (
+            <span
+              style={{
+                fontFamily: 'var(--font-data)',
+                fontSize: 11.5,
+                color: 'var(--ink-40)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {resolvedVerifiedLabel} ↗
+            </span>
+          )}
         </div>
       </div>
     </article>

@@ -353,7 +353,13 @@ function ScoreColumn({
         padding: '24px 20px',
       }}
     >
-      <ScoreGauge value={value} label={label} size={140} stroke={11} />
+      <ScoreGauge
+        value={value}
+        label={label}
+        ariaValueLabel={t('scoreGaugeAria', { label, value, max: 100 })}
+        size={140}
+        stroke={11}
+      />
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
         <Sparkline points={history} aria-label={sparkLabel} />
         <span

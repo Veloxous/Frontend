@@ -2,7 +2,7 @@
 
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { useTranslations } from 'next-intl'
-import { Button, CheckBoldIcon, Tag } from '@/components'
+import { Button, Tag, Card } from '@/components'
 import {
   PROJECT_TYPES,
   WHITELIST_CRITERIA,
@@ -331,22 +331,6 @@ function Label({ htmlFor, children }: { htmlFor: string; children: ReactNode }) 
     >
       {children}
     </label>
-  )
-}
-
-function Card({ children }: { children: ReactNode }) {
-  return (
-    <div
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--ink-12)',
-        borderRadius: 'var(--radius-card)',
-        padding: 24,
-        boxShadow: 'var(--shadow-sm)',
-      }}
-    >
-      {children}
-    </div>
   )
 }
 

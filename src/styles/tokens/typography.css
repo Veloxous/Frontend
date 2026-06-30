@@ -27,31 +27,14 @@
   /* --- Fluid type scale ----------------------------------------------- */
   --type-display-xl: clamp(3.25rem, 7.5vw, 7.5rem); /* hero             */
   --type-display-m: clamp(2rem, 4vw, 3.5rem); /* section openers  */
-
-  /* --- Fixed type ladder ---------------------------------------------- *
-   * One ladder for every fixed font-size in the product. Components must
-   * reference these tokens, never a raw px/rem literal — off-scale values
-   * (e.g. 14.5, 12.5, 30) are snapped to the nearest rung here. Rungs are
-   * one (occasionally two) px apart at the small end where the UI is dense,
-   * and widen toward the display sizes.
-   * ------------------------------------------------------------------- */
-  --type-h1: 2rem; /* 32px · page / hero numerals          */
-  --type-h2: 1.75rem; /* 28px · big section figure            */
-  --type-h3: 1.5rem; /* 24px · section heading               */
-  --type-h3-sm: 1.375rem; /* 22px · compact heading               */
-  --type-h4: 1.25rem; /* 20px · card title                    */
-  --type-h5: 1.125rem; /* 18px · subheading / large input      */
-  --type-body-lg: 1.0625rem; /* 17px · lead body / emphasised figure */
-  --type-body: 1rem; /* 16px · body · never below 16px       */
-  --type-data: 0.9375rem; /* 15px · inline numbers                */
-  --type-small: 0.875rem; /* 14px · secondary text                */
-  --type-caption: 0.8125rem; /* 13px · captions                      */
-  --type-eyebrow: 0.75rem; /* 12px · small-caps eyebrow / meta     */
-  --type-fine: 0.6875rem; /* 11px · fine print                    */
-  --type-micro: 0.625rem; /* 10px · micro labels                  */
-
-  --type-data-xl: 2.5rem; /* 40px · hero stat figure              */
-  --type-data-l: 2.25rem; /* 36px · hero numbers                  */
+  --type-h3: 1.5rem;
+  --type-body: 1rem; /* never below 16px */
+  --type-small: 0.875rem;
+  --type-caption: 0.8125rem;
+  --type-eyebrow: 0.75rem; /* small-caps        */
+  --type-data-l: 2.25rem; /* hero numbers      */
+  --type-data-display: 1.875rem; /* amount input numeral */
+  --type-data: 0.9375rem; /* inline numbers    */
 
   /* --- Line heights --------------------------------------------------- */
   --leading-display-xl: 0.98;

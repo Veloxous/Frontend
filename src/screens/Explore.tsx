@@ -164,7 +164,8 @@ export function Explore({ onOpen }: ExploreProps) {
                   credit={p.credit}
                   green={p.green}
                   funded={p.funded}
-                  verifiedAgo="2h ago"
+                  fundedLabel={t('cardFundedFromPool')}
+                  verifiedLabel={t('cardVerifiedAgo', { ago: '2h' })}
                   onOpen={() => onOpen(p)}
                 />
               ))}

@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { Button, ChevronDownIcon, MoonIcon, SunIcon } from '../components'
+import { Button } from '../components'
 import { Mark } from '../brand/Mark'
 import { useLocaleSwitcher } from '../i18n/LocaleProvider'
 import { useWallet, shortAddress } from '../wallet/WalletProvider'
@@ -64,14 +64,46 @@ export function TopBar() {
     return () => observer.disconnect()
   }, [pathname])
 
+  const isDarkTheme = mounted && theme === 'dark'
+  const themeToggleLabel = isDarkTheme ? t('switchToLight') : t('switchToDark')
+
   return (
-    <header className="hb-topbar">
-      <Link href="/" aria-label="Heliobond — home" className="hb-topbar__home">
+    <header
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 200,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 28,
+        padding: '0 32px',
+        height: 68,
+        background: 'color-mix(in srgb, var(--canvas) 86%, transparent)',
+        backdropFilter: 'saturate(140%) blur(12px)',
+        WebkitBackdropFilter: 'saturate(140%) blur(12px)',
+        borderBottom: '1px solid var(--ink-12)',
+      }}
+    >
+      <Link
+        href="/"
+        aria-label="Heliobond — home"
+        style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
+      >
         <Mark />
-        <span className="hb-topbar__wordmark">heliobond</span>
+        <span
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontWeight: 700,
+            fontSize: 21,
+            letterSpacing: '-0.01em',
+            color: 'var(--ink)',
+          }}
+        >
+          heliobond
+        </span>
       </Link>
 
-      <nav className="hb-topbar-nav hb-topbar__nav">
+      <nav className="hb-topbar-nav" style={{ display: 'flex', gap: 4, marginLeft: 8 }}>
         {NAV.map(({ href, key }) => {
           const active = href.includes('#')
             ? pathname === '/' && activeHash === href.slice(href.indexOf('#'))
@@ -81,7 +113,15 @@ export function TopBar() {
               key={key}
               href={href}
               aria-current={active ? 'page' : undefined}
-              className="hb-topbar__nav-link"
+              style={{
+                textDecoration: 'none',
+                padding: '8px 14px',
+                borderRadius: 'var(--radius-pill)',
+                fontFamily: 'var(--font-body)',
+                fontSize: 14.5,
+                fontWeight: 500,
+                color: active ? 'var(--ink)' : 'var(--ink-60)',
+              }}
             >
               {t(key)}
             </Link>
@@ -89,28 +129,59 @@ export function TopBar() {
         })}
       </nav>
 
-      <div className="hb-topbar__actions">
-        <span role="status" aria-label={t('networkStatus')} className="hb-topbar__status">
-          <span aria-hidden="true" className="hb-topbar__status-dot" />
+      <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span
+          role="status"
+          aria-label={t('networkStatus')}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 7,
+            fontFamily: 'var(--font-data)',
+            fontSize: 12,
+            color: 'var(--ink-60)',
+          }}
+        >
+          <span
+            aria-hidden="true"
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: 'var(--growth)',
+              boxShadow: '0 0 0 3px var(--growth-12)',
+            }}
+          />
           {t('testnet')}
         </span>
 
         <button
+          type="button"
           onClick={toggle}
-          aria-label={mounted && theme === 'dark' ? t('switchToLight') : t('switchToDark')}
-          title={mounted && theme === 'dark' ? t('switchToLight') : t('switchToDark')}
-          className="hb-topbar__icon-btn"
+          aria-label={themeToggleLabel}
+          aria-pressed={mounted ? isDarkTheme : undefined}
+          title={themeToggleLabel}
+          style={iconBtnStyle}
         >
-          {mounted ? theme === 'dark' ? <SunIcon /> : <MoonIcon /> : null}
+          {mounted ? isDarkTheme ? <SunIcon /> : <MoonIcon /> : null}
         </button>
 
         <button
+          type="button"
           onClick={switchLocale}
           aria-label={t('language')}
-          className="hb-topbar__icon-btn hb-topbar__lang"
+          style={{
+            ...iconBtnStyle,
+            width: 'auto',
+            gap: 5,
+            padding: '0 6px',
+            fontFamily: 'var(--font-body)',
+            fontSize: 14,
+            color: 'var(--ink-60)',
+          }}
         >
           {locale.toUpperCase()}
-          <ChevronDownIcon />
+          <ChevronDown />
         </button>
 
         {connected && address ? (
@@ -127,6 +198,72 @@ export function TopBar() {
         )}
       </div>
     </header>
+  )
+}
+
+const iconBtnStyle = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 38,
+  height: 38,
+  borderRadius: 'var(--radius-pill)',
+  background: 'none',
+  border: 'none',
+  cursor: 'pointer',
+  color: 'var(--ink-60)',
+} as const
+
+function ChevronDown() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="14"
+      height="14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  )
+}
+function MoonIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+    </svg>
+  )
+}
+function SunIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </svg>
   )
 }
 
@@ -204,17 +341,29 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
   itemRefs.current = []
 
   return (
-    <div ref={ref} className="hb-wallet">
+    <div ref={ref} style={{ position: 'relative' }}>
       <button
         ref={triggerRef}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label={t('account')}
-        className="hb-wallet__trigger"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          background: 'var(--surface)',
+          border: '1px solid var(--ink-12)',
+          borderRadius: 'var(--radius-pill)',
+          height: 40,
+          padding: '0 6px 0 14px',
+          cursor: 'pointer',
+        }}
       >
-        <span className="hb-wallet__addr">{shortAddress(address)}</span>
-        <span className="hb-wallet__avatar" />
+        <span style={{ fontFamily: 'var(--font-data)', fontSize: 13, color: 'var(--ink)' }}>
+          {shortAddress(address)}
+        </span>
+        <span style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--solar)' }} />
       </button>
 
       {open && (
@@ -222,13 +371,32 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
           role="menu"
           aria-orientation="vertical"
           onKeyDown={handleMenuKeyDown}
-          className="hb-wallet__menu"
+          style={{
+            position: 'absolute',
+            top: 48,
+            right: 0,
+            minWidth: 224,
+            background: 'var(--surface)',
+            border: '1px solid var(--ink-12)',
+            borderRadius: 'var(--radius-card)',
+            boxShadow: 'var(--shadow-md)',
+            padding: 6,
+            zIndex: 400,
+          }}
         >
-          <div className="hb-wallet__head">
-            <span className="hb-wallet__head-addr">{shortAddress(address, 6, 6)}</span>
-            <span className="hb-wallet__head-net">{isDemo ? t('demoSession') : t('testnet')}</span>
+          <div
+            style={{ padding: '8px 10px 6px', display: 'flex', flexDirection: 'column', gap: 2 }}
+          >
+            <span style={{ fontFamily: 'var(--font-data)', fontSize: 12.5, color: 'var(--ink)' }}>
+              {shortAddress(address, 6, 6)}
+            </span>
+            <span
+              style={{ fontFamily: 'var(--font-body)', fontSize: 11.5, color: 'var(--ink-40)' }}
+            >
+              {isDemo ? t('demoSession') : t('testnet')}
+            </span>
           </div>
-          <div className="hb-wallet__sep" />
+          <div style={{ height: 1, background: 'var(--ink-12)', margin: '4px 0' }} />
           <MenuItem
             ref={(el) => {
               itemRefs.current.push(el)
@@ -288,13 +456,20 @@ const MenuItem = function MenuItem({
   tone?: 'ember'
   ref?: ((el: HTMLButtonElement | null) => void) | null
 }) {
+  const [hover, setHover] = useState(false)
   return (
     <button
       role="menuitem"
       tabIndex={-1}
       ref={_ref}
       onClick={onClick}
-      className={`hb-menu-item${tone === 'ember' ? ' hb-menu-item--ember' : ''}`}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        ...menuItemStyle,
+        background: hover ? 'var(--ink-06)' : 'transparent',
+        color: tone === 'ember' ? 'var(--ember)' : 'var(--ink)',
+      }}
     >
       {children}
     </button>
@@ -310,6 +485,7 @@ const MenuLink = function MenuLink({
   href: string
   ref?: ((el: HTMLAnchorElement | null) => void) | null
 }) {
+  const [hover, setHover] = useState(false)
   return (
     <a
       role="menuitem"
@@ -318,9 +494,29 @@ const MenuLink = function MenuLink({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="hb-menu-item"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        ...menuItemStyle,
+        textDecoration: 'none',
+        background: hover ? 'var(--ink-06)' : 'transparent',
+        color: 'var(--ink)',
+      }}
     >
       {children} ↗
     </a>
   )
+}
+
+const menuItemStyle: CSSProperties = {
+  display: 'block',
+  width: '100%',
+  textAlign: 'left',
+  border: 'none',
+  cursor: 'pointer',
+  padding: '9px 10px',
+  borderRadius: 'var(--radius-input)',
+  fontFamily: 'var(--font-body)',
+  fontSize: 14,
+  fontWeight: 500,
 }

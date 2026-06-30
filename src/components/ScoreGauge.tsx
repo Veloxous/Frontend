@@ -9,10 +9,12 @@ export interface ScoreGaugeProps {
   value?: number
   max?: number
   label?: string
+  ariaValueLabel?: string
   size?: number
   stroke?: number
   showValue?: boolean
   verifiedAgo?: string
+  verifiedLabel?: string
   explorerUrl?: string
   style?: CSSProperties
 }
@@ -21,10 +23,12 @@ export function ScoreGauge({
   value = 0,
   max = 100,
   label,
+  ariaValueLabel,
   size = 120,
   stroke = 9,
   showValue = true,
   verifiedAgo,
+  verifiedLabel,
   explorerUrl,
   style,
 }: ScoreGaugeProps) {
@@ -52,7 +56,7 @@ export function ScoreGauge({
           height={size}
           viewBox={`0 0 ${size} ${size}`}
           role="img"
-          aria-label={label ? `${label}: ${value} of ${max}` : `${value} of ${max}`}
+          aria-label={ariaValueLabel ?? (label ? `${label}: ${value}/${max}` : `${value}/${max}`)}
         >
           <circle
             cx={cx}
@@ -130,7 +134,7 @@ export function ScoreGauge({
               textDecoration: 'none',
             }}
           >
-            verified {verifiedAgo} ↗
+            {verifiedLabel ?? verifiedAgo} ↗
           </a>
         ) : (
           <span
@@ -141,7 +145,7 @@ export function ScoreGauge({
               whiteSpace: 'nowrap',
             }}
           >
-            verified {verifiedAgo}
+            {verifiedLabel ?? verifiedAgo}
           </span>
         ))}
     </div>

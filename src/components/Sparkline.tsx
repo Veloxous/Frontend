@@ -7,7 +7,7 @@ import { type CSSProperties } from 'react'
  * itself. SSR-safe and hookless: pure math from props.
  */
 export interface SparklineProps {
-  points: number[]
+  points: readonly number[]
   width?: number
   height?: number
   /** Stroke color for the line. Defaults to a quiet ink. */
@@ -68,8 +68,8 @@ export function Sparkline({
           cx={last.x}
           cy={last.y}
           r={3}
-          fill="#FFB400"
-          stroke="var(--surface)"
+          fill="var(--solar)"
+          stroke="var(--canvas)"
           strokeWidth={1.5}
         />
       )}
