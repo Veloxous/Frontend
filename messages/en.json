@@ -1,4 +1,9 @@
 {
+  "Common": {
+    "copyAddress": "Copy {label}",
+    "copied": "Copied",
+    "viewOnExplorer": "View {label} on Stellar Expert"
+  },
   "Nav": {
     "explore": "Explore",
     "how": "How it works",
@@ -19,6 +24,7 @@
     "demoSession": "Demo session"
   },
   "Footer": {
+    "trustLinks": "Trust links",
     "verify": "Verify everything",
     "risk": "Risk disclosure",
     "learn": "Learn",
