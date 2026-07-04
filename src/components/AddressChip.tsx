@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, type CSSProperties } from 'react'
+import { CheckIcon, CopyIcon, ExternalIcon } from './icons'
 import { useTranslations } from 'next-intl'
 
 /**
@@ -61,7 +62,7 @@ export function AddressChip({
         title={value}
         style={{
           fontFamily: 'var(--font-data)',
-          fontSize: 13,
+          fontSize: 'var(--type-caption)',
           color: 'var(--ink)',
           letterSpacing: '0.01em',
         }}
@@ -74,7 +75,7 @@ export function AddressChip({
         onClick={copy}
         style={iconBtn}
       >
-        {copied ? <CheckIcon /> : <CopyIcon />}
+        {copied ? <CheckIcon style={{ color: 'var(--growth)' }} /> : <CopyIcon />}
       </button>
       {explorerUrl && (
         <a
@@ -103,37 +104,4 @@ const iconBtn: CSSProperties = {
   cursor: 'pointer',
   color: 'var(--ink-60)',
   textDecoration: 'none',
-}
-
-const ico: CSSProperties = {
-  width: 15,
-  height: 15,
-  fill: 'none',
-  stroke: 'currentColor',
-  strokeWidth: 1.5,
-  strokeLinecap: 'round',
-  strokeLinejoin: 'round',
-}
-
-function CopyIcon() {
-  return (
-    <svg viewBox="0 0 24 24" style={ico} aria-hidden="true">
-      <rect x="9" y="9" width="11" height="11" rx="2" />
-      <path d="M5 15V5a2 2 0 0 1 2-2h10" />
-    </svg>
-  )
-}
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 24 24" style={{ ...ico, stroke: 'var(--growth)' }} aria-hidden="true">
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  )
-}
-function ExternalIcon() {
-  return (
-    <svg viewBox="0 0 24 24" style={ico} aria-hidden="true">
-      <path d="M7 17 17 7M9 7h8v8" />
-    </svg>
-  )
 }

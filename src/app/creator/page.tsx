@@ -67,7 +67,7 @@ function CreatorPageInner() {
         <p
           style={{
             fontFamily: 'var(--font-body)',
-            fontSize: 16.5,
+            fontSize: 'var(--type-body-lg)',
             lineHeight: 1.5,
             color: 'var(--ink-60)',
             margin: 0,
