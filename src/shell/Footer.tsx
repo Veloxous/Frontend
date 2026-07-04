@@ -101,10 +101,6 @@ export function Footer() {
             href="/talk"
             className="hb-textlink"
             style={{
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer',
               fontFamily: 'inherit',
               fontSize: 'inherit',
               color: 'var(--ink)',
