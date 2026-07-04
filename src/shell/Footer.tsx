@@ -10,7 +10,6 @@ import { Mark } from '../brand/Mark'
  */
 export function Footer() {
   const t = useTranslations('Footer')
-  const links = [t('verify'), t('risk'), t('learn')]
   return (
     <footer style={{ borderTop: '1px solid var(--ink-12)', background: 'var(--surface)' }}>
       <div
@@ -38,7 +37,7 @@ export function Footer() {
             heliobond
           </span>
         </div>
-        <div
+        <nav
           style={{
             display: 'flex',
             gap: 22,
@@ -48,26 +47,58 @@ export function Footer() {
             color: 'var(--ink-60)',
             flexWrap: 'wrap',
           }}
+          aria-label={t('trustLinks')}
         >
-          {links.map((l) => (
-            <button
-              key={l}
-              className="hb-textlink"
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                fontSize: 'inherit',
-                color: 'var(--ink-60)',
-              }}
-            >
-              {l}
-            </button>
-          ))}
           <a
-            href="mailto:hello@heliobond.io"
+            href="/verify"
+            className="hb-textlink"
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              fontSize: 'inherit',
+              color: 'var(--ink-60)',
+              textDecoration: 'none',
+            }}
+          >
+            {t('verify')}
+          </a>
+          <a
+            href="/risk"
+            className="hb-textlink"
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              fontSize: 'inherit',
+              color: 'var(--ink-60)',
+              textDecoration: 'none',
+            }}
+          >
+            {t('risk')}
+          </a>
+          <a
+            href="/learn"
+            className="hb-textlink"
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              fontSize: 'inherit',
+              color: 'var(--ink-60)',
+              textDecoration: 'none',
+            }}
+          >
+            {t('learn')}
+          </a>
+          <a
+            href="/talk"
             className="hb-textlink"
             style={{
               fontFamily: 'inherit',
@@ -91,7 +122,7 @@ export function Footer() {
           >
             {t('admin')}
           </Link>
-        </div>
+        </nav>
       </div>
     </footer>
   )
