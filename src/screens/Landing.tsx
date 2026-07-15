@@ -85,64 +85,153 @@ export function Landing({ onConnect, onNav }: LandingProps) {
       <section
         id="how"
         style={{
-          background: 'var(--surface)',
-          borderTop: '1px solid var(--ink-12)',
-          borderBottom: '1px solid var(--ink-12)',
-          scrollMarginTop: 68,
+          background: 'var(--background)',
+          padding: '96px 0',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
-        <div style={{ maxWidth: 1320, margin: '0 auto', padding: '64px 32px' }}>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 700,
-              fontSize: 'clamp(1.8rem,3vw,2.6rem)',
-              letterSpacing: '-0.02em',
-              margin: '0 0 8px',
-              color: 'var(--ink)',
-            }}
-          >
-            How it works
-          </h2>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--type-body)',
-              color: 'var(--ink-60)',
-              margin: '0 0 36px',
-              maxWidth: 560,
-            }}
-          >
-            Secure, trustless, and simple.
-          </p>
-          <div className="hb-how-grid">
-            <div>
-              <div style={{ fontFamily: 'var(--font-data)', fontSize: 'var(--type-caption)', color: 'var(--solar)', marginBottom: 10 }}>
-                <span style={{ color: 'var(--ink)' }}>01</span>
+        <div style={{ maxWidth: 1320, margin: '0 auto', padding: '0 32px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
+                fontSize: 'clamp(2rem, 4vw, 3rem)',
+                letterSpacing: '-0.02em',
+                margin: '0 0 16px',
+                color: 'var(--ink)',
+              }}
+            >
+              How it works
+            </h2>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '1.125rem',
+                color: 'var(--ink-60)',
+                margin: '0 auto',
+                maxWidth: 600,
+                lineHeight: 1.6
+              }}
+            >
+              Secure, trustless, and simple. Your funds are protected by our Soroban smart contract until you're completely satisfied.
+            </p>
+          </div>
+
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+            gap: '32px',
+            position: 'relative',
+            zIndex: 1
+          }}>
+            {/* Step 1 */}
+            <div 
+              style={{ 
+                background: 'var(--surface)', 
+                border: '1px solid var(--ink-12)', 
+                borderRadius: '24px', 
+                padding: '40px', 
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.02)'
+              }} 
+              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = 'var(--solar)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.06)' }} 
+              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--ink-12)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.02)' }}
+            >
+              <div style={{ 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                width: '56px', height: '56px', borderRadius: '16px', 
+                background: 'linear-gradient(135deg, var(--solar) 0%, #FFD700 100%)', 
+                color: 'var(--ink)', fontSize: '24px', fontWeight: '800', 
+                marginBottom: '32px', fontFamily: 'var(--font-display)',
+                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)'
+              }}>
+                1
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--type-h5)', margin: '0 0 6px', color: 'var(--ink)' }}>Find an Item</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--type-small)', lineHeight: 1.5, color: 'var(--ink-60)', margin: 0 }}>Browse the marketplace or swap engine for electronics.</p>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 12px', color: 'var(--ink)' }}>Find an Item</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0 }}>Browse the marketplace or swap engine for electronics.</p>
             </div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-data)', fontSize: 'var(--type-caption)', color: 'var(--solar)', marginBottom: 10 }}>
-                <span style={{ color: 'var(--ink)' }}>02</span>
+
+            {/* Step 2 */}
+            <div 
+              style={{ 
+                background: 'var(--surface)', 
+                border: '1px solid var(--ink-12)', 
+                borderRadius: '24px', 
+                padding: '40px', 
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.02)'
+              }} 
+              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = 'var(--solar)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.06)' }} 
+              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--ink-12)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.02)' }}
+            >
+              <div style={{ 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                width: '56px', height: '56px', borderRadius: '16px', 
+                background: 'linear-gradient(135deg, var(--solar) 0%, #FFD700 100%)', 
+                color: 'var(--ink)', fontSize: '24px', fontWeight: '800', 
+                marginBottom: '32px', fontFamily: 'var(--font-display)',
+                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)'
+              }}>
+                2
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--type-h5)', margin: '0 0 6px', color: 'var(--ink)' }}>Lock Funds</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--type-small)', lineHeight: 1.5, color: 'var(--ink-60)', margin: 0 }}>Deposit USDC into the Veloxous Soroban Escrow contract.</p>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 12px', color: 'var(--ink)' }}>Lock Funds</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0 }}>Deposit USDC into the trustless Soroban Escrow contract.</p>
             </div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-data)', fontSize: 'var(--type-caption)', color: 'var(--solar)', marginBottom: 10 }}>
-                <span style={{ color: 'var(--ink)' }}>03</span>
+
+            {/* Step 3 */}
+            <div 
+              style={{ 
+                background: 'var(--surface)', 
+                border: '1px solid var(--ink-12)', 
+                borderRadius: '24px', 
+                padding: '40px', 
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.02)'
+              }} 
+              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = 'var(--solar)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.06)' }} 
+              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--ink-12)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.02)' }}
+            >
+              <div style={{ 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                width: '56px', height: '56px', borderRadius: '16px', 
+                background: 'linear-gradient(135deg, var(--solar) 0%, #FFD700 100%)', 
+                color: 'var(--ink)', fontSize: '24px', fontWeight: '800', 
+                marginBottom: '32px', fontFamily: 'var(--font-display)',
+                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)'
+              }}>
+                3
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--type-h5)', margin: '0 0 6px', color: 'var(--ink)' }}>Verify Receipt</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--type-small)', lineHeight: 1.5, color: 'var(--ink-60)', margin: 0 }}>Inspect the physical item when it arrives.</p>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 12px', color: 'var(--ink)' }}>Verify Receipt</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0 }}>Inspect the physical item when it arrives at your doorstep.</p>
             </div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-data)', fontSize: 'var(--type-caption)', color: 'var(--solar)', marginBottom: 10 }}>
-                <span style={{ color: 'var(--ink)' }}>04</span>
+
+            {/* Step 4 */}
+            <div 
+              style={{ 
+                background: 'var(--surface)', 
+                border: '1px solid var(--ink-12)', 
+                borderRadius: '24px', 
+                padding: '40px', 
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.02)'
+              }} 
+              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = 'var(--solar)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.06)' }} 
+              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--ink-12)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.02)' }}
+            >
+              <div style={{ 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                width: '56px', height: '56px', borderRadius: '16px', 
+                background: 'linear-gradient(135deg, var(--solar) 0%, #FFD700 100%)', 
+                color: 'var(--ink)', fontSize: '24px', fontWeight: '800', 
+                marginBottom: '32px', fontFamily: 'var(--font-display)',
+                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)'
+              }}>
+                4
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--type-h5)', margin: '0 0 6px', color: 'var(--ink)' }}>Release Funds</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--type-small)', lineHeight: 1.5, color: 'var(--ink-60)', margin: 0 }}>Approve the transaction to release funds to the seller.</p>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 12px', color: 'var(--ink)' }}>Release Funds</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0 }}>Approve the transaction to securely release funds to the seller.</p>
             </div>
           </div>
         </div>
