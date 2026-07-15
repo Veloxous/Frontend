@@ -119,119 +119,86 @@ export function Landing({ onConnect, onNav }: LandingProps) {
             </p>
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '32px',
-            position: 'relative',
-            zIndex: 1
-          }}>
+          {/* Alternating Timeline Styles */}
+          <style dangerouslySetInnerHTML={{__html: `
+            .hb-timeline { position: relative; max-width: 1000px; margin: 0 auto; padding: 40px 0; display: flex; flex-direction: column; }
+            .hb-timeline::before { content: ''; position: absolute; left: 50%; top: 40px; bottom: 40px; width: 2px; background: var(--ink-12); transform: translateX(-50%); z-index: 0; }
+            
+            .hb-step { position: relative; width: 50%; z-index: 1; margin-bottom: 40px; cursor: default; }
+            .hb-step.left { align-self: flex-start; padding-right: 48px; text-align: right; }
+            .hb-step.right { align-self: flex-end; padding-left: 48px; text-align: left; }
+            
+            .hb-dot {
+              position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%; 
+              background: linear-gradient(135deg, var(--solar) 0%, #FFD700 100%); 
+              border: 4px solid var(--background); box-shadow: 0 0 12px rgba(255, 215, 0, 0.4); 
+              display: flex; align-items: center; justify-content: center;
+              color: var(--ink); font-family: var(--font-display); font-weight: 800; font-size: 1.25rem;
+              z-index: 2; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .hb-step.left .hb-dot { right: -24px; }
+            .hb-step.right .hb-dot { left: -24px; }
+            
+            .hb-card {
+              background: var(--surface); border: 1px solid var(--ink-12); border-radius: 24px; padding: 32px; 
+              transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 24px rgba(0,0,0,0.02);
+            }
+            .hb-step.left .hb-card { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
+            .hb-step.right .hb-card { text-align: left; display: flex; flex-direction: column; align-items: flex-start; }
+            
+            .hb-step.left:hover .hb-card { transform: translateX(-8px); border-color: var(--solar); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+            .hb-step.right:hover .hb-card { transform: translateX(8px); border-color: var(--solar); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+            .hb-step:hover .hb-dot { transform: translateY(-50%) scale(1.15); }
+
+            @media (max-width: 768px) {
+              .hb-timeline::before { left: 32px; transform: none; }
+              .hb-step { width: 100%; margin-bottom: 32px; align-self: center !important; padding-left: 88px !important; padding-right: 0 !important; text-align: left !important; }
+              .hb-step.left .hb-dot, .hb-step.right .hb-dot { left: 8px; right: auto; top: 48px; transform: translateY(-50%); }
+              .hb-step:hover .hb-dot { transform: translateY(-50%) scale(1.15); }
+              .hb-step.left .hb-card { text-align: left; align-items: flex-start; }
+              .hb-step.left:hover .hb-card, .hb-step.right:hover .hb-card { transform: translateX(8px); }
+            }
+          `}} />
+
+          <div className="hb-timeline">
             {/* Step 1 */}
-            <div 
-              style={{ 
-                background: 'var(--surface)', 
-                border: '1px solid var(--ink-12)', 
-                borderRadius: '24px', 
-                padding: '40px', 
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.02)'
-              }} 
-              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = 'var(--solar)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.06)' }} 
-              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--ink-12)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.02)' }}
-            >
-              <div style={{ 
-                display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                width: '56px', height: '56px', borderRadius: '16px', 
-                background: 'linear-gradient(135deg, var(--solar) 0%, #FFD700 100%)', 
-                color: 'var(--ink)', fontSize: '24px', fontWeight: '800', 
-                marginBottom: '32px', fontFamily: 'var(--font-display)',
-                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)'
-              }}>
-                1
+            <div className="hb-step left">
+              <div className="hb-dot">1</div>
+              <div className="hb-card">
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--solar)', marginBottom: '8px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Step 1</div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 8px', color: 'var(--ink)' }}>Find an Item</h3>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0, maxWidth: '300px' }}>Browse the marketplace or swap engine for electronics.</p>
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 12px', color: 'var(--ink)' }}>Find an Item</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0 }}>Browse the marketplace or swap engine for electronics.</p>
             </div>
 
             {/* Step 2 */}
-            <div 
-              style={{ 
-                background: 'var(--surface)', 
-                border: '1px solid var(--ink-12)', 
-                borderRadius: '24px', 
-                padding: '40px', 
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.02)'
-              }} 
-              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = 'var(--solar)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.06)' }} 
-              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--ink-12)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.02)' }}
-            >
-              <div style={{ 
-                display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                width: '56px', height: '56px', borderRadius: '16px', 
-                background: 'linear-gradient(135deg, var(--solar) 0%, #FFD700 100%)', 
-                color: 'var(--ink)', fontSize: '24px', fontWeight: '800', 
-                marginBottom: '32px', fontFamily: 'var(--font-display)',
-                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)'
-              }}>
-                2
+            <div className="hb-step right">
+              <div className="hb-dot">2</div>
+              <div className="hb-card">
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--solar)', marginBottom: '8px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Step 2</div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 8px', color: 'var(--ink)' }}>Lock Funds</h3>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0, maxWidth: '300px' }}>Deposit USDC into the trustless Soroban Escrow contract.</p>
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 12px', color: 'var(--ink)' }}>Lock Funds</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0 }}>Deposit USDC into the trustless Soroban Escrow contract.</p>
             </div>
 
             {/* Step 3 */}
-            <div 
-              style={{ 
-                background: 'var(--surface)', 
-                border: '1px solid var(--ink-12)', 
-                borderRadius: '24px', 
-                padding: '40px', 
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.02)'
-              }} 
-              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = 'var(--solar)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.06)' }} 
-              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--ink-12)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.02)' }}
-            >
-              <div style={{ 
-                display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                width: '56px', height: '56px', borderRadius: '16px', 
-                background: 'linear-gradient(135deg, var(--solar) 0%, #FFD700 100%)', 
-                color: 'var(--ink)', fontSize: '24px', fontWeight: '800', 
-                marginBottom: '32px', fontFamily: 'var(--font-display)',
-                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)'
-              }}>
-                3
+            <div className="hb-step left">
+              <div className="hb-dot">3</div>
+              <div className="hb-card">
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--solar)', marginBottom: '8px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Step 3</div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 8px', color: 'var(--ink)' }}>Verify Receipt</h3>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0, maxWidth: '300px' }}>Inspect the physical item when it arrives at your doorstep.</p>
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 12px', color: 'var(--ink)' }}>Verify Receipt</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0 }}>Inspect the physical item when it arrives at your doorstep.</p>
             </div>
 
             {/* Step 4 */}
-            <div 
-              style={{ 
-                background: 'var(--surface)', 
-                border: '1px solid var(--ink-12)', 
-                borderRadius: '24px', 
-                padding: '40px', 
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 4px 24px rgba(0,0,0,0.02)'
-              }} 
-              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.borderColor = 'var(--solar)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.06)' }} 
-              onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--ink-12)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.02)' }}
-            >
-              <div style={{ 
-                display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                width: '56px', height: '56px', borderRadius: '16px', 
-                background: 'linear-gradient(135deg, var(--solar) 0%, #FFD700 100%)', 
-                color: 'var(--ink)', fontSize: '24px', fontWeight: '800', 
-                marginBottom: '32px', fontFamily: 'var(--font-display)',
-                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)'
-              }}>
-                4
+            <div className="hb-step right" style={{ marginBottom: 0 }}>
+              <div className="hb-dot">4</div>
+              <div className="hb-card">
+                <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.875rem', fontWeight: 700, color: 'var(--solar)', marginBottom: '8px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Step 4</div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 8px', color: 'var(--ink)' }}>Release Funds</h3>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0, maxWidth: '300px' }}>Approve the transaction to securely release funds to the seller.</p>
               </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.5rem', margin: '0 0 12px', color: 'var(--ink)' }}>Release Funds</h3>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink-60)', margin: 0 }}>Approve the transaction to securely release funds to the seller.</p>
             </div>
           </div>
         </div>
