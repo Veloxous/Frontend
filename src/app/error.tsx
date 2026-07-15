@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { Helio } from '../brand/Helio'
+import { Mark } from '../brand/Mark'
 
 /**
  * App-level error boundary — runtime errors in any route segment bubble here
@@ -19,7 +19,7 @@ export default function GlobalError({
 }) {
   useEffect(() => {
     // In production wire this to your error-reporting service (e.g. Sentry).
-    console.error('[Heliobond] unhandled error:', error)
+    console.error('[Veloxous] unhandled error:', error)
   }, [error])
 
   return (
@@ -36,7 +36,7 @@ export default function GlobalError({
       }}
     >
       <div aria-hidden="true" style={{ marginBottom: 32, opacity: 0.75 }}>
-        <Helio size={160} motes={3} breathe={false} />
+        <Mark size={160} />
       </div>
 
       <p

@@ -1,26 +1,14 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
-import { Button, StatBlock } from '../components'
-import { LiveHelio } from '../brand/LiveHelio'
-import { HB_DATA } from '../data'
+import { Button } from '../components'
 import type { Screen } from '../types'
 
-/**
- * Landing — public hero. The live Helio dominates; three counters deep-link to
- * on-chain proof. Thesis in display type, sentence case, from one dollar.
- */
 export interface LandingProps {
   onConnect: () => void
   onNav: (screen: Screen) => void
 }
 
 export function Landing({ onConnect, onNav }: LandingProps) {
-  const t = useTranslations('Landing')
-  const d = HB_DATA
-  const steps = [1, 2, 3, 4] as const
-  const intensity = Math.min(1, d.pool.totalAssets / 6_000_000)
-
   return (
     <main id="main-content">
       {/* Hero */}
@@ -30,7 +18,7 @@ export function Landing({ onConnect, onNav }: LandingProps) {
       >
         <div>
           <div className="hb-eyebrow" style={{ marginBottom: 20 }}>
-            {t('eyebrow')}
+            Web3 Circular Economy
           </div>
           <h1
             style={{
@@ -43,8 +31,9 @@ export function Landing({ onConnect, onNav }: LandingProps) {
               color: 'var(--ink)',
             }}
           >
-            {t('title')}
-            <span style={{ color: 'var(--ink-60)' }}>{t('titleAccent')}</span>
+            Don't throw it away.
+            <br />
+            <span style={{ color: 'var(--ink-60)' }}>Swap it. Repair it. Sell it.</span>
           </h1>
           <p
             style={{
@@ -56,55 +45,40 @@ export function Landing({ onConnect, onNav }: LandingProps) {
               margin: '22px 0 32px',
             }}
           >
-            {t('sub')}
+            Veloxous is the trustless marketplace for electronics. Backed by Soroban Escrow on Stellar, ensuring you get exactly what you paid for—or your USDC back.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <Button variant="primary" size="lg" onClick={onConnect}>
-              {t('ctaStart')}
+              Connect Wallet
             </Button>
             <Button variant="secondary" size="lg" onClick={() => onNav('explore')}>
-              {t('ctaExplore')}
+              Explore Marketplace
             </Button>
           </div>
         </div>
 
-        <div className="hb-hero-helio" style={{ display: 'flex', justifyContent: 'center' }}>
-          <LiveHelio size={380} motes={d.pool.projectsFunded} intensity={intensity} />
+        <div className="hb-hero-helio" style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', width: 400, height: 400, margin: '0 auto' }}>
+          {/* Pulsing Solar Core */}
+          <div style={{ 
+            position: 'absolute',
+            width: 320, 
+            height: 320, 
+            borderRadius: '50%', 
+            background: 'radial-gradient(circle at center, var(--solar) 0%, transparent 70%)',
+            opacity: 0.85,
+            animation: 'hb-breath 4s ease-in-out infinite',
+          }} />
+          
+          {/* Rotating Text Ring */}
+          <svg viewBox="0 0 400 400" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', animation: 'hb-spin 20s linear infinite', zIndex: 1 }}>
+            <path id="ring" d="M 200, 200 m -150, 0 a 150,150 0 1,1 300,0 a 150,150 0 1,1 -300,0" fill="none" />
+            <text fill="var(--ink)" style={{ fontFamily: 'var(--font-data)', fontSize: 15, letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 600 }}>
+              <textPath href="#ring" startOffset="0" textLength="940">
+                SWAP • BUY • REPAIR • RECYCLE • SWAP • BUY • REPAIR • RECYCLE • 
+              </textPath>
+            </text>
+          </svg>
         </div>
-      </section>
-
-      {/* Live counters */}
-      <section style={{ maxWidth: 1320, margin: '0 auto', padding: '8px 32px 64px' }}>
-        <div
-          className="hb-counter-grid"
-          style={{
-            background: 'var(--ink-12)',
-            border: '1px solid var(--ink-12)',
-            borderRadius: 'var(--radius-card)',
-            overflow: 'hidden',
-          }}
-        >
-          <div style={counterCell}>
-            <StatBlock label={t('poolValue')} value="$4,862,014" decimals=".55" size="lg" />
-          </div>
-          <div style={counterCell}>
-            <StatBlock label={t('projectsFunded')} value="14" size="lg" />
-          </div>
-          <div style={counterCell}>
-            <StatBlock label={t('returnRate')} value="7.4" unit="%" size="lg" />
-          </div>
-        </div>
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: 'var(--type-caption)',
-            color: 'var(--ink-40)',
-            margin: '14px 0 0',
-            textAlign: 'center',
-          }}
-        >
-          {t('countersNote')}
-        </p>
       </section>
 
       {/* How it works strip */}
@@ -128,7 +102,7 @@ export function Landing({ onConnect, onNav }: LandingProps) {
               color: 'var(--ink)',
             }}
           >
-            {t('howTitle')}
+            How it works
           </h2>
           <p
             style={{
@@ -139,143 +113,40 @@ export function Landing({ onConnect, onNav }: LandingProps) {
               maxWidth: 560,
             }}
           >
-            {t('howSub')}
+            Secure, trustless, and simple.
           </p>
           <div className="hb-how-grid">
-            {steps.map((i) => (
-              <div key={i}>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-data)',
-                    fontSize: 'var(--type-caption)',
-                    color: 'var(--solar)',
-                    marginBottom: 10,
-                  }}
-                >
-                  <span style={{ color: 'var(--ink)' }}>0{i}</span>
-                </div>
-                <h3
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontWeight: 700,
-                    fontSize: 'var(--type-h5)',
-                    margin: '0 0 6px',
-                    color: 'var(--ink)',
-                  }}
-                >
-                  {t(`step${i}Title`)}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: 'var(--type-small)',
-                    lineHeight: 1.5,
-                    color: 'var(--ink-60)',
-                    margin: 0,
-                  }}
-                >
-                  {t(`step${i}Body`)}
-                </p>
+            <div>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: 'var(--type-caption)', color: 'var(--solar)', marginBottom: 10 }}>
+                <span style={{ color: 'var(--ink)' }}>01</span>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Verify everything */}
-      <section
-        id="verify"
-        className="hb-verify-grid"
-        style={{ maxWidth: 1320, margin: '0 auto', padding: '64px 32px 80px', scrollMarginTop: 68 }}
-      >
-        <div>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 700,
-              fontSize: 'clamp(1.8rem,3vw,2.6rem)',
-              letterSpacing: '-0.02em',
-              margin: '0 0 14px',
-              color: 'var(--ink)',
-            }}
-          >
-            {t('verifyTitle')}
-          </h2>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--type-body)',
-              lineHeight: 1.6,
-              color: 'var(--ink-60)',
-              margin: '0 0 16px',
-            }}
-          >
-            {t('verifyBody')}
-          </p>
-          <div
-            style={{
-              fontFamily: 'var(--font-data)',
-              fontSize: 'var(--type-small)',
-              color: 'var(--ink)',
-              background: 'var(--ink-06)',
-              borderRadius: 'var(--radius-input)',
-              padding: '14px 16px',
-            }}
-          >
-            {t('formula')}
-          </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 1,
-            background: 'var(--ink-12)',
-            border: '1px solid var(--ink-12)',
-            borderRadius: 'var(--radius-card)',
-            overflow: 'hidden',
-          }}
-        >
-          {[
-            [t('rowRegistry'), 'C…7K4Z'],
-            [t('rowVault'), 'C…9QWJ'],
-            [t('rowCadence'), t('rowCadenceValue')],
-            [t('rowAudit'), t('rowAuditValue')],
-          ].map(([k, v]) => (
-            <div
-              key={k}
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                background: 'var(--surface)',
-                padding: '16px 18px',
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'var(--type-data)',
-                  color: 'var(--ink-60)',
-                }}
-              >
-                {k}
-              </span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-data)',
-                  fontSize: 'var(--type-small)',
-                  color: 'var(--ink)',
-                }}
-              >
-                {v}
-              </span>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--type-h5)', margin: '0 0 6px', color: 'var(--ink)' }}>Find an Item</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--type-small)', lineHeight: 1.5, color: 'var(--ink-60)', margin: 0 }}>Browse the marketplace or swap engine for electronics.</p>
             </div>
-          ))}
+            <div>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: 'var(--type-caption)', color: 'var(--solar)', marginBottom: 10 }}>
+                <span style={{ color: 'var(--ink)' }}>02</span>
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--type-h5)', margin: '0 0 6px', color: 'var(--ink)' }}>Lock Funds</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--type-small)', lineHeight: 1.5, color: 'var(--ink-60)', margin: 0 }}>Deposit USDC into the Veloxous Soroban Escrow contract.</p>
+            </div>
+            <div>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: 'var(--type-caption)', color: 'var(--solar)', marginBottom: 10 }}>
+                <span style={{ color: 'var(--ink)' }}>03</span>
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--type-h5)', margin: '0 0 6px', color: 'var(--ink)' }}>Verify Receipt</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--type-small)', lineHeight: 1.5, color: 'var(--ink-60)', margin: 0 }}>Inspect the physical item when it arrives.</p>
+            </div>
+            <div>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: 'var(--type-caption)', color: 'var(--solar)', marginBottom: 10 }}>
+                <span style={{ color: 'var(--ink)' }}>04</span>
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--type-h5)', margin: '0 0 6px', color: 'var(--ink)' }}>Release Funds</h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--type-small)', lineHeight: 1.5, color: 'var(--ink-60)', margin: 0 }}>Approve the transaction to release funds to the seller.</p>
+            </div>
+          </div>
         </div>
       </section>
     </main>
   )
 }
-
-const counterCell = { background: 'var(--surface)', padding: '28px 24px' } as const

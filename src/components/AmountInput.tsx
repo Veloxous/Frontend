@@ -1,7 +1,7 @@
 import { type CSSProperties, type ReactNode, useState } from 'react'
 
 /**
- * Heliobond AmountInput — the heart of deposit & withdraw. Mono numerals, a
+ * Veloxous AmountInput — the heart of deposit & withdraw. Mono numerals, a
  * visible balance, quick chips (25/50/100/Max), a live on-chain preview slot,
  * and the liquidity-cap honesty behaviour: typing past `cap` does NOT error —
  * it explains, and offers max.

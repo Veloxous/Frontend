@@ -1,14 +1,14 @@
 {
-  "name": "heliobond-frontend",
+  "name": "veloxous-frontend",
   "private": true,
   "version": "0.1.0",
-  "description": "Heliobond — sunlight made financial. Investor app for a green-bond pool on Stellar.",
+  "description": "Veloxous — sunlight made financial. Investor app for a green-bond pool on Stellar.",
   "license": "Apache-2.0",
-  "author": "Heliobond (https://heliobond.vercel.app)",
-  "homepage": "https://heliobond.vercel.app",
+  "author": "Veloxous (https://veloxous.vercel.app)",
+  "homepage": "https://veloxous.vercel.app",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Heliobond/frontend.git"
+    "url": "git+https://github.com/Veloxous/frontend.git"
   },
   "engines": {
     "node": ">=18.18.0"
@@ -38,7 +38,6 @@
     "@react-three/fiber": "^9.6.1",
     "@stellar/stellar-sdk": "^16.0.1",
     "next": "^16.2.9",
-    "next-intl": "^4.13.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "three": "^0.184.0"

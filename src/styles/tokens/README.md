@@ -1,19 +1,19 @@
-# Heliobond Design Tokens & Brand Guide
+# Veloxous Design Tokens & Brand Guide
 
-This guide defines the design tokens, brand rules, and patterns that make the Heliobond interface _warm, lucid, and alive_. Use this as a single source of truth when extending the design system or implementing new features.
+This guide defines the design tokens, brand rules, and patterns that make the Veloxous interface _warm, lucid, and alive_. Use this as a single source of truth when extending the design system or implementing new features.
 
 ---
 
 ## ☀️ The Brand System
 
-Heliobond relies on a two-color world (deep-pine **ink** on morning-air **canvas**) with a single high-contrast highlight (**solar**).
+Veloxous relies on a two-color world (deep-pine **ink** on morning-air **canvas**) with a single high-contrast highlight (**solar**).
 All layout elements, typography, and motion are tailored to convey fiduciary restraint, environmental growth, and accessibility.
 
 ---
 
 ## 🎨 Color Tokens (`colors.css`)
 
-Heliobond colors are pure HSL/Hex mappings derived from organic tones. Light is the default; Dark theme ("After Sunset") is a swap of token values, not an inversion.
+Veloxous colors are pure HSL/Hex mappings derived from organic tones. Light is the default; Dark theme ("After Sunset") is a swap of token values, not an inversion.
 
 ### Base Palette
 
@@ -71,7 +71,7 @@ We use a strict **4px base grid** for paddings and margins.
 
 ## 🔄 Motion & Easing (`motion.css`)
 
-Heliobond animations adhere to the "Frequency Framework":
+Veloxous animations adhere to the "Frequency Framework":
 
 - **Frequent operations** (nav links, tab swaps) have **NO** animation.
 - **Occasional actions** (modals opening, toasts) use fast transitions.
@@ -99,7 +99,7 @@ To add or modify design tokens:
 
 ## 🖼️ Primitives Gallery
 
-Heliobond provides a curated set of components in `src/components/` that implement the token specifications:
+Veloxous provides a curated set of components in `src/components/` that implement the token specifications:
 
 - **Card**: The foundational surface primitive with card radius, light border, and soft shadow.
 - **Button**: Primary and secondary CTA actions styled as pills.

@@ -1,5 +1,5 @@
 /**
- * The Heliobond analemma — a single continuous tilted figure-eight (the sun's
+ * The Veloxous analemma — a single continuous tilted figure-eight (the sun's
  * year-long path), drawn in currentColor with the one permitted second colour:
  * a solar dot. Upper loop subtly smaller, as in the real analemma.
  */

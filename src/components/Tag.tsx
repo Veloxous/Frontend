@@ -1,7 +1,7 @@
 import { useState, type ButtonHTMLAttributes, type ReactNode } from 'react'
 
 /**
- * Heliobond Tag — a selectable filter/category pill. Selected state uses a
+ * Veloxous Tag — a selectable filter/category pill. Selected state uses a
  * solar-tint fill paired with an ink label (color never alone).
  */
 export interface TagProps extends ButtonHTMLAttributes<HTMLButtonElement> {

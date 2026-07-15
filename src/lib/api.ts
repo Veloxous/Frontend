@@ -1,4 +1,4 @@
-// Heliobond — project data API client.
+// Veloxous — project data API client.
 //
 // Reads from NEXT_PUBLIC_API_URL when set (GET /projects, GET /projects/:id).
 // Falls back to local mock data when the env var is absent or the request fails,

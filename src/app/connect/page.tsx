@@ -18,7 +18,7 @@ export default function ConnectPage() {
     <Connect
       onWallet={() => void connect()}
       onNew={() => connectDemo()}
-      onCancel={() => router.push('/explore')}
+      onCancel={() => router.push('/marketplace')}
     />
   )
 }

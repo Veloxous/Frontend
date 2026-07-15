@@ -1,7 +1,7 @@
 import { type SVGProps } from 'react'
 
 /**
- * Heliobond icon set — one home for the small stroke icons the product reuses.
+ * Veloxous icon set — one home for the small stroke icons the product reuses.
  *
  * Every icon shares the same skeleton: a 24×24 viewBox, no fill, a 1.5px
  * `currentColor` stroke with round caps/joins, and `aria-hidden` (icons here

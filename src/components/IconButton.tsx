@@ -1,7 +1,7 @@
 import { useState, type ButtonHTMLAttributes, type CSSProperties, type ReactNode } from 'react'
 
 /**
- * Heliobond IconButton — square, line-icon only, 44px hit target at md.
+ * Veloxous IconButton — square, line-icon only, 44px hit target at md.
  */
 export type IconButtonVariant = 'solid' | 'outline' | 'ghost'
 export type IconButtonSize = 'sm' | 'md' | 'lg'

@@ -1,7 +1,7 @@
 import { useState, type ButtonHTMLAttributes, type CSSProperties, type ReactNode } from 'react'
 
 /**
- * Heliobond Button — primary (pill, solar fill), secondary (ink outline), ghost.
+ * Veloxous Button — primary (pill, solar fill), secondary (ink outline), ghost.
  * Text on solar is ink (AAA). Active scales to 0.97. Disabled carries a reason
  * surfaced in a tooltip — never a bare greyed control.
  */

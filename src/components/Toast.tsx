@@ -2,7 +2,7 @@ import { type CSSProperties, type ReactNode } from 'react'
 import { CloseIcon } from './icons'
 
 /**
- * Heliobond Toast — enters and exits from the same edge, swipe-to-dismiss in
+ * Veloxous Toast — enters and exits from the same edge, swipe-to-dismiss in
  * spirit. Tones use an ink/semantic label + icon, never color alone. State
  * changes that matter (preview, balance) belong in aria-live regions elsewhere;
  * this is for transient confirmations.

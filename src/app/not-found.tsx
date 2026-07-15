@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Helio } from '../brand/Helio'
+import { Mark } from '../brand/Mark'
 
 /**
  * App-level 404 — unknown routes fall here instead of the framework default.
@@ -21,7 +21,7 @@ export default function NotFound() {
       }}
     >
       <div aria-hidden="true" style={{ marginBottom: 32, opacity: 0.85 }}>
-        <Helio size={160} motes={4} breathe={false} />
+        <Mark size={160} />
       </div>
 
       <p
@@ -84,7 +84,7 @@ export default function NotFound() {
           transition: 'background var(--dur-press) var(--ease-out)',
         }}
       >
-        Back to Heliobond
+        Back to Veloxous
       </Link>
     </main>
   )

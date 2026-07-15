@@ -1,7 +1,7 @@
 import { type CSSProperties, type HTMLAttributes, type ReactNode } from 'react'
 
 /**
- * Heliobond Badge — a small status marker. Tones derive meaning from an
+ * Veloxous Badge — a small status marker. Tones derive meaning from an
  * ink-colored label + optional glyph; solar never carries meaning alone.
  * Use `tone="testnet"` for the loud, unmissable network badge.
  */

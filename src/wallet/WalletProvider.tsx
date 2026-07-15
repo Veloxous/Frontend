@@ -11,7 +11,7 @@ import {
 } from 'react'
 
 /**
- * Wallet state for Heliobond. Wraps the Stellar Wallets Kit (Freighter, xBull,
+ * Wallet state for Veloxous. Wraps the Stellar Wallets Kit (Freighter, xBull,
  * Albedo, Lobstr, Hana, WalletConnect, …) for a REAL connection on testnet. The
  * kit is browser-only and heavy, so it's dynamically imported on first use.
  *

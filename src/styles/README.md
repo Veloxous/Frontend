@@ -1,6 +1,6 @@
 # Styling approach
 
-Heliobond styles through a **single global stylesheet layer of `hb-`-prefixed
+Veloxous styles through a **single global stylesheet layer of `hb-`-prefixed
 classes**, reached from components via `className`. Every value is a design
 token (`var(--…)`); raw colours and off-scale px font-sizes never appear in
 component code.

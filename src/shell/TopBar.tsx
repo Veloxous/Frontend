@@ -3,43 +3,27 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
 import { Button } from '../components'
 import { Mark } from '../brand/Mark'
-import { useLocaleSwitcher } from '../i18n/LocaleProvider'
 import { useWallet, shortAddress } from '../wallet/WalletProvider'
 import { useTheme } from '../theme/ThemeProvider'
 
-/**
- * TopBar — persistent nav rendered by the root layout. Analemma mark + Explore /
- * How it works / Learn / Creator, network status dot, theme toggle, language
- * switcher, Connect (or the connected wallet pill). Active state derives from the
- * route (and a scroll-spy for the landing anchors); connection from the wallet.
- */
 const NAV = [
-  { href: '/explore', key: 'explore' },
-  { href: '/#how', key: 'how' },
-  { href: '/#verify', key: 'learn' },
-  { href: '/creator', key: 'creator' },
+  { href: '/marketplace', label: 'Marketplace' },
+  { href: '/swap', label: 'Swap' },
+  { href: '/repair', label: 'Repair' },
 ] as const
 
 export function TopBar() {
   const pathname = usePathname()
   const router = useRouter()
-  const t = useTranslations('Nav')
-  const { locale, switchLocale } = useLocaleSwitcher()
   const { connected, address, connecting, isDemo } = useWallet()
   const { theme, toggle } = useTheme()
 
-  // Theme state starts 'light' on server/first render (to avoid a hydration
-  // mismatch), so the toggle icon can't be trusted until after mount — a
-  // dark-mode user would briefly see the wrong icon. Gate it on `mounted`.
   const [mounted, setMounted] = useState(false)
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), [])
 
-  // Scroll-spy for the anchor nav items (How it works / Learn). usePathname()
-  // drops the hash, so observe the landing sections instead. SSR-safe.
   const [activeHash, setActiveHash] = useState('')
   useEffect(() => {
     if (pathname !== '/') {
@@ -65,7 +49,7 @@ export function TopBar() {
   }, [pathname])
 
   const isDarkTheme = mounted && theme === 'dark'
-  const themeToggleLabel = isDarkTheme ? t('switchToLight') : t('switchToDark')
+  const themeToggleLabel = isDarkTheme ? 'Switch to light' : 'Switch to dark'
 
   return (
     <header
@@ -86,7 +70,7 @@ export function TopBar() {
     >
       <Link
         href="/"
-        aria-label="Heliobond — home"
+        aria-label="Veloxous — home"
         style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
       >
         <Mark />
@@ -99,18 +83,18 @@ export function TopBar() {
             color: 'var(--ink)',
           }}
         >
-          heliobond
+          veloxous
         </span>
       </Link>
 
       <nav className="hb-topbar-nav" style={{ display: 'flex', gap: 4, marginLeft: 8 }}>
-        {NAV.map(({ href, key }) => {
+        {NAV.map(({ href, label }) => {
           const active = href.includes('#')
             ? pathname === '/' && activeHash === href.slice(href.indexOf('#'))
             : pathname === href
           return (
             <Link
-              key={key}
+              key={label}
               href={href}
               aria-current={active ? 'page' : undefined}
               style={{
@@ -123,7 +107,7 @@ export function TopBar() {
                 color: active ? 'var(--ink)' : 'var(--ink-60)',
               }}
             >
-              {t(key)}
+              {label}
             </Link>
           )
         })}
@@ -132,7 +116,7 @@ export function TopBar() {
       <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
         <span
           role="status"
-          aria-label={t('networkStatus')}
+          aria-label="Network Status"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -152,7 +136,7 @@ export function TopBar() {
               boxShadow: '0 0 0 3px var(--growth-12)',
             }}
           />
-          {t('testnet')}
+          Testnet
         </span>
 
         <button
@@ -166,24 +150,6 @@ export function TopBar() {
           {mounted ? isDarkTheme ? <SunIcon /> : <MoonIcon /> : null}
         </button>
 
-        <button
-          type="button"
-          onClick={switchLocale}
-          aria-label={t('language')}
-          style={{
-            ...iconBtnStyle,
-            width: 'auto',
-            gap: 5,
-            padding: '0 6px',
-            fontFamily: 'var(--font-body)',
-            fontSize: 14,
-            color: 'var(--ink-60)',
-          }}
-        >
-          {locale.toUpperCase()}
-          <ChevronDown />
-        </button>
-
         {connected && address ? (
           <WalletMenu address={address} isDemo={isDemo} />
         ) : (
@@ -193,7 +159,7 @@ export function TopBar() {
             loading={connecting}
             onClick={() => router.push('/connect')}
           >
-            {t('connect')}
+            Connect
           </Button>
         )}
       </div>
@@ -214,62 +180,23 @@ const iconBtnStyle = {
   color: 'var(--ink-60)',
 } as const
 
-function ChevronDown() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width="14"
-      height="14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  )
-}
 function MoonIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      width="18"
-      height="18"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
     </svg>
   )
 }
 function SunIcon() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      width="18"
-      height="18"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <circle cx="12" cy="12" r="4" />
       <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
     </svg>
   )
 }
 
-/** The connected wallet pill + its account menu (incl. Disconnect / sign out). */
 function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
-  const t = useTranslations('Nav')
   const router = useRouter()
   const { disconnect } = useWallet()
   const [open, setOpen] = useState(false)
@@ -278,7 +205,6 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const itemRefs = useRef<(HTMLButtonElement | HTMLAnchorElement | null)[]>([])
 
-  // Focus first item when menu opens; restore trigger focus when it closes.
   const prevOpen = useRef(false)
   useEffect(() => {
     if (open && !prevOpen.current) {
@@ -310,9 +236,7 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
   }
 
   const handleMenuKeyDown = (e: React.KeyboardEvent) => {
-    const items = itemRefs.current.filter(
-      (el): el is HTMLButtonElement | HTMLAnchorElement => el !== null,
-    )
+    const items = itemRefs.current.filter((el): el is HTMLButtonElement | HTMLAnchorElement => el !== null)
     if (!items.length) return
     const focused = document.activeElement
     const idx = items.indexOf(focused as HTMLButtonElement)
@@ -329,14 +253,11 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
     } else if (e.key === 'End') {
       e.preventDefault()
       items[items.length - 1].focus()
-    } else if (e.key === 'Escape') {
-      setOpen(false)
-    } else if (e.key === 'Tab') {
+    } else if (e.key === 'Escape' || e.key === 'Tab') {
       setOpen(false)
     }
   }
 
-  // Reset item refs array before each render so stale refs don't linger
   // eslint-disable-next-line react-hooks/refs
   itemRefs.current = []
 
@@ -347,7 +268,7 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label={t('account')}
+        aria-label="Account"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -384,60 +305,28 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
             zIndex: 400,
           }}
         >
-          <div
-            style={{ padding: '8px 10px 6px', display: 'flex', flexDirection: 'column', gap: 2 }}
-          >
+          <div style={{ padding: '8px 10px 6px', display: 'flex', flexDirection: 'column', gap: 2 }}>
             <span style={{ fontFamily: 'var(--font-data)', fontSize: 12.5, color: 'var(--ink)' }}>
               {shortAddress(address, 6, 6)}
             </span>
-            <span
-              style={{ fontFamily: 'var(--font-body)', fontSize: 11.5, color: 'var(--ink-40)' }}
-            >
-              {isDemo ? t('demoSession') : t('testnet')}
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 11.5, color: 'var(--ink-40)' }}>
+              {isDemo ? 'Demo session' : 'Testnet'}
             </span>
           </div>
           <div style={{ height: 1, background: 'var(--ink-12)', margin: '4px 0' }} />
-          <MenuItem
-            ref={(el) => {
-              itemRefs.current.push(el)
-            }}
-            onClick={() => {
-              setOpen(false)
-              router.push('/portfolio')
-            }}
-          >
-            {t('portfolio')}
+          <MenuItem ref={(el) => { itemRefs.current.push(el) }} onClick={() => { setOpen(false); router.push('/marketplace') }}>
+            Dashboard
           </MenuItem>
-          <MenuItem
-            ref={(el) => {
-              itemRefs.current.push(el)
-            }}
-            onClick={copy}
-          >
-            {copied ? t('copied') : t('copyAddress')}
+          <MenuItem ref={(el) => { itemRefs.current.push(el) }} onClick={copy}>
+            {copied ? 'Copied' : 'Copy address'}
           </MenuItem>
           {!isDemo && (
-            <MenuLink
-              ref={(el) => {
-                itemRefs.current.push(el)
-              }}
-              href={`https://stellar.expert/explorer/testnet/account/${address}`}
-            >
-              {t('viewOnExplorer')}
+            <MenuLink ref={(el) => { itemRefs.current.push(el) }} href={`https://stellar.expert/explorer/testnet/account/${address}`}>
+              View on Stellar Expert
             </MenuLink>
           )}
-          <MenuItem
-            ref={(el) => {
-              itemRefs.current.push(el)
-            }}
-            tone="ember"
-            onClick={() => {
-              disconnect()
-              setOpen(false)
-              router.push('/')
-            }}
-          >
-            {t('disconnect')}
+          <MenuItem tone="ember" ref={(el) => { itemRefs.current.push(el) }} onClick={() => { disconnect(); setOpen(false); router.push('/') }}>
+            Disconnect
           </MenuItem>
         </div>
       )}
@@ -445,17 +334,7 @@ function WalletMenu({ address, isDemo }: { address: string; isDemo: boolean }) {
   )
 }
 
-const MenuItem = function MenuItem({
-  children,
-  onClick,
-  tone,
-  ref: _ref,
-}: {
-  children: ReactNode
-  onClick: () => void
-  tone?: 'ember'
-  ref?: ((el: HTMLButtonElement | null) => void) | null
-}) {
+const MenuItem = function MenuItem({ children, onClick, tone, ref: _ref }: { children: ReactNode; onClick: () => void; tone?: 'ember'; ref?: ((el: HTMLButtonElement | null) => void) | null }) {
   const [hover, setHover] = useState(false)
   return (
     <button
@@ -476,15 +355,7 @@ const MenuItem = function MenuItem({
   )
 }
 
-const MenuLink = function MenuLink({
-  children,
-  href,
-  ref: _ref,
-}: {
-  children: ReactNode
-  href: string
-  ref?: ((el: HTMLAnchorElement | null) => void) | null
-}) {
+const MenuLink = function MenuLink({ children, href, ref: _ref }: { children: ReactNode; href: string; ref?: ((el: HTMLAnchorElement | null) => void) | null }) {
   const [hover, setHover] = useState(false)
   return (
     <a

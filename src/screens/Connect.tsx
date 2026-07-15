@@ -1,14 +1,7 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
 import { Button, type ButtonVariant } from '../components'
 
-/**
- * Connect — the acceptance moment. Two equal doors, zero hierarchy shaming.
- * "Connect wallet" opens the real Stellar Wallets Kit; "start with email" uses
- * the demo path so the click-through always works. Education cards disclose the
- * liquidity rule here, before any money moves.
- */
 export interface ConnectProps {
   onWallet: () => void
   onNew: () => void
@@ -16,9 +9,6 @@ export interface ConnectProps {
 }
 
 export function Connect({ onWallet, onNew, onCancel }: ConnectProps) {
-  const t = useTranslations('Connect')
-  const edu = [1, 2, 3] as const
-
   return (
     <main id="main-content" style={{ maxWidth: 920, margin: '0 auto', padding: '56px 24px 80px' }}>
       <div style={{ textAlign: 'center', marginBottom: 36 }}>
@@ -32,7 +22,7 @@ export function Connect({ onWallet, onNew, onCancel }: ConnectProps) {
             color: 'var(--ink)',
           }}
         >
-          {t('title')}
+          Welcome — come in.
         </h1>
         <p
           style={{
@@ -42,69 +32,27 @@ export function Connect({ onWallet, onNew, onCancel }: ConnectProps) {
             margin: 0,
           }}
         >
-          {t('sub')}
+          Two ways in, both equally welcome. No wrong door.
         </p>
       </div>
 
       <div className="hb-doors-grid" style={{ marginBottom: 28 }}>
         <Door
-          title={t('walletTitle')}
-          body={t('walletBody')}
-          cta={t('walletCta')}
+          title="I have a Stellar wallet"
+          body="Connect Freighter, xBull, Albedo, Lobstr, Hana, or WalletConnect."
+          cta="Connect wallet"
           variant="secondary"
           onClick={onWallet}
           chips={['Freighter', 'xBull', 'Albedo', 'Lobstr']}
         />
         <Door
-          title={t('newTitle')}
-          body={t('newBody')}
-          cta={t('newCta')}
+          title="I'm new — start with email"
+          body="We'll create a secure wallet for you and help you add funds. No jargon required."
+          cta="Start with email or passkey"
           variant="primary"
           onClick={onNew}
-          chips={['Email', 'Passkey', t('addFunds')]}
+          chips={['Email', 'Passkey', 'Add funds in-app']}
         />
-      </div>
-
-      <div className="hb-edu-grid">
-        {edu.map((i) => (
-          <div
-            key={i}
-            style={{ background: 'var(--ink-06)', borderRadius: 'var(--radius-card)', padding: 18 }}
-          >
-            <div
-              style={{
-                fontFamily: 'var(--font-data)',
-                fontSize: 'var(--type-eyebrow)',
-                color: 'var(--ink-40)',
-                marginBottom: 8,
-              }}
-            >
-              {t('read20')}
-            </div>
-            <h3
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontWeight: 700,
-                fontSize: 'var(--type-body)',
-                margin: '0 0 6px',
-                color: 'var(--ink)',
-              }}
-            >
-              {t(`edu${i}Title`)}
-            </h3>
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 'var(--type-small)',
-                lineHeight: 1.5,
-                color: 'var(--ink-60)',
-                margin: 0,
-              }}
-            >
-              {t(`edu${i}Body`)}
-            </p>
-          </div>
-        ))}
       </div>
 
       <div style={{ textAlign: 'center', marginTop: 28 }}>
@@ -120,7 +68,7 @@ export function Connect({ onWallet, onNew, onCancel }: ConnectProps) {
             color: 'var(--ink-60)',
           }}
         >
-          {t('keepExploring')}
+          Keep exploring without connecting
         </button>
       </div>
     </main>

@@ -1,5 +1,5 @@
 /* ===========================================================================
-   Heliobond Design System · global entry point
+   Veloxous Design System · global entry point
    ---------------------------------------------------------------------------
    Consumers link THIS one file. It is an import list only — every token, font,
    and base rule is reached transitively from here. Order matters: fonts and

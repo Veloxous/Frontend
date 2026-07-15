@@ -1,7 +1,7 @@
 import { type CSSProperties } from 'react'
 
 /**
- * Heliobond StatBlock — a labeled figure with optional signed delta. Money uses
+ * Veloxous StatBlock — a labeled figure with optional signed delta. Money uses
  * mono with the integer at full weight and decimals at ink-60; deltas always
  * carry a sign + arrow so color is never the sole carrier.
  */
