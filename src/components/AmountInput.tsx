@@ -1,4 +1,4 @@
-import { type CSSProperties, type ReactNode } from 'react'
+import { type CSSProperties, type ReactNode, useRef } from 'react'
 
 /**
  * Veloxous AmountInput — the heart of deposit & withdraw. Mono numerals, a

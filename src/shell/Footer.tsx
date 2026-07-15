@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+
 import { Mark } from '../brand/Mark'
 
 export function Footer() {
