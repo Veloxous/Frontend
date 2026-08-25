@@ -3,3 +3,6 @@ node_modules
 public
 bun.lock
 package-lock.json
+
+# landing component screenshots (binaries)
+src/components/landing/screenshots
