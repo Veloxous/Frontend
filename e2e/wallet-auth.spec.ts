@@ -67,7 +67,8 @@ test.describe('Wallet Connection and SEP-10 Auth Flow', () => {
 
       // Since we mocked everything, it should complete fast.
       // We check if the modal is closed and we see the address somewhere.
-      await expect(page.getByText('Connect Wallet')).toBeHidden()
+      // NEW (Fixed - targets the modal heading specifically):
+      await expect(page.getByRole('heading', { name: 'Connect Wallet' })).toBeHidden();
     }
   })
 })
