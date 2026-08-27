@@ -4,7 +4,7 @@
 This document contains the links and references to the high-fidelity designs and design system for Veloxous. 
 
 ## Figma Design Links
-- **Desktop & Mobile High-Fidelity Screens**: [Veloxous Figma Design](https://www.figma.com/design/8pA4kjAi1OvO1fVhdy1G0b/veloxous?timeline=keyframe&node-id=0-1&p=f&t=Oz2v5wuG53Fz2VeH-0)
+- **Desktop & Mobile High-Fidelity Screens**: [Veloxous Figma Design](https://www.figma.com/design/x9fExKxhBFpSSDkJeBme8H/Veloxous-Frontend-UIUX?node-id=0-1&t=voVM6cfzj00iZFHp-1)
 
 ### Contents of Design File
 1. **Design System**: Contains the color palette, typography (Space Grotesk & Inter), components, and style guides.
